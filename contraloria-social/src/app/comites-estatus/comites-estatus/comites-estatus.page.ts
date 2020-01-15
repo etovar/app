@@ -70,7 +70,7 @@ export class ComitesEstatusPage implements OnInit {
     this.menu.close();
     this.rol = this.appc.rol;
     this.database.GetComitesEnviados(this.appc.iduser, this.appc.rol);
-    this.database.GetComitesHoy(this.appc.iduser);
+    this.database.GetComitesHoy(this.appc.iduser, this.appc.rol);
     this.database.GetComitesProximos(this.appc.iduser);
     if (this.comite != null) {
       // tslint:disable-next-line:max-line-length
@@ -124,11 +124,11 @@ export class ComitesEstatusPage implements OnInit {
                         await alert3.present();
                       });
                       this.database.GetComitesEnviados(this.appc.iduser, this.rol);
-                      this.database.GetComitesHoy(this.appc.iduser);
+                      this.database.GetComitesHoy(this.appc.iduser, this.rol);
                       this.database.GetComitesProximos(this.appc.iduser);
                     } else {
                       this.database.GetComitesEnviados(this.appc.iduser, this.rol);
-                      this.database.GetComitesHoy(this.appc.iduser);
+                      this.database.GetComitesHoy(this.appc.iduser, this.rol);
                       this.database.GetComitesProximos(this.appc.iduser);
                     }
 
@@ -212,7 +212,7 @@ export class ComitesEstatusPage implements OnInit {
                             handler: () => {
                               alert.dismiss(true);
                               this.database.GetComitesEnviados(this.appc.iduser, this.rol);
-                              this.database.GetComitesHoy(this.appc.iduser);
+                              this.database.GetComitesHoy(this.appc.iduser, this.rol);
                               this.database.GetComitesProximos(this.appc.iduser);
                               return false;
                             }

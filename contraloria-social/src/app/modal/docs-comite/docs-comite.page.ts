@@ -113,7 +113,7 @@ export class DocsComitePage implements OnInit {
             this.database.HabilitarCaptura(this.idlocal, 0, this.obraid, this.idcomite, this.userid);
             if (this.moduloOrigen === 'comiteAgenda') {
               this.database.GetComitesEnviados(this.userid, this.rol);
-              this.database.GetComitesHoy(this.userid);
+              this.database.GetComitesHoy(this.userid, this.rol);
               this.database.GetComitesProximos(this.userid);
             }
             if (this.moduloOrigen === 'comiteObra') {
@@ -174,7 +174,7 @@ export class DocsComitePage implements OnInit {
   dismiss() {
     if (this.moduloOrigen === 'comiteAgenda') {
       this.database.GetComitesEnviados(this.userid, this.rol);
-      this.database.GetComitesHoy(this.userid);
+      this.database.GetComitesHoy(this.userid, this.rol);
       this.database.GetComitesProximos(this.userid);
     }
     if (this.moduloOrigen === 'comiteObra') {

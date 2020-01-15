@@ -867,7 +867,7 @@ export class BdService {
       });
     }
 
-    GetComitesHoy(idusuario: any) {
+    GetComitesHoy(idusuario: any, rol: any) {
       const date = new Date(this.fechaHoy);
       const fechaHoyFormat = this.datepipe.transform(date, 'MM/dd/yyyy');
       // tslint:disable-next-line:max-line-length
@@ -884,28 +884,70 @@ export class BdService {
               } else {
               tipoContraloriaDisplay = data.rows.item(i).metodo;
               }
-              this.arrayComitesHoy.push({
-                idLocal: data.rows.item(i).id,
-                id: data.rows.item(i).id_comite,
-                usuarioOntraloria: data.rows.item(i).contraloria_usuario_id,
-                usuarioId: data.rows.item(i).usuario_id,
-                agendaConfirmada: data.rows.item(i).agenda_confirmada,
-                origen: data.rows.item(i).origen,
-                metodo: data.rows.item(i).metodo,
-                obraid: data.rows.item(i).obra_id,
-                numComite: data.rows.item(i).num_comite,
-                agendaFecha: data.rows.item(i).agenda_fecha,
-                fondo: data.rows.item(i).fondo,
-                normaCSAplica: data.rows.item(i).norma_cs_aplica,
-                normativa: data.rows.item(i).normativa,
-                metodoContraloria: data.rows.item(i).metodo_contraloria,
-                // tslint:disable-next-line:object-literal-shorthand
-                tipoContraloriaDisplay: tipoContraloriaDisplay,
-                contraloriaAsistente: data.rows.item(i).contraloria_asistente,
-                habilitado: data.rows.item(i).habilitado,
-                statusEnviado: data.rows.item(i).status_enviado,
-                fechaEnvio: data.rows.item(i).fecha_envio
+
+              // tslint:disable-next-line:max-line-length
+              this.GetAgendaConfirmada(data.rows.item(i).obra_id, data.rows.item(i).id_comite, data.rows.item(i).usuario_id).then(async (dat) => {
+                this.GetObraInfo(data.rows.item(i).obra_id, data.rows.item(i).usuario_id).then(async (dat2) => {
+
+                  const agendaConfirmada = dat;
+                  this.metodoIntegracionActa = null;
+                  this.metodoCapacitacionActa = null;
+                  if (dat2[0].tipofondo === 'ESTATAL') {
+                  // 1 -> ejecutora, 2 -> cs
+                  if (rol === 1 || rol === '1') {
+                    this.metodoIntegracionActa = data.rows.item(i).metodo;
+                    if (agendaConfirmada === 0) {
+                      this.metodoCapacitacionActa = data.rows.item(i).metodo;
+                    }
+                  } else {
+                    if (agendaConfirmada === 1) {
+                      this.metodoCapacitacionActa = data.rows.item(i).metodo_contraloria;
+                    } else {
+                      this.metodoCapacitacionActa = data.rows.item(i).metodo;
+                    }
+                  }
+                } else {
+                  // 1 -> ejecutora, 2 -> cs
+                  if (rol === 1 || rol === '1') {
+                    this.metodoIntegracionActa = 'fisico';
+                    if (agendaConfirmada === 0) {
+                      this.metodoCapacitacionActa = 'fisico';
+                    }
+                  } else {
+                    if (agendaConfirmada === 1) {
+                      this.metodoCapacitacionActa = data.rows.item(i).metodo_contraloria;
+                    } else {
+                      this.metodoCapacitacionActa = 'fisico';
+                    }
+                  }
+                }
+                  this.arrayComitesHoy.push({
+                  idLocal: data.rows.item(i).id,
+                  id: data.rows.item(i).id_comite,
+                  usuarioOntraloria: data.rows.item(i).contraloria_usuario_id,
+                  usuarioId: data.rows.item(i).usuario_id,
+                  agendaConfirmada: data.rows.item(i).agenda_confirmada,
+                  origen: data.rows.item(i).origen,
+                  metodo: data.rows.item(i).metodo,
+                  obraid: data.rows.item(i).obra_id,
+                  numComite: data.rows.item(i).num_comite,
+                  agendaFecha: data.rows.item(i).agenda_fecha,
+                  fondo: data.rows.item(i).fondo,
+                  normaCSAplica: data.rows.item(i).norma_cs_aplica,
+                  normativa: data.rows.item(i).normativa,
+                  metodoContraloria: data.rows.item(i).metodo_contraloria,
+                  // tslint:disable-next-line:object-literal-shorthand
+                  tipoContraloriaDisplay: tipoContraloriaDisplay,
+                  contraloriaAsistente: data.rows.item(i).contraloria_asistente,
+                  habilitado: data.rows.item(i).habilitado,
+                  statusEnviado: data.rows.item(i).status_enviado,
+                  fechaEnvio: data.rows.item(i).fecha_envio,
+                  metodoCapacitacionActa: this.metodoCapacitacionActa,
+                  metodoIntegracionActa: this.metodoIntegracionActa
+                });
               });
+            });
+
             }
           }
           resolve(this.arrayComitesHoy);

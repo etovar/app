@@ -51,9 +51,10 @@ export class GeneraCapacitacionPage implements OnInit {
   dataIntegrantesPrimeraPagina = [];
   dataIntegrantesProximasPaginas = [];
   dataIntegrantesProximosFinal = [];
+  totalHojas = 0;
 
   // tslint:disable-next-line:max-line-length
-  constructor(private elem: ElementRef, private loadingController: LoadingController, private menu: MenuController, public activatedRoute: ActivatedRoute, public appc: AppComponent, private database: BdService, private file: File, private fileOpener: FileOpener) { }
+  constructor(private elem: ElementRef, private loadingController: LoadingController, private menu: MenuController, public activatedRoute: ActivatedRoute, public appc: AppComponent, private database: BdService, private file: File, private fileOpener: FileOpener) {  }
 
   ngOnInit() {
     this.menu.enable(true, 'custom');
@@ -94,7 +95,7 @@ export class GeneraCapacitacionPage implements OnInit {
       let i = 0;
       this.integrantesComite = data;
       this.integrantesComite.forEach(element => {
-        if (this.integrantesComite.length < 3) {
+        if (numIntegrantes < 3) {
           this.dataIntegrantesPrimeraPagina[numIntegrantes] = element;
         } else {
           if (this.integrantesComite.length > 3) {
@@ -111,7 +112,9 @@ export class GeneraCapacitacionPage implements OnInit {
         }
         numIntegrantes = numIntegrantes + 1;
       });
-      console.log(this.dataIntegrantesPrimeraPagina);
+      const paginas = (this.integrantesComite.length - 3) / 5;
+      console.log(Math.round(paginas + 0.4));
+      this.totalHojas = Math.round(paginas + 0.4) + 2;
     });
     this.database.GetParticipantesActaCapacitacion(this.idObra, this.idComite, this.idusuario).then((dataParticipantes) => {
       this.partcipantesComite = dataParticipantes;
@@ -129,14 +132,15 @@ export class GeneraCapacitacionPage implements OnInit {
     this.presentLoading('Generando acta...');
     const divPrimero = document.getElementById('paginaPrimera');
     const divFinal = document.getElementById('paginaFinal');
+    const elements = this.elem.nativeElement.querySelectorAll('.paginaIntegrantesDinamic');
     const docTmp = new jsPDF('p', 'px', 'a4');
     // tslint:disable-next-line:max-line-length
-    const options = { background: 'white', height: docTmp.internal.pageSize.getHeight() * 1.5, width: ((divPrimero.clientWidth + 5) * 1.5), quality: 0.5, style: {
+    const options = { background: 'white', height: docTmp.internal.pageSize.getHeight() * 1.5, width: ((divPrimero.clientWidth + 5) * 1.5), quality: 1, style: {
       transform: 'scale(1.5)',
       'transform-origin': 'top left'
     }  };
     // tslint:disable-next-line:max-line-length
-    const options2 = { background: 'white', height: docTmp.internal.pageSize.getHeight() * 1.5, width: ((divFinal.clientWidth + 5) * 1.5), quality: 0.5, style: {
+    const options2 = { background: 'white', height: docTmp.internal.pageSize.getHeight() * 1.5, width: ((divFinal.clientWidth + 5) * 1.5), quality: 1, style: {
       transform: 'scale(1.5)',
       'transform-origin': 'top left'
     } };
@@ -149,12 +153,60 @@ export class GeneraCapacitacionPage implements OnInit {
       // Initialize JSPDF
       // Add image Url to PDF
       const imgHeight = divPrimero.clientHeight *  210 / divPrimero.clientWidth;
-      doc.addImage(dataUrl, 'JPEG', 20, 20, doc.internal.pageSize.getWidth() - 50, divPrimero.clientHeight + 10);
-      const elements = this.elem.nativeElement.querySelectorAll('.paginaIntegrantesDinamic');
+      doc.addImage(dataUrl, 'JPEG', 20, 20, doc.internal.pageSize.getWidth() - 50, 550 + 10);
+      if (elements.length === 0) {
+        doc.addPage();
+        doc.addImage(dataUrl2, 'JPEG', 20, 20, doc.internal.pageSize.getWidth() - 50, 550 + 10);
+        const pdfOutput = doc.output();
+          // using ArrayBuffer will allow you to put image inside PDF
+        const buffer = new ArrayBuffer(pdfOutput.length);
+        const array = new Uint8Array(buffer);
+        for (let i = 0; i < pdfOutput.length; i++) {
+              array[i] = pdfOutput.charCodeAt(i);
+          }
+
+          // This is where the PDF file will stored , you can change it as you like
+          // for more information please visit https://ionicframework.com/docs/native/file/
+        const directory = this.file.dataDirectory ;
+        const fileName = 'acta.pdf';
+          // tslint:disable-next-line:no-shadowed-variable
+        const options: IWriteOptions = { replace: true };
+
+        this.file.checkFile(directory, fileName).then((success) => {
+            // Writing File to Device
+            this.file.writeFile(directory, fileName, buffer, options)
+            // tslint:disable-next-line:no-shadowed-variable
+            .then((success) => {
+              console.log('File created Succesfully' + JSON.stringify(success));
+              this.fileOpener.open(this.file.dataDirectory + fileName, 'application/pdf')
+                .then(() => console.log('File is opened'))
+                .catch(e => console.log('Error opening file', e));
+            })
+            .catch((error) => {
+              console.log('Cannot Create File ' + JSON.stringify(error));
+            });
+            this.loading.dismiss();
+          })
+          .catch((error) => {
+            // Writing File to Device
+            // tslint:disable-next-line:whitespace
+            this.file.writeFile(directory, fileName,buffer)
+            .then((success) => {
+              console.log('File created Succesfully' + JSON.stringify(success));
+              this.fileOpener.open(this.file.dataDirectory + fileName, 'application/pdf')
+                .then(() => console.log('File is opened'))
+                .catch(e => console.log('Error opening file', e));
+            })
+            // tslint:disable-next-line:no-shadowed-variable
+            .catch((error) => {
+              console.log('Cannot Create File ' + JSON.stringify(error));
+            });
+          });
+      }
       // tslint:disable-next-line:prefer-for-of
       for (let u = 0; u < elements.length; u++) {
         // tslint:disable-next-line:max-line-length
-        const optionsDinamic = { background: 'white', height: docTmp.internal.pageSize.getHeight() * 1.5, width: ((elements[u].clientWidth + 5) * 1.5), quality: 0.5, style: {
+        const optionsDinamic = { background: 'white', height: docTmp.internal.pageSize.getHeight() * 1.5, width: ((elements[u].clientWidth + 5) * 1.5), quality: 1, style: {
           transform: 'scale(1.5)',
           'transform-origin': 'top left'
         }  };
@@ -162,7 +214,7 @@ export class GeneraCapacitacionPage implements OnInit {
           domtoimage.toPng(elements[u], optionsDinamic).then((dataUrlDinamic) => {
           const imgHeightDinamic =  elements[u].clientHeight *  210 /  elements[u].clientWidth;
           doc.addPage();
-          doc.addImage(dataUrlDinamic, 'JPEG', 20, 20, doc.internal.pageSize.getWidth() - 50,  docTmp.internal.pageSize.getHeight());
+          doc.addImage(dataUrlDinamic, 'JPEG', 20, 20, doc.internal.pageSize.getWidth() - 50,  550 + 10);
         })
         .catch(function(error) {
             this.loading.dismiss();
@@ -174,7 +226,7 @@ export class GeneraCapacitacionPage implements OnInit {
           // Add image Url to PDF
           const imgHeight2 = divFinal.clientHeight *  210 / divFinal.clientWidth;
           doc.addPage();
-          doc.addImage(dataUrl2, 'JPEG', 20, 20, doc.internal.pageSize.getWidth() - 50, divFinal.clientHeight + 10);
+          doc.addImage(dataUrl2, 'JPEG', 20, 20, doc.internal.pageSize.getWidth() - 50, 400 + 10);
           const pdfOutput = doc.output();
           // using ArrayBuffer will allow you to put image inside PDF
           const buffer = new ArrayBuffer(pdfOutput.length);

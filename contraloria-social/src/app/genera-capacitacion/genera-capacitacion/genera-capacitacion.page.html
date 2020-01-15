@@ -15,7 +15,8 @@
 <ion-content>
   <div class="printable-content">
     <div class="printable-area" id="printable-area">
-      <div class="paginaPrimera" id="paginaPrimera">
+      <div class="paginaPrimera" id="paginaPrimera">      
+      <div style="font-size: 0.5em;"><p style="text-align: left;">Acta provisional</p><p style="text-align: right;">Pagina 1 de {{ totalHojas }}</p></div>
       <table class="header-table">
         <tr>
           <td [attr.colspan]="12"> 
@@ -86,8 +87,8 @@
           <td class="detail-table-body border" style="width: 15%; text-align: center;" [attr.colspan]="2" [attr.rowspan]="3">{{ item.cargo }}</td>
           <td class="detail-table-body border" style="width: 10%; text-align: center; vertical-align: middle; font-weight: bold;" *ngIf="item.materialEntregado === 'difusion'" [attr.colspan]="1" [attr.rowspan]="3">X</td>
           <td class="detail-table-body border" style="width: 10%; text-align: center; vertical-align: middle; font-weight: bold;" *ngIf="item.materialEntregado !== 'difusion'" [attr.colspan]="1" [attr.rowspan]="3"></td>
-          <td class="detail-table-body border" style="width: 10%; font-weight: bold; vertical-align: middle" [attr.colspan]="1" *ngIf="item.materialEntregado === 'capacitacion'" [attr.rowspan]="3">X</td>
-          <td class="detail-table-body border" style="width: 10%; font-weight: bold; vertical-align: middle" [attr.colspan]="1" *ngIf="item.materialEntregado !== 'capacitacion'" [attr.rowspan]="3"></td>
+          <td class="detail-table-body border" style="width: 10%; text-align: center; font-weight: bold; vertical-align: middle" [attr.colspan]="1" *ngIf="item.materialEntregado === 'capacitacion'" [attr.rowspan]="3">X</td>
+          <td class="detail-table-body border" style="width: 10%; text-align: center; font-weight: bold; vertical-align: middle" [attr.colspan]="1" *ngIf="item.materialEntregado !== 'capacitacion'" [attr.rowspan]="3"></td>
           <td class="detail-table-body border" style="width: 15%; text-align: center;" [attr.colspan]="2" [attr.rowspan]="3">
             <img width="35%" *ngIf="item.firma !== ''" style="transform:rotate(270deg);" [src]="item.firma"/>
           </td>
@@ -111,8 +112,9 @@
         </tr><br>
       </table>
       </div>
-      <div *ngIf="database.GetIntegrantesActaCapacitacion.length > 3">
-      <div class="paginaIntegrantesDinamic" *ngFor="let itemPadre of dataIntegrantesProximosFinal">
+      <div>
+      <div class="paginaIntegrantesDinamic" *ngFor="let itemPadre of dataIntegrantesProximosFinal; let i = index">
+        <div style="font-size: 0.5em;"><p style="text-align: left;">Acta provisional</p><p style="text-align: right;">Pagina {{ i + 2 }} de {{ totalHojas }}</p></div>
         <table class="detail-table" style="width: 100%;" *ngFor="let item of itemPadre">
           <tr class="detail-integrante-title">
             <td class="border" style="padding: 5px; width: 50%;" [attr.colspan]="6">INTEGRANTE DEL COMITÉ</td>
@@ -130,8 +132,8 @@
             <td class="detail-table-body border" style="width: 15%; text-align: center;" [attr.colspan]="2" [attr.rowspan]="3">{{ item.cargo }}</td>
             <td class="detail-table-body border" style="width: 10%; text-align: center; vertical-align: middle; font-weight: bold;" *ngIf="item.materialEntregado === 'difusion'" [attr.colspan]="1" [attr.rowspan]="3">X</td>
             <td class="detail-table-body border" style="width: 10%; text-align: center; vertical-align: middle; font-weight: bold;" *ngIf="item.materialEntregado !== 'difusion'" [attr.colspan]="1" [attr.rowspan]="3"></td>
-            <td class="detail-table-body border" style="width: 10%; font-weight: bold; vertical-align: middle" [attr.colspan]="1" *ngIf="item.materialEntregado === 'capacitacion'" [attr.rowspan]="3">X</td>
-            <td class="detail-table-body border" style="width: 10%; font-weight: bold; vertical-align: middle" [attr.colspan]="1" *ngIf="item.materialEntregado !== 'capacitacion'" [attr.rowspan]="3"></td>
+            <td class="detail-table-body border" style="width: 10%; text-align: center; font-weight: bold; vertical-align: middle" [attr.colspan]="1" *ngIf="item.materialEntregado === 'capacitacion'" [attr.rowspan]="3">X</td>
+            <td class="detail-table-body border" style="width: 10%; text-align: center; font-weight: bold; vertical-align: middle" [attr.colspan]="1" *ngIf="item.materialEntregado !== 'capacitacion'" [attr.rowspan]="3"></td>
             <td class="detail-table-body border" style="width: 15%; text-align: center;" [attr.colspan]="2" [attr.rowspan]="3">
               <img width="35%" *ngIf="item.firma !== ''" style="transform:rotate(270deg);" [src]="item.firma"/>
             </td>
@@ -157,6 +159,7 @@
       </div>
       </div>
       <div class="paginaFinal" id="paginaFinal">
+      <div style="font-size: 0.5em;"><p style="text-align: left;">Acta provisional</p><p style="text-align: right;">Pagina {{ totalHojas }} de {{ totalHojas }}</p></div>
       <table class="detail-table" style="width: 100%;">
         <tr>
             <td class="detail-table-body border-dotted" style="width: 80%;" [attr.colspan]="10">1. ¿La constitución del comité se realizó mediante asamblea con los beneficiarios?</td>
