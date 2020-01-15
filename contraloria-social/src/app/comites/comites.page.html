@@ -1,0 +1,66 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title class="font">Comités de obra</ion-title>
+        <ion-buttons slot="start">
+          <ion-menu-button autoHide="true" style="color: #708395;"></ion-menu-button>
+        </ion-buttons>
+      </ion-toolbar>
+</ion-header>
+
+<div class="ion-padding"><br>
+  <ion-label class="font-title-primary"><strong>Número de Obra: {{ obra }}</strong></ion-label><br>
+  <ion-label style="color: #708395; font-size: 1em">{{ descripcion }}</ion-label>
+</div>
+<ion-content class="font ion-padding" style="padding-top: 1px">
+  <ion-list style="margin-left: -.8em;">         
+      <ion-item-sliding *ngFor="let row of database.arrayComitesGrl">
+        <ion-item>
+          <ion-label style="color: #708395;"><strong style="font-size: 1.2em">{{ row.numComite }}</strong><br><label style="font-size: .85em">Fecha: {{ row.agendaFecha | date:'dd/MM/yyyy' }}</label><br><i style="font-size: 1em">{{ row.metodo }} / {{ row.tipoContraloriaDisplay }}</i></ion-label>
+          <ion-button *ngIf="row.statusEnviado === 0" size="medium" (click)="comiteModal(row.obra, row.numComite, row.metodo, row.id, row.fondo, row.normativa, row.metodoContraloria, row.agendaFecha, fechaHoy)">
+            <ion-icon name="document" class="icono"></ion-icon>
+          </ion-button>
+          <ion-label *ngIf="row.statusEnviado === 1" style="color: #447DBA; margin-left: 30px; text-align: left;"><strong style="font-size: 1.2em"> Enviado</strong><br><label style="font-size: .85em">Envio: {{ row.fechaEnvio | date:'MM/dd/yyyy'}}</label></ion-label><br>
+        </ion-item>
+        <ion-item-options side="end">
+          <ion-item-option style="background-color: #ffffff">
+            <ion-button color="danger" (click)="borrarComite(row.idLocal, row.obraid, row.id, row.usuarioId)">
+              <ion-icon class="icono" name="trash"></ion-icon>
+            </ion-button>
+          </ion-item-option>
+          <ion-item-option *ngIf="row.statusEnviado === 0 && row.habilitado === 1 && fechaHoyFormat === row.agendaFecha" style="background-color: #ffffff">
+            <ion-button (click)="validarComite(row.idLocal, row.obraid, row.id, row.usuarioId, row.metodo, row.metodoContraloria)" size="medium" color="secondary">
+              <ion-icon class="icono" name="cloud-upload"></ion-icon>
+            </ion-button>
+          </ion-item-option>
+          <ion-item-option style="background-color: #ffffff" *ngIf="row.metodoIntegracionActa === 'digital'">
+            <ion-button size="medium" color="primary" (click)="generaActaInt(row.obraid, row.id)">
+                <ion-icon class="icono" name="eye"></ion-icon><br>
+              <ion-label class="font-boton">Acta de<br>Integración</ion-label>
+            </ion-button>
+          </ion-item-option>
+          <ion-item-option style="background-color: #ffffff" *ngIf="row.metodoCapacitacionActa === 'digital'">
+            <ion-button size="medium" color="primary" (click)="generaActaCap(row.obraid, row.id)">
+                <ion-icon class="icono" name="eye"></ion-icon>
+              <ion-label class="font-boton">Acta de<br>Capacitación</ion-label>
+            </ion-button>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+  </ion-content>
+  <ion-footer>
+      <ion-toolbar>
+        <ion-grid>
+            <ion-row>
+              <ion-col text-center size="3" class="line">
+                  <ion-img style="width: 85%; margin-left: 28%;" [src]="imageurl"></ion-img>
+              </ion-col>
+              <ion-col text-center size="9">
+                  <ion-item text-center class="title" lines="none">
+                    <ion-label class="ion-text-wrap">SICSEQ<br>Sistema de Contraloría Social del Estado de Querétaro</ion-label>
+                  </ion-item>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+      </ion-toolbar>
+    </ion-footer>

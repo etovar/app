@@ -1,0 +1,150 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title  class="font">Ficha técnica de obra</ion-title>
+    <ion-buttons slot="primary">
+        <ion-button (click)="dismiss()">
+          <ion-icon color="medium" slot="end" name="close"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div class="ion-padding">
+      <ion-grid class="font">
+          <ion-row>
+            <!--ion-col>
+                <label style="text-transform: none; font-size: 1em;">Ubicación<br>de la obra</label>
+                <a href="http://www.google.com/maps/place/49.46800006494457,17.11514008755796">
+                  <ion-img [src]="imagenmapa"></ion-img>
+                <ion-icon class="mapa" name="map"></ion-icon>
+                </a>
+            </ion-col-->
+            <ion-col class="image" *ngIf="lon">
+                <a [href]="urlMapa">
+                <ion-img class="image" style="width: 50%" [src]="imagenmapa"></ion-img>
+                </a>
+            </ion-col>
+          </ion-row><br>
+        <ion-row class="font2">
+          <ion-col size="12">
+            <strong>Número de obra:</strong>
+          </ion-col>
+        </ion-row>
+        <ion-row class="font2">
+          <ion-col size="12">
+            <strong>{{ name }}</strong>
+          </ion-col>
+        </ion-row><br>
+        <ion-row>
+          <ion-col size="12">
+            Subnumero de obra:
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="12">
+            
+          </ion-col>
+        </ion-row><br>
+        <ion-row>
+          <ion-col size="12">
+            Nombre:
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="12">
+            {{ nombreObra }}
+          </ion-col>
+        </ion-row><br>
+        <ion-row>
+          <ion-col size="12">
+            Municipio:
+          </ion-col>
+          <ion-col size="12">
+            {{ mmunicipio }}
+          </ion-col>
+        </ion-row><br>
+        <ion-row>
+          <ion-col size="12">
+            Localidad:
+          </ion-col>
+          <ion-col size="12">
+            {{ localidad }}
+          </ion-col>
+        </ion-row><br>
+        <ion-row>
+          <ion-col size="12">
+            Dependencia ejecutora:
+          </ion-col>
+          <ion-col size="12">
+              {{ ejecutora }}
+          </ion-col>
+        </ion-row><br>
+        <ion-row>
+          <ion-col size="12">
+            Dependencia normativa:
+          </ion-col>
+          <ion-col size="12">
+            {{ normativa }}
+          </ion-col>
+        </ion-row><br>
+        <ion-row>
+          <ion-col size="12">
+            Fondo:
+          </ion-col>
+          <ion-col size="12">
+            {{ fondo }}
+          </ion-col>
+        </ion-row><br>
+        <ion-row>
+          <ion-col size="12">
+            Fecha de inicio:
+          </ion-col>
+          <ion-col size="12">
+            {{ inicioObra }}
+          </ion-col>
+        </ion-row><br>
+        <ion-row>
+          <ion-col size="12">
+            Fecha de termino:
+          </ion-col>
+          <ion-col size="12">
+            {{ terminoObra }}
+          </ion-col>
+        </ion-row><br>
+        <!--ion-row>
+          <ion-col size="12">
+            Fuente de financiamiento:
+          </ion-col>
+          <ion-col size="12">
+            21E
+          </ion-col>
+        </ion-row><br-->
+        <ion-row>
+          <ion-col size="12">
+            Monto aprobado:
+          </ion-col>
+          <ion-col size="12">
+            ${{ montoAprobado }}
+          </ion-col>
+        </ion-row><br>
+        <!--ion-row>
+          <ion-col size="12">
+            Monto contratado:
+          </ion-col>
+          <ion-col size="12">
+            $496,479.1
+          </ion-col>
+        </ion-row><br>
+        <ion-row>
+          <ion-col size="12">
+            Monto ejercido:
+          </ion-col>
+          <ion-col size="12">
+            $148,943.72
+          </ion-col>
+        </ion-row-->
+      </ion-grid>
+      <ion-button style="text-transform: none;" color="tertiary" class="button" float-right (click)="dismiss()">Aceptar</ion-button>
+    </div>
+</ion-content>

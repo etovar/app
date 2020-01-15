@@ -1,0 +1,27 @@
+.title {
+    color: #708395;
+}
+.title-bold {
+    color: #708395;
+    font-weight: bold;
+}
+.font-title-primary {
+    color: #708395;
+    font-size: 1.32em;
+}
+.font-title {
+    color: #708395;
+    font-size: .95em;
+}
+ion-item {
+    --border-width: 0 0 0 0 !important;
+}
+ion-input {
+    border: solid 1px #ebebeb;
+    border-radius: .4em;
+    background-color: white;
+}
+.line {
+    font-size: 1em;
+    width: 100%;
+}

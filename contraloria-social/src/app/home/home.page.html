@@ -1,0 +1,70 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title class="title">Obras descargadas</ion-title>
+        <ion-buttons slot="start">
+          <ion-menu-button autoHide="true" style="color: #708395;"></ion-menu-button>
+        </ion-buttons>
+      </ion-toolbar>
+</ion-header>
+
+<div padding >
+    <form [formGroup]="downloadForm">
+      <!--ion-grid>
+          <ion-row>
+            <ion-col size="2">
+              <ion-icon name="calendar" class="calendar title" ios="ios-calendar" size="large"></ion-icon>
+            </ion-col>
+            <ion-col size="8">
+             <ion-datetime formControlName="inicio" class="title" [min]="myDate" placeholder="Fecha de inicio" displayFormat="MM-DD-YYYY"></ion-datetime>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="2">
+              <ion-icon name="calendar" class="calendar title" ios="ios-calendar" size="large"></ion-icon>
+            </ion-col>
+            <ion-col size="8">
+              <ion-datetime formControlName="fin" class="title" [min]="myDate" placeholder="Fecha de fin" displayFormat="MM-DD-YYYY"></ion-datetime>
+            </ion-col>
+          </ion-row>
+      </ion-grid-->
+      <ion-button style="text-transform: none;" color="primary" class="button" (click)='descargar(downloadForm.value)'>Actualizar información</ion-button><br>
+      </form>
+    </div>
+    <ion-content padding>
+      <ion-list style="margin-left: -.8em;">         
+          <ion-item-sliding *ngFor="let row of database.arrayObrasGrl">
+            <ion-item>
+              <ion-label style="color: #708395;"><strong style="font-size: 1.2em">{{ row.numObra }}</strong><br><label style="font-size: .85em">Fondo: {{ row.tipofondo }}</label><br><label style="font-size: .85em">Fecha inicio: {{ row.inicioObra }}</label></ion-label>
+              <ion-button  size="medium" color="secondary" (click)="fichaModal(row.id, row.numObra, row.idObra)">
+                <ion-icon class="icono" name="eye"></ion-icon>
+              </ion-button>
+              <ion-button  size="medium" (click)="comites(row.numObra, row.nombreObra, row.idObra, row.id, row.tipofondo)">
+                <ion-icon name="document" class="icono"></ion-icon>
+              </ion-button>
+            </ion-item>
+            <ion-item-options side="end">
+              <ion-item-option style="background-color: #ffffff">
+                <ion-button color="danger" (click)="borrarObra(row.id, row.idObra)">
+                  <ion-icon class="icono" name="trash"></ion-icon>
+                </ion-button>
+              </ion-item-option>
+            </ion-item-options>
+          </ion-item-sliding>
+        </ion-list>
+</ion-content>
+<ion-footer>
+    <ion-toolbar>
+      <ion-grid>
+          <ion-row>
+            <ion-col text-center size="3" class="line">
+                <ion-img style="width: 85%; margin-left: 28%;" [src]="imageurl"></ion-img>
+            </ion-col>
+            <ion-col text-center size="9">
+                <ion-item text-center class="title" lines="none">
+                  <ion-label class="ion-text-wrap">SICSEQ<br>Sistema de Contraloría Social del Estado de Querétaro</ion-label>
+                </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+    </ion-toolbar>
+  </ion-footer>

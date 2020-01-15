@@ -1,0 +1,230 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title  class="font">Acta de Capacitación</ion-title>
+      <ion-buttons slot="start">
+        <ion-menu-button autoHide="true" style="color: #708395;"></ion-menu-button>
+      </ion-buttons>
+      <ion-buttons slot="primary">
+        <ion-button color="primary" (click)="exportPdf()">
+          <ion-icon slot="icon-only" name="print" style="font-size: 2em"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="printable-content">
+    <div class="printable-area" id="printable-area">
+      <div class="paginaPrimera" id="paginaPrimera">
+      <table class="header-table">
+        <tr>
+          <td [attr.colspan]="12"> 
+            <ion-img style="width: 25%; margin-top: 0em; margin-bottom: -3em; margin-right: 25em;" [src]="imageurl"></ion-img>Secretaría de la Contraloría<br>Dirección de Prevención<br>Departamento de Contraloría Social
+          </td>
+        </tr>
+        <tr><td [attr.colspan]="12"><br></td></tr>
+        <tr>
+          <td class="border-header" [attr.colspan]="12">
+            Capacitación en Actividades del Comité de Contraloría Social
+          </td>
+        </tr>
+      </table><br>
+      <table class="detail-table" style="width: 100%;">
+        <tr>
+          <td [attr.colspan]="10" class="detail-table-body" style="text-align: right; width: 90%;">Fecha: </td>
+          <td [attr.colspan]="2" class="detail-table-body" style="text-align: center; width: 10%;">{{ fechaGrl }}</td>
+        </tr>
+        <tr>
+          <td [attr.colspan]="2" class="detail-table-body border" style="width: 20%;">Programa / Subprograma:</td>
+          <td [attr.colspan]="4" class="detail-table-body border" style="width: 30%;">{{ programaGrl }}</td>
+          <td [attr.colspan]="2" class="detail-table-body border" style="width: 18%;">No. De Obra</td>
+          <td [attr.colspan]="4" class="detail-table-body border" style="width: 32%;">{{ numObraGrl }}</td>
+        </tr>
+        <tr>
+          <td [attr.colspan]="5" class="detail-table-body border" style="width: 38%;">Nombre de la obra, apoyo y/o servicio</td>
+          <td [attr.colspan]="7" class="detail-table-body border" style="width: 62%;">{{ nombreObraGrl }}</td>
+        </tr>
+        <tr>
+          <td [attr.colspan]="2" class="detail-table-body border" style="width: 20%;">Municipio:</td>
+          <td [attr.colspan]="4" class="detail-table-body border" style="width: 30%;">{{ municipioGrl }}</td>
+          <td [attr.colspan]="2" class="detail-table-body border" style="width: 20%;">Localidad:</td>
+          <td [attr.colspan]="4" class="detail-table-body border" style="width: 30%;">{{ localidadGrl }}</td>
+        </tr>
+        <tr>
+          <td [attr.colspan]="3" class="detail-table-body border" style="width: 30%; font-size: 0.48;">Dependencia Normativa(Fed) y/o Promotora(Est):</td>
+          <td [attr.colspan]="3" class="detail-table-body border" style="width: 20%;">{{ depNormativa }}</td>
+          <td [attr.colspan]="3" class="detail-table-body border" style="width: 25%;">Dependencia Ejecutora:</td>
+          <td [attr.colspan]="3" class="detail-table-body border" style="width: 25%;">{{ depEjecutora }}</td>
+        </tr>
+        <tr>
+          <td [attr.colspan]="2" class="detail-table-body border" style="width: 17%;">Monto contratado:</td>
+          <td [attr.colspan]="2" class="detail-table-body border" style="width: 17%;">{{ montoInversiongrl }}</td>
+          <td [attr.colspan]="2" class="detail-table-body border" style="width: 17%;">Fecha de inicio según contrato:</td>
+          <td [attr.colspan]="2" class="detail-table-body border" style="width: 16%;">{{ inicioObraGrl }}</td>
+          <td [attr.colspan]="2" class="detail-table-body border" style="width: 17%;">Fecha de término según contrato:</td>
+          <td [attr.colspan]="2" class="detail-table-body border" style="width: 16%;">{{ finObraGrl }}</td>
+        </tr>
+        <tr>
+          <td [attr.colspan]="6" class="detail-table-body border" style="width: 50%;">En este acto: ¿Se Constituyó el Comité de Contraloría Social?</td>
+          <td [attr.colspan]="6" class="detail-table-body border" style="width: 50%;">{{ constituyo }}</td>
+        </tr>
+      </table><br>
+      <table class="detail-table" style="width: 100%;" *ngFor="let item of dataIntegrantesPrimeraPagina">
+        <tr class="detail-integrante-title">
+          <td class="border" style="padding: 5px; width: 50%;" [attr.colspan]="6">INTEGRANTE DEL COMITÉ</td>
+          <td class="border" style="padding: 5px; width: 17%;" [attr.colspan]="2">CARGO EN EL COMITÉ</td>
+          <td class="border" style="padding: 5px; width: 16%;" [attr.colspan]="2">MATERIAL ENTREGADO
+           <label style="font-size: 0.44em;">DIFUSIÓN / CAPACITACIÓN</label>
+          </td>
+          <td class="border" style="padding: 5px; width: 17%;" [attr.colspan]="2">FIRMA DE CONFORMIDAD</td>
+        </tr>
+        <tr>
+          <td class="detail-integrante-title detail-table-body border" style="padding: 5px; width: 10%;" [attr.colspan]="1">Edad:</td>
+          <td class="detail-table-body border" style="text-align: center; padding: 5px; width: 8%;" [attr.colspan]="1">{{ item.edad }}</td>
+          <td class="detail-table-body" style="width: 10%;" [attr.colspan]="1">Nombre:</td>
+          <td class="detail-table-body" style="width: 22%;" [attr.colspan]="3">{{ item.nombre }}</td>
+          <td class="detail-table-body border" style="width: 15%; text-align: center;" [attr.colspan]="2" [attr.rowspan]="3">{{ item.cargo }}</td>
+          <td class="detail-table-body border" style="width: 10%; text-align: center; vertical-align: middle; font-weight: bold;" *ngIf="item.materialEntregado === 'difusion'" [attr.colspan]="1" [attr.rowspan]="3">X</td>
+          <td class="detail-table-body border" style="width: 10%; text-align: center; vertical-align: middle; font-weight: bold;" *ngIf="item.materialEntregado !== 'difusion'" [attr.colspan]="1" [attr.rowspan]="3"></td>
+          <td class="detail-table-body border" style="width: 10%; font-weight: bold; vertical-align: middle" [attr.colspan]="1" *ngIf="item.materialEntregado === 'capacitacion'" [attr.rowspan]="3">X</td>
+          <td class="detail-table-body border" style="width: 10%; font-weight: bold; vertical-align: middle" [attr.colspan]="1" *ngIf="item.materialEntregado !== 'capacitacion'" [attr.rowspan]="3"></td>
+          <td class="detail-table-body border" style="width: 15%; text-align: center;" [attr.colspan]="2" [attr.rowspan]="3">
+            <img width="35%" *ngIf="item.firma !== ''" style="transform:rotate(270deg);" [src]="item.firma"/>
+          </td>
+        </tr>
+        <tr>
+          <td class="detail-integrante-title detail-table-body border" style="padding: 5px; width: 10%;" [attr.colspan]="1" [attr.rowspan]="2">Genero:</td>
+          <td class="detail-table-body border" style="padding: 5px; width: 8%; font-weight: bold; text-align: center; background-color: #949faa;" *ngIf="item.genero === 'H'" [attr.colspan]="1">H</td>
+          <td class="detail-table-body border" style="padding: 5px; width: 8%; text-align: center;" *ngIf="item.genero !== 'H'" [attr.colspan]="1">H</td>
+          <td class="detail-table-body border" style="width: 10%;" [attr.colspan]="1">Domicilio:</td>
+          <td class="detail-table-body border" style="width: 22%;" [attr.colspan]="1">{{ item.domicilio }}</td>
+          <td class="detail-table-body border" style="width: 10%;" [attr.colspan]="1">Teléfono:</td>
+          <td class="detail-table-body border" style="width: 22%;" [attr.colspan]="1">{{ item.telefono }}</td>
+        </tr>
+        <tr>
+          <td class="detail-table-body border" style="padding: 5px; width: 8%; font-weight: bold; text-align: center; background-color: #949faa;" *ngIf="item.genero === 'M'" [attr.colspan]="1">M</td>
+          <td class="detail-table-body border" style="padding: 5px; width: 8%; text-align: center;" *ngIf="item.genero !== 'M'" [attr.colspan]="1">M</td>
+          <td class="detail-table-body border" style="width: 10%;" [attr.colspan]="1">Email:</td>
+          <td class="detail-table-body border" style="width: 22%;" [attr.colspan]="1">{{ item.correo }}</td>
+          <td class="detail-table-body border" style="width: 10%;" [attr.colspan]="1">CURP:</td>
+          <td class="detail-table-body border" style="width: 22%;" [attr.colspan]="1">{{ item.curp }}</td>
+        </tr><br>
+      </table>
+      </div>
+      <div *ngIf="database.GetIntegrantesActaCapacitacion.length > 3">
+      <div class="paginaIntegrantesDinamic" *ngFor="let itemPadre of dataIntegrantesProximosFinal">
+        <table class="detail-table" style="width: 100%;" *ngFor="let item of itemPadre">
+          <tr class="detail-integrante-title">
+            <td class="border" style="padding: 5px; width: 50%;" [attr.colspan]="6">INTEGRANTE DEL COMITÉ</td>
+            <td class="border" style="padding: 5px; width: 17%;" [attr.colspan]="2">CARGO EN EL COMITÉ</td>
+            <td class="border" style="padding: 5px; width: 16%;" [attr.colspan]="2">MATERIAL ENTREGADO
+             <label style="font-size: 0.44em;">DIFUSIÓN / CAPACITACIÓN</label>
+            </td>
+            <td class="border" style="padding: 5px; width: 17%;" [attr.colspan]="2">FIRMA DE CONFORMIDAD</td>
+          </tr>
+          <tr>
+            <td class="detail-integrante-title detail-table-body border" style="padding: 5px; width: 10%;" [attr.colspan]="1">Edad:</td>
+            <td class="detail-table-body border" style="text-align: center; padding: 5px; width: 8%;" [attr.colspan]="1">{{ item.edad }}</td>
+            <td class="detail-table-body" style="width: 10%;" [attr.colspan]="1">Nombre:</td>
+            <td class="detail-table-body" style="width: 22%;" [attr.colspan]="3">{{ item.nombre }}</td>
+            <td class="detail-table-body border" style="width: 15%; text-align: center;" [attr.colspan]="2" [attr.rowspan]="3">{{ item.cargo }}</td>
+            <td class="detail-table-body border" style="width: 10%; text-align: center; vertical-align: middle; font-weight: bold;" *ngIf="item.materialEntregado === 'difusion'" [attr.colspan]="1" [attr.rowspan]="3">X</td>
+            <td class="detail-table-body border" style="width: 10%; text-align: center; vertical-align: middle; font-weight: bold;" *ngIf="item.materialEntregado !== 'difusion'" [attr.colspan]="1" [attr.rowspan]="3"></td>
+            <td class="detail-table-body border" style="width: 10%; font-weight: bold; vertical-align: middle" [attr.colspan]="1" *ngIf="item.materialEntregado === 'capacitacion'" [attr.rowspan]="3">X</td>
+            <td class="detail-table-body border" style="width: 10%; font-weight: bold; vertical-align: middle" [attr.colspan]="1" *ngIf="item.materialEntregado !== 'capacitacion'" [attr.rowspan]="3"></td>
+            <td class="detail-table-body border" style="width: 15%; text-align: center;" [attr.colspan]="2" [attr.rowspan]="3">
+              <img width="35%" *ngIf="item.firma !== ''" style="transform:rotate(270deg);" [src]="item.firma"/>
+            </td>
+          </tr>
+          <tr>
+            <td class="detail-integrante-title detail-table-body border" style="padding: 5px; width: 10%;" [attr.colspan]="1" [attr.rowspan]="2">Genero:</td>
+            <td class="detail-table-body border" style="padding: 5px; width: 8%; font-weight: bold; text-align: center; background-color: #949faa;" *ngIf="item.genero === 'H'" [attr.colspan]="1">H</td>
+            <td class="detail-table-body border" style="padding: 5px; width: 8%; text-align: center;" *ngIf="item.genero !== 'H'" [attr.colspan]="1">H</td>
+            <td class="detail-table-body border" style="width: 10%;" [attr.colspan]="1">Domicilio:</td>
+            <td class="detail-table-body border" style="width: 22%;" [attr.colspan]="1">{{ item.domicilio }}</td>
+            <td class="detail-table-body border" style="width: 10%;" [attr.colspan]="1">Teléfono:</td>
+            <td class="detail-table-body border" style="width: 22%;" [attr.colspan]="1">{{ item.telefono }}</td>
+          </tr>
+          <tr>
+            <td class="detail-table-body border" style="padding: 5px; width: 8%; font-weight: bold; text-align: center; background-color: #949faa;" *ngIf="item.genero === 'M'" [attr.colspan]="1">M</td>
+            <td class="detail-table-body border" style="padding: 5px; width: 8%; text-align: center;" *ngIf="item.genero !== 'M'" [attr.colspan]="1">M</td>
+            <td class="detail-table-body border" style="width: 10%;" [attr.colspan]="1">Email:</td>
+            <td class="detail-table-body border" style="width: 22%;" [attr.colspan]="1">{{ item.correo }}</td>
+            <td class="detail-table-body border" style="width: 10%;" [attr.colspan]="1">CURP:</td>
+            <td class="detail-table-body border" style="width: 22%;" [attr.colspan]="1">{{ item.curp }}</td>
+          </tr><br>
+        </table>
+      </div>
+      </div>
+      <div class="paginaFinal" id="paginaFinal">
+      <table class="detail-table" style="width: 100%;">
+        <tr>
+            <td class="detail-table-body border-dotted" style="width: 80%;" [attr.colspan]="10">1. ¿La constitución del comité se realizó mediante asamblea con los beneficiarios?</td>
+            <td class="detail-table-body border-dotted" style="width: 10%; text-align: center; background-color: #949faa; font-weight: bold;" [attr.colspan]="1" *ngIf="pregunta1 === 'si'">Si</td><td class="detail-table-body border-dotted" style="width: 10%; text-align: center;" [attr.colspan]="1" *ngIf="pregunta1 !== 'si'">Si</td>
+            <td class="detail-table-body border-dotted" style="width: 10%; text-align: center; background-color: #949faa; font-weight: bold;" [attr.colspan]="1" *ngIf="pregunta1 === 'no'">No</td><td class="detail-table-body border-dotted" style="width: 10%; text-align: center;" [attr.colspan]="1" *ngIf="pregunta1 !== 'no'">No</td>
+        </tr>
+        <tr>
+            <td class="detail-table-body border-dotted" style="width: 80%;" [attr.colspan]="10">2. ¿Durante la asamblea, se realizó invitación a los beneficiarios para que la integración del comité se lleve a cabo con equidad de género?</td>
+            <td class="detail-table-body border-dotted" style="width: 10%; text-align: center; background-color: #949faa; font-weight: bold;" [attr.colspan]="1" *ngIf="pregunta2 === 'si'">Si</td><td class="detail-table-body border-dotted" style="width: 10%; text-align: center;" [attr.colspan]="1" *ngIf="pregunta2 !== 'si'">Si</td>
+            <td class="detail-table-body border-dotted" style="width: 10%; text-align: center; background-color: #949faa; font-weight: bold;" [attr.colspan]="1" *ngIf="pregunta2 === 'no'">No</td><td class="detail-table-body border-dotted" style="width: 10%; text-align: center;" [attr.colspan]="1" *ngIf="pregunta2 !== 'no'">No</td>
+        </tr>
+        <tr>
+            <td class="detail-table-body border-dotted" style="width: 80%;" [attr.colspan]="10">3. ¿Se entregó al comité la ficha informativa correspondiente (federal o estatal)?</td>
+            <td class="detail-table-body border-dotted" style="width: 10%; text-align: center; background-color: #949faa; font-weight: bold;" [attr.colspan]="1" *ngIf="pregunta3 === 'si'">Si</td><td class="detail-table-body border-dotted" style="width: 10%; text-align: center;" [attr.colspan]="1" *ngIf="pregunta3 !== 'si'">Si</td>
+            <td class="detail-table-body border-dotted" style="width: 10%; text-align: center; background-color: #949faa; font-weight: bold;" [attr.colspan]="1" *ngIf="pregunta3 === 'no'">No</td><td class="detail-table-body border-dotted" style="width: 10%; text-align: center;" [attr.colspan]="1" *ngIf="pregunta3 !== 'no'">No</td>
+        </tr>
+        <tr>
+            <td class="detail-table-body border-dotted" style="width: 80%;" [attr.colspan]="10">4. ¿Se dieron a conocer las reglas de operación del programa?</td>
+            <td class="detail-table-body border-dotted" style="width: 10%; text-align: center; background-color: #949faa; font-weight: bold;" [attr.colspan]="1" *ngIf="pregunta4 === 'si'">Si</td><td class="detail-table-body border-dotted" style="width: 10%; text-align: center;" [attr.colspan]="1" *ngIf="pregunta4 !== 'si'">Si</td>
+            <td class="detail-table-body border-dotted" style="width: 10%; text-align: center; background-color: #949faa; font-weight: bold;" [attr.colspan]="1" *ngIf="pregunta4 === 'no'">No</td><td class="detail-table-body border-dotted" style="width: 10%; text-align: center;" [attr.colspan]="1" *ngIf="pregunta4 !== 'no'">No</td>
+        </tr>
+        <tr>
+            <td class="detail-table-body border-dotted" style="width: 80%;" [attr.colspan]="10">5. ¿Se proporcionaron los formatos para uso del comité de contraloría social?</td>
+            <td class="detail-table-body border-dotted" style="width: 10%; text-align: center; background-color: #949faa; font-weight: bold;" [attr.colspan]="1" *ngIf="pregunta5 === 'si'">Si</td><td class="detail-table-body border-dotted" style="width: 10%; text-align: center;" [attr.colspan]="1" *ngIf="pregunta5 !== 'si'">Si</td>
+            <td class="detail-table-body border-dotted" style="width: 10%; text-align: center; background-color: #949faa; font-weight: bold;" [attr.colspan]="1" *ngIf="pregunta5 === 'no'">No</td><td class="detail-table-body border-dotted" style="width: 10%; text-align: center;" [attr.colspan]="1" *ngIf="pregunta5 !== 'no'">No</td>
+        </tr>
+        <tr>
+            <td class="detail-table-body border-dotted" style="width: 80%;" [attr.colspan]="10">6. ¿Se puso a disposición de los beneficiarios mecanismos estatales y federales para la atención de quejas y denuncias?</td>
+            <td class="detail-table-body border-dotted" style="width: 10%; text-align: center; background-color: #949faa; font-weight: bold;" [attr.colspan]="1" *ngIf="pregunta6 === 'si'">Si</td><td class="detail-table-body border-dotted" style="width: 10%; text-align: center;" [attr.colspan]="1" *ngIf="pregunta6 !== 'si'">Si</td>
+            <td class="detail-table-body border-dotted" style="width: 10%; text-align: center; background-color: #949faa; font-weight: bold;" [attr.colspan]="1" *ngIf="pregunta6 === 'no'">No</td><td class="detail-table-body border-dotted" style="width: 10%; text-align: center;" [attr.colspan]="1" *ngIf="pregunta6 !== 'no'">No</td>
+        </tr>
+      </table><br>
+      <table class="detail-table" style="width: 100%; border-style: solid; border-width: 2px;">
+        <tr>
+          <td class="detail-table-body" style="border-color: black;">
+            <label style="font-weight: bold">Observaciones de la constitución del comité:</label><label></label>
+          </td>
+        </tr>
+        <tr>
+          <td  class="detail-table-body">
+            {{ observaciones }}
+          </td>
+        </tr>
+      </table><br>
+      <table style="width: 100%;">
+        <tr class="detail-integrante-title">
+          <td class="detail-table-body border" style="text-align: center; width: 55%; font-size: 0.8em;" [attr.colspan]="6">Nombre</td>
+          <td class="detail-table-body border" style="text-align: center; width: 15%; font-size: 0.8em;" [attr.colspan]="2">Dependencia</td>
+          <td class="detail-table-body border" style="text-align: center; width: 15%; font-size: 0.8em;" [attr.colspan]="2">Cargo</td>
+          <td class="detail-table-body border" style="text-align: center; width: 15%; font-size: 0.8em;" [attr.colspan]="2">Firma</td>
+        </tr>
+        <tr *ngFor="let item of partcipantesComite">
+          <td class="detail-table-body border" style="width: 55%;" [attr.colspan]="6">{{ item.nombre }}</td>
+          <td class="detail-table-body border" style="width: 15%;" [attr.colspan]="2"></td>
+          <td class="detail-table-body border" style="width: 15%;" [attr.colspan]="2"></td>
+          <td class="detail-table-body border" style="width: 15%; text-align: center;" [attr.colspan]="2">
+            <img width="18%" *ngIf="item.firma !== ''" style="transform:rotate(270deg);" [src]="item.firma"/>
+          </td>
+        </tr>
+      </table>
+      <table class="footer-table" style="width: 100%;">
+        <tr>
+          <td class="ion-text-wrap" style="font-size: 0.35em; text-align: left;">
+            <br><br>Aviso de Privacidad: el propósito del tratamiento de los datos personales inscritos en el presente documento, será para fines estadísticos y de difusión institucional que contemplan (fotografías, videos, grabaciones o datos escritos). Se indica que en el caso de aquellos datos personales que requieran del consentimiento del titular, podrá manifestar su negativa para su tratamiento, en el teléfono 2385000, ext. 5753 o 5201, así mismo podrá consultar el Aviso de Privacidad Integral en la página de internet www2.queretaro.gob.mx/contraloria. Aun en el caso de que no ejerza su derecho de oposición, en la eventual versión pública que se llegase a realizar, se suprimirá la información confidencial y datos personales sensibles que pueda contener. Conforme con los artículos 6°., Base A y 16, segundo párrafo, de la Constitución Política de los Estado Unidos Mexicanos, correlacionados con el Artículo 20, 21, 27 y 28 de la Ley General de Protección de Datos Personales en Posesión de Sujetos Obligados, así como los artículos 111 y 115 de la Ley de Transparencia y Acceso a la Información Pública del Estado de Querétaro y los artículos 12, 15, 17, 20, 21, 22, 53, 61, 63 y 122 de la Ley de Protección de Datos Personales en Posesión de Sujetos Obligados.
+          </td>
+        </tr>
+      </table>
+    </div>
+    </div>
+  </div>
+</ion-content>

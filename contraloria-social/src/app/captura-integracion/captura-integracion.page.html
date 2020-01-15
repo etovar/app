@@ -1,0 +1,248 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="title">Integración de comites</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="true" style="color: #708395;"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+  <ion-content padding>
+  <form [formGroup]="capturarForm">
+  <ion-label class="font-title" style="padding-left: 10%"><br>
+    <strong>Lista de Integrantes</strong> 
+  </ion-label>
+  <ion-row>
+    <ion-col style="font-size: 0.7em; margin-right:-5%; color: #708395;"><br>
+      Minino de integrantes: 03<br>
+      <i>Total de integrantes: {{ database.arrayTestigos.length + this.database.arrayIntegrantesPresidente.length }}</i>
+    </ion-col>
+    <ion-col>
+      <ion-button float-right (click)="agregar(capturarForm.value)" [disabled]="!capturarForm.valid">
+        <label style="text-transform: none; font-size: 0.6em;">Agregar<br>integrante</label>
+        <ion-icon name="person" style="font-size: 1.5em; color: white"></ion-icon>
+      </ion-button>
+    </ion-col>
+  </ion-row>
+  <ion-list style="margin-left: -.8em;">    
+    <ion-item-sliding>
+      <ion-item>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="12">
+              <ion-label style="color: #708395; font-size: .85em">{{ presidente }}</ion-label>
+              <ion-label style="color: #708395; font-size: .85em"><i>Presidente</i></ion-label>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+      <ion-item-options side="end">
+        <ion-item-option *ngIf="presidente" style="background-color: #ffffff">
+          <ion-button color="danger" size="small" (click)="borrarIntegrante(idpresidente)">
+            <ion-icon class="icono" name="trash" style="font-size: 1.7em; color: white"></ion-icon>
+          </ion-button>
+        </ion-item-option>
+        <ion-item-option style="background-color: #ffffff">
+          <ion-button size="small" (click)="editIntegrante(idpresidente, 'Presidente')">
+            <ion-icon class="icono" name="create" style="font-size: 1.7em"></ion-icon>
+          </ion-button>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+    <ion-item-sliding>
+      <ion-item>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="12">
+              <ion-label style="color: #708395; font-size: .85em">{{ secretario }}</ion-label>
+              <ion-label style="color: #708395; font-size: .85em"><i>Secretario</i></ion-label>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+      <ion-item-options side="end">
+        <ion-item-option *ngIf="secretario" style="background-color: #ffffff">
+          <ion-button color="danger" size="small" (click)="borrarIntegrante(idsecretario)">
+            <ion-icon class="icono" name="trash" style="font-size: 1.7em; color: white"></ion-icon>
+          </ion-button>
+        </ion-item-option>
+        <ion-item-option style="background-color: #ffffff">
+          <ion-button size="small" (click)="editIntegrante(idsecretario, 'Secretario')">
+            <ion-icon class="icono" name="create" style="font-size: 1.7em"></ion-icon>
+          </ion-button>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+    <ion-item-sliding>
+      <ion-item>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="12">
+              <ion-label style="color: #708395; font-size: .85em">{{ tesorero }}</ion-label>
+              <ion-label style="color: #708395; font-size: .85em"><i>Tesorero/Vocal</i></ion-label>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+      <ion-item-options side="end">
+        <ion-item-option *ngIf="tesorero" style="background-color: #ffffff">
+          <ion-button color="danger" size="small" (click)="borrarIntegrante(idtesorero)">
+            <ion-icon class="icono" name="trash" style="font-size: 1.7em; color: white"></ion-icon>
+          </ion-button>
+        </ion-item-option>
+        <ion-item-option style="background-color: #ffffff">
+          <ion-button size="small" (click)="editIntegrante(idtesorero, 'Tesorero')">
+            <ion-icon class="icono" name="create" style="font-size: 1.7em"></ion-icon>
+          </ion-button>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>     
+    <ion-item-sliding *ngFor="let item of database.arrayIntegrantesVocal">
+      <ion-item>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="12">
+              <ion-label style="color: #708395; font-size: .85em">{{ item.nombre }}</ion-label>
+              <ion-label style="color: #708395; font-size: .85em"><i>Vocal</i></ion-label>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+      <ion-item-options side="end">
+        <ion-item-option style="background-color: #ffffff">
+          <ion-button color="danger" size="small" (click)="borrarIntegrante(item.id)">
+            <ion-icon class="icono" name="trash" style="font-size: 1.7em; color: white"></ion-icon>
+          </ion-button>
+        </ion-item-option>
+        <ion-item-option style="background-color: #ffffff">
+          <ion-button size="small" (click)="editIntegrante(item.id, 'Vocal')">
+            <ion-icon class="icono" name="create" style="font-size: 1.7em"></ion-icon>
+          </ion-button>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list><br>
+  <ion-row>
+    <ion-col style="margin-right:-5%; color: #708395;"><br>
+      <strong class="font-title">Testigos</strong> 
+    </ion-col>
+    <!--ion-col>
+      <ion-button float-right (click)="agregarTestigo(capturarForm.value)" [disabled]="!capturarForm.valid">
+        <label style="text-transform: none; font-size: 0.7em;">Agregar<br>testigo</label>
+        <ion-icon name="person" style="font-size: 1.5em"></ion-icon>
+      </ion-button>
+    </ion-col-->
+  </ion-row>
+  <ion-list style="margin-left: -.8em;">      
+    <ion-item-sliding>
+      <ion-item>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="12">
+              <ion-label style="color: #708395; font-size: .85em">{{ nombreTestigoFinal }}</ion-label>
+              <ion-label style="color: #708395; font-size: .85em"><i>Testigo</i></ion-label>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+      <ion-item-options side="end">
+        <ion-item-option *ngIf="nombreTestigoUno" style="background-color: #ffffff">
+          <ion-button color="danger" size="small" (click)="borrarTestigo(idTestigoUno)">
+            <ion-icon class="icono" name="trash" style="font-size: 1.7em; color: white"></ion-icon>
+          </ion-button>
+        </ion-item-option>
+        <ion-item-option style="background-color: #ffffff">
+          <ion-button size="small" (click)="editTestigo(idTestigoUno, 1, nombreTestigoFinal)">
+            <ion-icon class="icono" name="create" style="font-size: 1.7em"></ion-icon>
+          </ion-button>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>  
+    <ion-item-sliding>
+      <ion-item>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="12">
+              <ion-label style="color: #708395; font-size: .85em">{{ nombreTestigoDos }}</ion-label>
+              <ion-label style="color: #708395; font-size: .85em"><i>Testigo</i></ion-label>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+      <ion-item-options side="end">
+        <ion-item-option *ngIf="nombreTestigoDos" style="background-color: #ffffff">
+          <ion-button color="danger" size="small" (click)="borrarTestigo(idTestigoDos)">
+            <ion-icon class="icono" name="trash" style="font-size: 1.7em; color: white"></ion-icon>
+          </ion-button>
+        </ion-item-option>
+        <ion-item-option style="background-color: #ffffff">
+          <ion-button size="small" (click)="editTestigo(idTestigoDos, 2)">
+            <ion-icon class="icono" name="create" style="font-size: 1.7em"></ion-icon>
+          </ion-button>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>        
+    <!--ion-item-sliding *ngFor="let item of database.arrayTestigos">
+      <ion-item>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="12">
+              <ion-label style="color: #708395; font-size: .85em">{{ item.nombre }}</ion-label>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+      <ion-item-options side="end">
+        <ion-item-option style="background-color: #ffffff">
+          <ion-button color="danger" size="small" (click)="borrarTestigo(item.id)">
+            <ion-icon class="icono" name="trash" style="font-size: 1.7em"></ion-icon>
+          </ion-button>
+        </ion-item-option>
+        <ion-item-option style="background-color: #ffffff">
+          <ion-button size="small" (click)="editTestigo(item.id)">
+            <ion-icon class="icono" name="create" style="font-size: 1.7em"></ion-icon>
+          </ion-button>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding-->
+  </ion-list><br>
+  <ion-row>
+    <ion-col style="margin-right:-5%; color: #708395;">
+      <strong class="font-title">Representante de la Dependencia Ejecutora</strong> 
+    </ion-col>
+  </ion-row>
+  <ion-row (click)="firmarEjecutora()">
+    <ion-col>
+      <label  class="font-title">{{ nombreEjecutora }}</label>
+    </ion-col>
+    <ion-col *ngIf="firmaEjecutora!=null" size="12" text-center class="col" >
+        <img width="30%" style="transform:rotate(270deg); margin: -10%" [src]="firmaEjecutora"/>
+    </ion-col>
+    <ion-col *ngIf="firmaEjecutora==null" size="12" style="padding: 15%" text-center class="col" >
+      <ion-label class="font-title"><i>Firmar</i></ion-label>
+    </ion-col>
+  </ion-row><br>
+  <ion-row>
+    <ion-col style="margin-right:-5%; color: #708395;">
+      <strong class="font-title">Representante de la Dependencia Normativa</strong> 
+    </ion-col>
+  </ion-row>
+  <ion-row (click)="firmarNormativa()">
+    <ion-col>
+      <label  class="font-title">{{ normativaNombre }}</label>
+    </ion-col>
+    <ion-col *ngIf="firmaNormativa!=null" size="12" text-center class="col" >
+        <img width="30%" style="transform:rotate(270deg); margin: -10%" [src]="firmaNormativa"/>
+    </ion-col>
+    <ion-col *ngIf="firmaNormativa==null" size="12" style="padding: 15%" text-center class="col" >
+      <ion-label class="font-title"><i>Firmar</i></ion-label>
+    </ion-col>
+  </ion-row>
+  <br>
+  <ion-button float-right color="secondary" (click)="regresar()">
+    <label style="text-transform: none;">Regresar</label>
+  </ion-button>
+  <!--ion-button float-right (click)="guardar()" [disabled]="!capturarForm.valid || firmaNormativa==null || firmaEjecutora==null || (this.database.arrayIntegrantesPresidente.length < 3)">
+    <label style="text-transform: none;">Guardar</label>
+  </ion-button-->
+  </form>
+  </ion-content>

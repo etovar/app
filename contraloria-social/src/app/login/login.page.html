@@ -1,0 +1,45 @@
+<ion-header>
+</ion-header>
+
+<ion-content>
+    <ion-item text-center lines="none">
+    <ion-thumbnail class="image">
+      <ion-img [src]="imageurl"></ion-img>
+    </ion-thumbnail>
+    </ion-item>
+    <form [formGroup]="authForm"><br><br>
+      <ion-grid>
+        <ion-row>
+          <ion-col text-center size="3" class="line">
+              <ion-img [src]="imageurl1"></ion-img>
+          </ion-col>
+          <ion-col text-center size="6">
+              <ion-label class="font-title-primary">SICSEQ</ion-label>
+          </ion-col>
+          <ion-col text-center size="3" class="line">
+              <ion-img [src]="imageurl1"></ion-img>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col text-center size="0">
+          </ion-col>
+          <ion-col text-center size="12">
+            <ion-item text-center class="font-title" lines="none">
+              <ion-label>Sistema de Contraloría Social <br> del Estado de Querétaro</ion-label>
+            </ion-item>
+          </ion-col>
+          <ion-col text-center size="0">
+          </ion-col>
+        </ion-row>
+      </ion-grid><br>
+    <ion-item no-lines>
+      <ion-input type="text" style="color:#708395;" placeholder=" Usuario" formControlName="email" class="no-validation-line"></ion-input>
+    </ion-item>
+    <ion-item no-lines>
+      <ion-input type="password" style="color:#708395;" placeholder=" Contraseña" formControlName="password" class="no-validation-line"></ion-input>
+    </ion-item>
+    </form>
+    <div class="center" text-center>
+    <ion-button style="color:#708395; text-transform: none;" color="white" [disabled]="!authForm.valid" class="button" (click)="onSubmit(authForm.value)">Ingresar</ion-button>
+    </div>
+</ion-content>

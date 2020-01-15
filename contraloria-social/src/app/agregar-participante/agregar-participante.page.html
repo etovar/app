@@ -1,0 +1,110 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="title">Capacitación de comites</ion-title>
+    <!--ion-buttons slot="start">
+      <ion-menu-button autoHide="true" style="color: #708395;"></ion-menu-button>
+    </ion-buttons-->
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <form [formGroup]="agregarForm">
+  <ion-grid>
+    <ion-row>
+      <ion-col class="font-title">
+        <strong>Datos del participante</strong> 
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <label  class="font-title">Nombre:</label>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-input formControlName="nombreParticipante" [(ngModel)]="nombreParticipante" type="text" class="no-validation-line font-title"></ion-input>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <label  class="font-title">Localidad:</label>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-input formControlName="localidad" [(ngModel)]="localidad" type="text" class="no-validation-line font-title"></ion-input>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col style="font-size: 0.9em; color: #708395;">
+        Genero
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-radio-group formControlName='genero' [(ngModel)]="genero" (ionChange)=changeRadio(agregarForm.value)>
+          <ion-item>
+            <ion-label style="font-size: 0.9em; color: #708395;">H</ion-label>
+            <ion-radio slot="start" value="H" checked></ion-radio>
+          </ion-item>
+          <ion-item>
+            <ion-label style="font-size: 0.9em; color: #708395;">M</ion-label>
+            <ion-radio slot="start" value="M"></ion-radio>
+          </ion-item>
+        </ion-radio-group>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <label  class="font-title">Edad (años cumplidos):</label>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-input formControlName="edad" type="text" [(ngModel)]="edad" class="no-validation-line font-title"></ion-input>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <label  class="font-title">CURP:</label>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-input formControlName="curp" type="text" [(ngModel)]="curp" class="no-validation-line font-title"></ion-input>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <label  class="font-title">Correo:</label>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-input formControlName="correo" type="text" [(ngModel)]="correo" class="no-validation-line font-title"></ion-input>
+      </ion-col>
+    </ion-row>
+    <ion-row (click)="firmar()">
+      <ion-col>
+        <label  class="font-title">Firma:</label>
+      </ion-col>
+      <ion-col *ngIf="firma!=null" size="12" text-center class="col" >
+          <img width="30%" style="transform:rotate(270deg); margin: -10%" [src]="firma"/>
+      </ion-col>
+      <ion-col *ngIf="firma==null" size="12" style="padding: 15%" text-center class="col" >
+        <ion-label class="font-title"><i>Firmar</i></ion-label>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-button float-right color="danger" (click)="regresar()">
+          <label style="text-transform: none;">Cancelar</label>
+        </ion-button>
+        <ion-button float-right color="secondary" [disabled]="!agregarForm.valid || firma==null" (click)="guardar(agregarForm.value)">
+          <label style="text-transform: none;">Guardar</label>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  </form>
+</ion-content>

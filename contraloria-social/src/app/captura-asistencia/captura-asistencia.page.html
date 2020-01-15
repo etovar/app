@@ -1,0 +1,98 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="title">Formulario de asistencia</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="true" style="color: #708395;"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+    <ion-content padding>
+      <form [formGroup]="capturarForm">
+      <ion-grid>
+        <ion-row>
+          <ion-col class="font-title">
+            <strong>Datos generales</strong> 
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <label  class="font-title">Lugar:</label>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-input formControlName="lugar" [(ngModel)]="lugar" type="text" class="no-validation-line font-title"></ion-input>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <label  class="font-title">Localidad:</label>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-input type="text" [(ngModel)]="localidad" formControlName="localidad" class="no-validation-line font-title"></ion-input>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <label  class="font-title">Municipio:</label>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-input type="text" [(ngModel)]="municipio" formControlName="municipio" class="no-validation-line font-title"></ion-input>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <label  class="font-title">Fecha:</label>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-input type="text" readonly class="no-validation-line font-title"></ion-input>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col style="font-size: 0.7em; margin-right:-5%; color: #708395;"><br>
+            Minino de participantes: 03<br>
+            <i>Total de participantes: {{ rows.length }}</i>
+          </ion-col>
+          <ion-col>
+            <ion-button float-right (click)="agregar(capturarForm.value)" [disabled]="!capturarForm.valid">
+              <label style="text-transform: none; font-size: 0.6em;">Agregar<br>participante</label>
+              <ion-icon name="person" style="font-size: 1.5em"></ion-icon>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+  <ion-label class="font-title" style="padding-left: 10%"><br>
+    <strong>Lista de Participantes</strong> 
+  </ion-label>
+  <ion-list style="margin-left: -.8em;">         
+    <ion-item-sliding *ngFor="let item of rows">
+      <ion-item>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="12">
+              <ion-label style="color: #708395; font-size: .85em">{{ item.participante }}</ion-label>
+              <ion-label style="color: #708395; font-size: .85em"><i>{{ item.cargo }}</i></ion-label>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+      <ion-item-options side="end">
+        <ion-item-option style="background-color: #ffffff">
+          <ion-button color="danger" size="small" (click)="borrar(item.participante)">
+            <ion-icon class="icono" name="trash" style="font-size: 1.7em"></ion-icon>
+          </ion-button>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+  <ion-button float-right color="secondary" (click)="regresar()">
+    <label style="text-transform: none;">Regresar</label>
+  </ion-button>
+  </form>
+  </ion-content>

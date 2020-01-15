@@ -1,0 +1,191 @@
+
+<ion-header>
+    <ion-toolbar>
+      <ion-title  class="font">Primera sesión de comité</ion-title>
+      <ion-buttons slot="primary">
+        <ion-button (click)="dismiss()">
+          <ion-icon color="medium" slot="end" name="close"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+<ion-content>
+  <div>
+    <!-- asistencia -->
+    <ion-grid class="font-docs">
+      <ion-row *ngIf="fechaEnRango === 1">
+        <ion-col>
+          <ion-toggle slot="start" [checked]="checkValue" color="primary"></ion-toggle>
+          <!--ion-toggle slot="start" [checked]="checkValue" style="color: #ffffff; visibility: hidden;" color="primary"></ion-toggle-->
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <h4>Asistencia</h4>
+        </ion-col>
+      </ion-row>
+      <!--ion-row (click)="captura('Lista de Asistencia')">
+        <ion-col size="3">
+          <ion-icon class="carpeta" name="document" color="warning"></ion-icon>
+        </ion-col>
+        <ion-col size="9">
+          <strong>Captura de Datos</strong><br>
+          Estatus: Formato impreso<br>
+        </ion-col>
+      </ion-row-->
+      <ion-row (click)="evidencia('Lista de Asistencia', 'Fotos de lista de asistencia', 'asistencia', 'evidencia')">
+        <ion-col size="1" style="align-self: center; justify-content: center; font-size: 1.8em; padding-left: 0.6em;">
+            <strong>1</strong>
+        </ion-col>
+        <ion-col size="2">
+          <ion-icon class="camara" name="camera" *ngIf="listaAsistenciaStatus === 'completo'" style="color: #1AAD09;"></ion-icon>
+          <ion-icon class="camara" name="camera" *ngIf="listaAsistenciaStatus === 'incompleto'" style="color: #708395;"></ion-icon>
+        </ion-col>
+        <ion-col size="9">
+            <strong>Foto de lista de asistencia</strong><br>
+            Estatus: {{ listaAsistenciaStatus }}<br>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <!-- comite -->
+    <ion-grid class="font-docs" *ngIf="metodoIntegracion !== null">
+        <ion-row>
+          <ion-col>
+            <h4>Integración de Comité</h4>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="metodoIntegracion=='digital'" (click)="captura('Integración de Comités')">
+          <ion-col size="1" style="align-self: center; justify-content: center; font-size: 1.8em; padding-left: 0.6em;">
+              <strong>2</strong>
+          </ion-col>
+          <ion-col size="2">
+            <ion-icon class="carpeta" name="document" *ngIf="integracionStatus === 'completo'" style="color: #1AAD09;"></ion-icon>
+            <ion-icon class="carpeta" name="document" *ngIf="integracionStatus === 'incompleto'" style="color: #708395;"></ion-icon>
+          </ion-col>
+          <ion-col size="9">
+            <strong>Captura de Datos del Acta</strong><br>
+            Estatus: {{ integracionStatus }}<br>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="metodoIntegracion=='fisico'" (click)="evidencia('Integración de Comités','Fotos del Documento de Acta', 'integracion', 'foto')">
+            <ion-col size="1" style="align-self: center; justify-content: center; font-size: 1.8em; padding-left: 0.6em;">
+                <strong>2</strong>
+            </ion-col>
+            <ion-col size="2">
+              <ion-icon class="camara" name="camera" *ngIf="integracionStatus === 'completo'" style="color: #1AAD09;"></ion-icon>
+              <ion-icon class="camara" name="camera" *ngIf="integracionStatus === 'incompleto'" style="color: #708395;"></ion-icon>
+            </ion-col>
+            <ion-col size="9">
+                <strong>Fotos del Documento de Acta</strong><br>
+                Estatus: {{ integracionStatus }}<br>
+            </ion-col>
+          </ion-row>
+        <ion-row (click)="evidencia('Integración de Comités','Fotos del Evento (Evidencias)', 'integracion', 'evidencia')">
+            <ion-col size="1" style="align-self: center; justify-content: center; font-size: 1.8em; padding-left: 0.6em;">
+                <strong>3</strong>
+            </ion-col>
+            <ion-col size="2">
+            <ion-icon class="camara" name="camera" *ngIf="integracionEvidenciaStatus === 'completo'" style="color: #1AAD09;"></ion-icon>
+            <ion-icon class="camara" name="camera" *ngIf="integracionEvidenciaStatus === 'incompleto'" style="color: #708395;"></ion-icon>
+          </ion-col>
+          <ion-col size="9">
+              <strong>Fotos del Evento (Evidencias)</strong><br>
+              Estatus:{{ integracionEvidenciaStatus }}<br>
+          </ion-col>
+        </ion-row>
+        <!--ion-row>
+          <ion-col>
+            <ion-button style="text-transform: none; margin-left: 5%;" *ngIf="integracionEvidenciaStatus === 'completo' && integracionStatus === 'completo' && metodoIntegracion=='digital'" color="secondary" class="button" (click)="generarActaInt()">Generar acta</ion-button>
+          </ion-col>
+        </ion-row-->
+      </ion-grid>
+      <!-- cap comite -->
+      <ion-grid class="font-docs" *ngIf="metodoCapacitacion !== null">
+        <ion-row>
+          <ion-col>
+            <h4>Capacitación de Comités</h4>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="metodoCapacitacion=='digital'" (click)="captura('Capacitación de Comités')">
+          <ion-col size="1" style="align-self: center; justify-content: center; font-size: 1.8em; padding-left: 0.6em;">
+              <strong *ngIf="metodoIntegracion !== null">4</strong>
+              <strong *ngIf="metodoIntegracion === null">2</strong>
+          </ion-col>
+          <ion-col size="2">
+            <ion-icon class="carpeta" name="document" *ngIf="capacitacionStatus === 'completo'" style="color: #1AAD09;"></ion-icon>
+            <ion-icon class="carpeta" name="document" *ngIf="capacitacionStatus === 'incompleto'" style="color: #708395;"></ion-icon>
+          </ion-col>
+          <ion-col size="9">
+            <strong>Captura de Datos del Acta</strong><br>
+            Estatus: {{ capacitacionStatus }}<br>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="metodoCapacitacion=='fisico'" (click)="evidencia('Capacitación de Comités', 'Fotos del Documento de Acta', 'capacitacion', 'foto')">
+            <ion-col size="1" style="align-self: center; justify-content: center; font-size: 1.8em; padding-left: 0.6em;">
+              <strong *ngIf="metodoIntegracion !== null">4</strong>
+              <strong *ngIf="metodoIntegracion === null">2</strong>
+            </ion-col>
+            <ion-col size="2">
+              <ion-icon class="camara" name="camera" *ngIf="capacitacionStatus === 'completo'" style="color: #1AAD09;"></ion-icon>
+              <ion-icon class="camara" name="camera" *ngIf="capacitacionStatus === 'incompleto'"  style="color: #708395;"></ion-icon>
+            </ion-col>
+            <ion-col size="9">
+                <strong>Fotos del Documento de Acta</strong><br>
+                Estatus: {{ capacitacionStatus }}<br>
+            </ion-col>
+          </ion-row>
+        <ion-row (click)="evidencia('Capacitación de Comités','Fotos del Evento (Evidencias)', 'capacitacion', 'evidencia')">
+            <ion-col size="1" style="align-self: center; justify-content: center; font-size: 1.8em; padding-left: 0.6em;">
+              <strong *ngIf="metodoIntegracion !== null">5</strong>
+              <strong *ngIf="metodoIntegracion === null">3</strong>
+            </ion-col>
+            <ion-col size="2">
+            <ion-icon class="camara" name="camera" *ngIf="capacitacionEvidenciaStatus === 'completo'" style="color: #1AAD09;"></ion-icon>
+            <ion-icon class="camara" name="camera" *ngIf="capacitacionEvidenciaStatus === 'incompleto'" style="color: #708395;"></ion-icon>
+          </ion-col>
+          <ion-col size="9">
+              <strong>Fotos del Evento (Evidencias)</strong><br>
+              Estatus: {{ capacitacionEvidenciaStatus }}<br>
+          </ion-col>
+        </ion-row>
+        <!--ion-row>
+          <ion-col>
+            <ion-button style="text-transform: none;" *ngIf="capacitacionEvidenciaStatus === 'completo' && capacitacionStatus === 'completo' && metodoCapacitacion=='digital'" color="primary" class="button" (click)="generarActaCap()">Generar acta</ion-button>
+          </ion-col>
+        </ion-row-->
+      </ion-grid>
+      <!-- evidencia comite -->
+    <ion-grid class="font-docs">
+        <ion-row>
+          <ion-col>
+            <h4>Evidencias de la Obra o Apoyo</h4>
+          </ion-col>
+        </ion-row>
+        <ion-row (click)="evidencia('Evidencias de la Obra o Apoyo', 'Fotos de Evidencias de la Obra o Apoyo', 'comite', 'evidencia')">
+          <ion-col size="1" style="align-self: center; justify-content: center; font-size: 1.8em; padding-left: 0.6em;">
+              <strong *ngIf="metodoIntegracion !== null && metodoCapacitacion !== null">6</strong>
+              <strong *ngIf="metodoIntegracion === null || metodoCapacitacion === null">4</strong>
+            </ion-col>
+          <ion-col size="2">
+            <ion-icon class="camara" name="camera" *ngIf="evidenciaComiteStatus === 'completo'" style="color: #1AAD09;"></ion-icon>
+            <ion-icon class="camara" name="camera" *ngIf="evidenciaComiteStatus === 'incompleto'" style="color: #708395;"></ion-icon>
+          </ion-col>
+          <ion-col size="9">
+              <strong>Fotos de Evidencias de la Obra o Apoyo</strong><br>
+              Si aplica<br>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <ion-grid class="ion-padding">
+        <ion-row text-center>
+          <ion-col>
+            <ion-button style="text-transform: none;" color="danger" class="button" (click)="vaciarInformacion()">Borrar información</ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button style="text-transform: none;" color="secondary" class="button" (click)="dismiss()">Regresar</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+  </div>
+</ion-content>

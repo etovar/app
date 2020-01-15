@@ -1,0 +1,325 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="title">Capacitación de comites</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="true" style="color: #708395;"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <form [formGroup]="capturarForm">
+    <ion-row>
+      <ion-col style="font-size: 0.9em; color: #708395;">
+        En este acto: ¿Se Constituyó el Comité de Contraloría Social?
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-radio-group formControlName='constituyo' [(ngModel)]="constituyo" (ionSelect)="onChangeForm($event, 'constituyo')">
+          <ion-item no-lines>
+            <ion-label style="font-size: 0.9em; color: #708395;">Si</ion-label>
+            <ion-radio slot="start" value="si" checked></ion-radio>
+          </ion-item>
+          <ion-item no-lines>
+            <ion-label style="font-size: 0.9em; color: #708395;">No</ion-label>
+            <ion-radio slot="start" value="no"></ion-radio>
+          </ion-item>
+        </ion-radio-group>
+      </ion-col>
+    </ion-row><br>
+    <ion-row>
+      <ion-col size="8">
+        <ion-label class="font-title">
+          <strong>Integrantes del Comité</strong> <br>
+          <i style="font-size: 0.8em; margin-right:-5%; color: #708395;">Total de integrantes: {{ database.arrayIntegrantesVocal.length + this.database.arrayIntegrantesPresidente.length }}</i>
+        </ion-label>
+      </ion-col>
+      <ion-col size="4">
+        <ion-button float-right (click)="agregar(capturarForm.value)">
+          <label style="text-transform: none; font-size: 0.6em;">Agregar<br>integrante</label>
+          <ion-icon name="person" style="font-size: 1.5em; color: white"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-list style="margin-left: -.8em;">    
+           
+      <ion-item-sliding>
+        <ion-item>
+          <ion-grid>
+            <ion-row>
+              <ion-col size="12">
+                <ion-label style="color: #708395; font-size: .85em">{{ presidente }}</ion-label>
+                <ion-label style="color: #708395; font-size: .85em"><i>Presidente</i></ion-label>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+        <ion-item-options side="end">
+          <ion-item-option *ngIf="presidente" style="background-color: #ffffff">
+            <ion-button color="danger" size="small" (click)="borrarIntegrante(idpresidente)">
+              <ion-icon class="icono" name="trash" style="font-size: 1.7em; color: white"></ion-icon>
+            </ion-button>
+          </ion-item-option>
+          <ion-item-option style="background-color: #ffffff">
+            <ion-button size="small" (click)="editIntegrante(idpresidente, 'Presidente')">
+              <ion-icon class="icono" name="create" style="font-size: 1.7em"></ion-icon>
+            </ion-button>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+      <ion-item-sliding>
+        <ion-item>
+          <ion-grid>
+            <ion-row>
+              <ion-col size="12">
+                <ion-label style="color: #708395; font-size: .85em">{{ secretario }}</ion-label>
+                <ion-label style="color: #708395; font-size: .85em"><i>Secretario</i></ion-label>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+        <ion-item-options side="end">
+          <ion-item-option *ngIf="secretario" style="background-color: #ffffff">
+            <ion-button color="danger" size="small" (click)="borrarIntegrante(idsecretario)">
+              <ion-icon class="icono" name="trash" style="font-size: 1.7em; color: white"></ion-icon>
+            </ion-button>
+          </ion-item-option>
+          <ion-item-option style="background-color: #ffffff">
+            <ion-button size="small" (click)="editIntegrante(idsecretario, 'Secretario')">
+              <ion-icon class="icono" name="create" style="font-size: 1.7em"></ion-icon>
+            </ion-button>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+      <ion-item-sliding>
+        <ion-item>
+          <ion-grid>
+            <ion-row>
+              <ion-col size="12">
+                <ion-label style="color: #708395; font-size: .85em">{{ tesorero }}</ion-label>
+                <ion-label style="color: #708395; font-size: .85em"><i>Tesorero/Vocal</i></ion-label>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+        <ion-item-options side="end">
+          <ion-item-option *ngIf="tesorero" style="background-color: #ffffff">
+            <ion-button color="danger" size="small" (click)="borrarIntegrante(idtesorero)">
+              <ion-icon class="icono" name="trash" style="font-size: 1.7em; color: white"></ion-icon>
+            </ion-button>
+          </ion-item-option>
+          <ion-item-option style="background-color: #ffffff">
+            <ion-button size="small" (click)="editIntegrante(idtesorero, 'Tesorero')">
+              <ion-icon class="icono" name="create" style="font-size: 1.7em"></ion-icon>
+            </ion-button>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>       
+      <ion-item-sliding *ngFor="let item of database.arrayIntegrantesVocal">
+        <ion-item>
+          <ion-grid>
+            <ion-row>
+              <ion-col size="12">
+                <ion-label style="color: #708395; font-size: .85em">{{ item.nombre }}</ion-label>
+                <ion-label style="color: #708395; font-size: .85em"><i>Vocal</i></ion-label>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+        <ion-item-options side="end">
+          <ion-item-option style="background-color: #ffffff">
+            <ion-button color="danger" size="small" (click)="borrarIntegrante(item.id)">
+              <ion-icon class="icono" name="trash" style="font-size: 1.7em; color: white"></ion-icon>
+            </ion-button>
+          </ion-item-option>
+          <ion-item-option style="background-color: #ffffff">
+            <ion-button size="small" (click)="editIntegrante(item.id, 'Vocal')">
+              <ion-icon class="icono" name="create" style="font-size: 1.7em"></ion-icon>
+            </ion-button>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list><br>
+    <ion-row>
+        <ion-col size="8">
+          <ion-label class="font-title">
+            <strong>Participantes</strong> <br>
+            <i style="font-size: 0.8em; margin-right:-5%; color: #708395;">Total de participantes: {{ database.arrayParticipantes.length }}</i>
+          </ion-label>
+        </ion-col>
+        <ion-col size="4">
+          <ion-button float-right (click)="agregarParticipante(capturarForm.value)">
+            <label style="text-transform: none; font-size: 0.6em;">Agregar<br>participante</label>
+            <ion-icon name="person" style="font-size: 1.5em; color: white"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-list style="margin-left: -.8em;">       
+        <ion-item-sliding *ngFor="let item of database.arrayParticipantes">
+          <ion-item>
+            <ion-grid>
+              <ion-row>
+                <ion-col size="12">
+                  <ion-label style="color: #708395; font-size: .85em">{{ item.nombre }}</ion-label>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-item>
+          <ion-item-options side="end">
+            <ion-item-option style="background-color: #ffffff">
+              <ion-button color="danger" size="small" (click)="borrarParticipante(item.id)">
+                <ion-icon class="icono" name="trash" style="font-size: 1.7em; color: white"></ion-icon>
+              </ion-button>
+            </ion-item-option>
+            <ion-item-option style="background-color: #ffffff">
+              <ion-button size="small" (click)="editParticipante(item.id)">
+                <ion-icon class="icono" name="create" style="font-size: 1.7em"></ion-icon>
+              </ion-button>
+            </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-list><br>
+      <ion-row>
+        <ion-col style="font-size: 0.9em; color: #708395;">
+          ¿La constitución del comité se realizó mediante asamblea con los beneficiarios?
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-radio-group formControlName='pregunta1' [(ngModel)]="pregunta1" (ionSelect)="onChangeForm($event, 'pregunta1')">
+            <ion-item no-lines>
+              <ion-label style="font-size: 0.9em; color: #708395;">Si</ion-label>
+              <ion-radio slot="start" value="si" checked></ion-radio>
+            </ion-item>
+            <ion-item no-lines>
+              <ion-label style="font-size: 0.9em; color: #708395;">No</ion-label>
+              <ion-radio slot="start" value="no"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col style="font-size: 0.9em; color: #708395;">
+          ¿Durante la asamblea, se realizó invitación a los beneficiarios para que la integración del comité se lleve a cabo con equidad de género?
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-radio-group formControlName='pregunta2' [(ngModel)]="pregunta2" (ionSelect)="onChangeForm($event, 'pregunta2')">
+            <ion-item no-lines>
+              <ion-label style="font-size: 0.9em; color: #708395;">Si</ion-label>
+              <ion-radio slot="start" value="si" checked></ion-radio>
+            </ion-item>
+            <ion-item no-lines>
+              <ion-label style="font-size: 0.9em; color: #708395;">No</ion-label>
+              <ion-radio slot="start" value="no"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col style="font-size: 0.9em; color: #708395;">
+          ¿Se entregó al comité la ficha informativa correspondiente?
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-radio-group formControlName='pregunta3' [(ngModel)]="pregunta3" (ionSelect)="onChangeForm($event, 'pregunta3')">
+            <ion-item no-lines>
+              <ion-label style="font-size: 0.9em; color: #708395;">Si</ion-label>
+              <ion-radio slot="start" value="si" checked></ion-radio>
+            </ion-item>
+            <ion-item no-lines>
+              <ion-label style="font-size: 0.9em; color: #708395;">No</ion-label>
+              <ion-radio slot="start" value="no"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col style="font-size: 0.9em; color: #708395;">
+          ¿Se dieron a conocer las reglas de operación del programa?
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-radio-group formControlName='pregunta4' [(ngModel)]="pregunta4" (ionSelect)="onChangeForm($event, 'pregunta4')">
+            <ion-item no-lines>
+              <ion-label style="font-size: 0.9em; color: #708395;">Si</ion-label>
+              <ion-radio slot="start" value="si" checked></ion-radio>
+            </ion-item>
+            <ion-item no-lines>
+              <ion-label style="font-size: 0.9em; color: #708395;">No</ion-label>
+              <ion-radio slot="start" value="no"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col style="font-size: 0.9em; color: #708395;">
+          ¿Se proporcionaron los formatos para uso del comité de contraloría social?  
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-radio-group formControlName='pregunta5' [(ngModel)]="pregunta5" (ionSelect)="onChangeForm($event, 'pregunta5')">
+            <ion-item no-lines>
+              <ion-label style="font-size: 0.9em; color: #708395;">Si</ion-label>
+              <ion-radio slot="start" value="si" checked></ion-radio>
+            </ion-item>
+            <ion-item no-lines>
+              <ion-label style="font-size: 0.9em; color: #708395;">No</ion-label>
+              <ion-radio slot="start" value="no"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col style="font-size: 0.9em; color: #708395;">
+          Se puso a disposición de los beneficiarios mecanismos estatales y federales para la atención de quejas y denuncias?
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-radio-group formControlName='pregunta6' [(ngModel)]="pregunta6" (ionSelect)="onChangeForm($event, 'pregunta6')">
+            <ion-item no-lines>
+              <ion-label style="font-size: 0.9em; color: #708395;">Si</ion-label>
+              <ion-radio slot="start" value="si" checked></ion-radio>
+            </ion-item>
+            <ion-item no-lines>
+              <ion-label style="font-size: 0.9em; color: #708395;">No</ion-label>
+              <ion-radio slot="start" value="no"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col style="font-size: 0.9em; color: #708395;">
+          Observaciones de la constitución del comité
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-textarea (ionBlur)="onChangeForm(capturarForm.value);" [(ngModel)]="observaciones" formControlName='observaciones' style="font-size: 0.9em; color: #708395; border: solid; border-width: 0.15em; border-color:#b9c1c9;"></ion-textarea>
+        </ion-col>
+      </ion-row><br>
+      <ion-row (click)="firmarAsignado()">
+        <ion-col>
+          <label  class="font-title">{{ nombreAsignado }}</label>
+        </ion-col>
+        <ion-col *ngIf="firmaAsignado!='null' && firmaAsignado!=null" size="12" text-center class="col" >
+            <img width="30%" style="transform:rotate(270deg); margin: -10%" [src]="firmaAsignado"/>
+        </ion-col>
+        <ion-col *ngIf="firmaAsignado=='null' || firmaAsignado==null" size="12" style="padding: 15%" text-center class="col" >
+          <ion-label class="font-title"><i>Firmar </i></ion-label>
+        </ion-col>
+      </ion-row><br>
+      <ion-button float-right color="secondary" (click)="regresar()">
+        <label style="text-transform: none;">Regresar</label>
+      </ion-button>
+      <!--ion-button float-right (click)="guardar()" [disabled]="!capturarForm.valid || firmaAsignado==null">
+        <label style="text-transform: none;">Guardar</label>
+      </ion-button-->
+  </form>
+</ion-content>
