@@ -94,18 +94,6 @@
               <ion-icon class="icono" name="cloud-upload"></ion-icon>
             </ion-button>
           </ion-item-option>
-          <ion-item-option style="background-color: #ffffff" *ngIf="row.metodoIntegracionActa === 'digital'">
-            <ion-button size="medium" color="primary" (click)="generaActaInt(row.obraid, row.id)">
-                <ion-icon class="icono" name="eye"></ion-icon><br>
-              <ion-label class="font-boton">Acta de<br>Integración</ion-label>
-            </ion-button>
-          </ion-item-option>
-          <ion-item-option style="background-color: #ffffff" *ngIf="row.metodoCapacitacionActa === 'digital'">
-            <ion-button size="medium" color="primary" (click)="generaActaCap(row.obraid, row.id)">
-                <ion-icon class="icono" name="eye"></ion-icon>
-              <ion-label class="font-boton">Acta de<br>Capacitación</ion-label>
-            </ion-button>
-          </ion-item-option>
         </ion-item-options>
       </ion-item-sliding>          
       <ion-item no-lines lines="none" *ngIf="database.arrayComitesvencido.length > 0">

@@ -63,6 +63,7 @@ export class GeneraCapacitacionPage implements OnInit {
     this.idObra = queryParams.idObra;
     this.idComite = queryParams.idComite;
   });
+    this.observaciones = '';
     this.idusuario = this.appc.iduser;
     this.database.GetActaIntegracionGrlInfo(this.idObra, this.idComite, this.idusuario).then((data) => {
     this.municipioGrl = data[0].municipio;
@@ -80,7 +81,11 @@ export class GeneraCapacitacionPage implements OnInit {
     this.depNormativa = data[0].ejecutora;
   });
     this.database.GetActaCapacitacionGrlInfo(this.idObra, this.idComite, this.idusuario).then((data) => {
-      this.observaciones = data[0].observaciones;
+      if (data[0].observaciones === 'undefined') {
+        this.observaciones = '';
+      } else {
+        this.observaciones = data[0].observaciones;
+      }
       this.constituyo = data[0].constituyo;
       this.pregunta1 = data[0].pregunta1;
       this.pregunta2 = data[0].pregunta2;
@@ -113,7 +118,6 @@ export class GeneraCapacitacionPage implements OnInit {
         numIntegrantes = numIntegrantes + 1;
       });
       const paginas = (this.integrantesComite.length - 3) / 5;
-      console.log(Math.round(paginas + 0.4));
       this.totalHojas = Math.round(paginas + 0.4) + 2;
     });
     this.database.GetParticipantesActaCapacitacion(this.idObra, this.idComite, this.idusuario).then((dataParticipantes) => {
@@ -135,12 +139,12 @@ export class GeneraCapacitacionPage implements OnInit {
     const elements = this.elem.nativeElement.querySelectorAll('.paginaIntegrantesDinamic');
     const docTmp = new jsPDF('p', 'px', 'a4');
     // tslint:disable-next-line:max-line-length
-    const options = { background: 'white', height: docTmp.internal.pageSize.getHeight() * 1.5, width: ((divPrimero.clientWidth + 5) * 1.5), quality: 1, style: {
+    const options = { background: 'white', height: (docTmp.internal.pageSize.getHeight() + 15) * 1.5, width: ((divPrimero.clientWidth + 5) * 1.5), quality: 1, style: {
       transform: 'scale(1.5)',
       'transform-origin': 'top left'
     }  };
     // tslint:disable-next-line:max-line-length
-    const options2 = { background: 'white', height: docTmp.internal.pageSize.getHeight() * 1.5, width: ((divFinal.clientWidth + 5) * 1.5), quality: 1, style: {
+    const options2 = { background: 'white', height: (docTmp.internal.pageSize.getHeight() + 15) * 1.5, width: ((divFinal.clientWidth + 5) * 1.5), quality: 1, style: {
       transform: 'scale(1.5)',
       'transform-origin': 'top left'
     } };
@@ -153,10 +157,10 @@ export class GeneraCapacitacionPage implements OnInit {
       // Initialize JSPDF
       // Add image Url to PDF
       const imgHeight = divPrimero.clientHeight *  210 / divPrimero.clientWidth;
-      doc.addImage(dataUrl, 'JPEG', 20, 20, doc.internal.pageSize.getWidth() - 50, 550 + 10);
+      doc.addImage(dataUrl, 'JPEG', 20, 20, doc.internal.pageSize.getWidth() - 50, 580 + 10);
       if (elements.length === 0) {
         doc.addPage();
-        doc.addImage(dataUrl2, 'JPEG', 20, 20, doc.internal.pageSize.getWidth() - 50, 550 + 10);
+        doc.addImage(dataUrl2, 'JPEG', 20, 20, doc.internal.pageSize.getWidth() - 50, 600 + 10);
         const pdfOutput = doc.output();
           // using ArrayBuffer will allow you to put image inside PDF
         const buffer = new ArrayBuffer(pdfOutput.length);
@@ -206,7 +210,7 @@ export class GeneraCapacitacionPage implements OnInit {
       // tslint:disable-next-line:prefer-for-of
       for (let u = 0; u < elements.length; u++) {
         // tslint:disable-next-line:max-line-length
-        const optionsDinamic = { background: 'white', height: docTmp.internal.pageSize.getHeight() * 1.5, width: ((elements[u].clientWidth + 5) * 1.5), quality: 1, style: {
+        const optionsDinamic = { background: 'white', height: (docTmp.internal.pageSize.getHeight() + 15) * 1.5, width: ((elements[u].clientWidth + 5) * 1.5), quality: 1, style: {
           transform: 'scale(1.5)',
           'transform-origin': 'top left'
         }  };

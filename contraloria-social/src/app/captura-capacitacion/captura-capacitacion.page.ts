@@ -93,7 +93,7 @@ export class CapturaCapacitacionPage implements OnInit {
     this.database.GetCapturaCapacitacion(this.obraid, this.idcomite, this.userid).then((data) => {
       if (data[0]) {
         this.constituyo = data[0].constituyo;
-        if (data[0].observaciones) {
+        if (data[0].observaciones && data[0].observaciones !== 'undefined') {
           this.observaciones = data[0].observaciones;
         } else {
           this.observaciones = '';

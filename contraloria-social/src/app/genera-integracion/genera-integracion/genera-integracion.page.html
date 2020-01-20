@@ -17,9 +17,10 @@
     <div class="printable-area" id="printable-area">
       <div class="paginaPrimera" id="paginaPrimera">
         <table class="header-table" style="width: 100%;">
+          <div style="font-size: 0.5em;"><p style="text-align: left;">Acta provisional</p><p style="text-align: right;">Pagina 1 de {{ totalHojas }}</p></div>
           <tr [attr.colspan]="12" style="width: 100%;">
             <td [attr.colspan]="12" style="width: 100%;"> 
-              <ion-img style="width: 25%; margin-top: 0em; margin-bottom: -3em; margin-right: 10em;" [src]="imageurl"></ion-img>INCLUIR DATOS DE LA<br>DEPENDENCIA EJECUTORA
+              <img style="width: 22%; margin-top: -2em; margin-bottom: -2em; margin-right: 5em; margin-left: -15em;" [src]="imageurl">INCLUIR DATOS DE LA<br>DEPENDENCIA EJECUTORA
             </td>
           </tr>
           <tr [attr.colspan]="12" style="width: 100%;"><td [attr.colspan]="12" style="width: 100%;"><br></td></tr>
@@ -203,7 +204,8 @@
           </tr>
         </table>
       </div>
-      <div class="paginaIntegrantesDinamic" *ngFor="let itemPadre of dataIntegrantesProximosFinal">
+      <div class="paginaIntegrantesDinamic" *ngFor="let itemPadre of dataIntegrantesProximosFinal; let i = index">
+        <div style="font-size: 0.5em;"><p style="text-align: left;">Acta provisional</p><p style="text-align: right;">Pagina {{ i + 2 }} de {{ totalHojas }}</p></div>
         <table class="detail-table" style="width: 100%;">
           <tr  [attr.colspan]="12" style="width: 100%;" *ngFor="let item of itemPadre">
             <td  [attr.colspan]="12" style="width: 100%;">
@@ -291,6 +293,7 @@
         </table>
       </div>
       <div class="paginaFinal" id="paginaFinal">
+        <div style="font-size: 0.5em;"><p style="text-align: left;">Acta provisional</p><p style="text-align: right;">Pagina {{ totalHojas }} de {{ totalHojas }}</p></div>
         <table class="detail-table" style="width: 100%;">
           <tr class="detail-table-title" [attr.colspan]="12" style="width: 100%; text-align: center; background-color: darkgrey;">
             <td class="border" [attr.colspan]="8" style="width: 70%;">
@@ -305,7 +308,7 @@
               Los integrantes del comité recibimos la información general de la obra, apoyo o servicio 
             </td>
             <td [attr.colspan]="4" style="width: 30%;" class="border" style="text-align: center;">
-              <img width="22%" *ngIf="firmaPresidenteGrl !== null" style="transform:rotate(270deg); margin-top: -3%; margin-bottom: -5%;" [src]="firmaPresidenteGrl"/> <br>
+              <img width="22%" *ngIf="firmaPresidenteGrl !== null && firmaPresidenteGrl !==''" style="transform:rotate(270deg); margin-top: -3%; margin-bottom: -5%;" [src]="firmaPresidenteGrl"/> <br>
             </td>
           </tr>
           <tr class="detail-table-title" [attr.colspan]="12" style="width: 100%;">
@@ -313,7 +316,7 @@
               Los integrantes de comités conocemos los mecanismos para interponer quejas y denuncias o Solicitudes de información
             </td>
             <td [attr.colspan]="4" style="width: 30%;" class="border" style="text-align: center;">
-              <img width="22%" *ngIf="firmaPresidenteGrl !== null" style="transform:rotate(270deg); margin-top: -3%; margin-bottom: -5%;" [src]="firmaPresidenteGrl"/> <br>
+              <img width="22%" *ngIf="firmaPresidenteGrl !== null && firmaPresidenteGrl !==''" style="transform:rotate(270deg); margin-top: -3%; margin-bottom: -5%;" [src]="firmaPresidenteGrl"/> <br>
             </td>
           </tr>
           <tr [attr.colspan]="12" style="width: 100%;"><td [attr.colspan]="12" style="width: 100%;"><br></td></tr>
