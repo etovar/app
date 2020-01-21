@@ -37,7 +37,7 @@ export class AgregarAsistentePage implements OnInit {
   normativaNombre: any;
   metodoContraloria: any;
   fechaEnRango: any;
-  moduloOrigen:any;
+  moduloOrigen: any;
   agendaFecha: any;
   // tslint:disable-next-line:max-line-length
   constructor(private database: BdService, private formBuilder: FormBuilder, public navCtrl: NavController, public modalController: ModalController, private plt: Platform, private location: Location, private menu: MenuController, public activatedRoute: ActivatedRoute) {
@@ -70,7 +70,7 @@ export class AgregarAsistentePage implements OnInit {
     this.agregarForm = this.formBuilder.group({
         nombre: ['', [Validators.required]],
         domicilio: ['', [Validators.required]],
-        telefono: ['', [Validators.required]],
+        telefono: ['', []],
         cargo: ['', [Validators.required]],
         genero: ['', [Validators.required]],
         edad: ['', [Validators.required]],

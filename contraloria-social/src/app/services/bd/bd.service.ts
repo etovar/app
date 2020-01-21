@@ -71,7 +71,7 @@ export class BdService {
         // tslint:disable-next-line:max-line-length
         db.executeSql('CREATE TABLE IF NOT EXISTS testigo_integracion (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT, firma TEXT, id_obra INTEGER, id_comite INTEGER, descargado INTEGER, numero_testigo INTEGER, genero TEXT, edad INTEGER, curp TEXT, correo TEXT)', []);
         // tslint:disable-next-line:max-line-length
-        db.executeSql('CREATE TABLE IF NOT EXISTS integracion_comites (id INTEGER PRIMARY KEY AUTOINCREMENT, id_obra INTEGER, id_comite INTEGER, nombre_ejecutora TEXT, firma_ejecutora TEXT, cargo_ejecutora TEXT, nombre_normativa TEXT, firma_normativa TEXT, cargo_normatia TEXT, descargado INTEGER)', []);
+        db.executeSql('CREATE TABLE IF NOT EXISTS integracion_comites (id INTEGER PRIMARY KEY AUTOINCREMENT, id_obra INTEGER, id_comite INTEGER, nombre_ejecutora TEXT, firma_ejecutora TEXT, cargo_ejecutora TEXT, nombre_normativa TEXT, firma_normativa TEXT, cargo_normatia TEXT, descargado INTEGER, nombre_organo_estatal TEXT, cargo_organo_estatal TEXT, firma_organo_estatal TEXT)', []);
         // tslint:disable-next-line:max-line-length
         db.executeSql('CREATE TABLE IF NOT EXISTS integrante_capacitacion (id INTEGER PRIMARY KEY AUTOINCREMENT, edad TEXT, genero TEXT, nombre TEXT, domicilio TEXT, telefono TEXT, cargo TEXT, material_entregado TEXT, firma TEXT, id_obra INTEGER, id_comite INTEGER, descargado INTEGER, curp TEXT, correo TEXT) ', []);
         // tslint:disable-next-line:max-line-length
@@ -421,7 +421,7 @@ export class BdService {
     GetCapturaIntegracion(obraid, idcomite, userid) {
       const arrayCapturaIntegracion = [];
       // tslint:disable-next-line:max-line-length
-      const qry = 'SELECT nombre_ejecutora, firma_ejecutora, nombre_normativa, firma_normativa FROM integracion_comites WHERE id_obra = ' + obraid + ' AND id_comite = ' + idcomite + ' AND descargado = ' + userid;
+      const qry = 'SELECT nombre_ejecutora, firma_ejecutora, nombre_normativa, firma_normativa, nombre_organo_estatal, cargo_organo_estatal, firma_organo_estatal FROM integracion_comites WHERE id_obra = ' + obraid + ' AND id_comite = ' + idcomite + ' AND descargado = ' + userid;
       // tslint:disable-next-line:no-shadowed-variable
       return new Promise ((resolve, reject) => {
         this.db.executeSql(qry, []).then((data) => {
@@ -431,7 +431,10 @@ export class BdService {
                 nombreEjecutora: data.rows.item(i).nombre_ejecutora,
                 firmaEjecutora: data.rows.item(i).firma_ejecutora,
                 nombreNormativa: data.rows.item(i).nombre_normativa,
-                firmaNormativa: data.rows.item(i).firma_normativa
+                firmaNormativa: data.rows.item(i).firma_normativa,
+                nombreOrganoEstatal: data.rows.item(i).nombre_organo_estatal,
+                cargoOrganoEstatal: data.rows.item(i).cargo_organo_estatal,
+                firmaOrganoEstatal: data.rows.item(i).firma_organo_estatal
               });
             }
           }
@@ -1450,7 +1453,39 @@ export class BdService {
       });
     }
 
-    GuardarIntegracionComiteFirmas(obraid, idcomite, userid, nombreEjecutora, firmaEjecutora,  nombreNormativa, firmaNormativa) {
+      // tslint:disable-next-line:max-line-length
+    GuardarIntegracionComiteFirmas(obraid, idcomite, userid, nombreEjecutora, firmaEjecutora,  nombreNormativa, firmaNormativa, firmaOrganoEstatal) {
+      if (firmaOrganoEstatal !== null) {
+        // tslint:disable-next-line:no-shadowed-variable
+        return new Promise ((resolve, reject) => {
+          // tslint:disable-next-line:max-line-length
+          const sql = 'SELECT id FROM integracion_comites WHERE id_comite = ' + idcomite + ' AND id_obra = ' + obraid + ' AND descargado = ' + userid + '';
+          // tslint:disable-next-line:max-line-length
+          this.db.executeSql(sql, []).then((data) => {
+            if (data.rows.length > 0) {
+              // tslint:disable-next-line:max-line-length
+              const sql2 = 'UPDATE integracion_comites SET nombre_ejecutora = "' + nombreEjecutora + '", firma_organo_estatal = "' + firmaOrganoEstatal + '", nombre_normativa = "' + nombreNormativa + '" WHERE id = ' + data.rows.item(0).id + '';
+              // tslint:disable-next-line:max-line-length
+              this.db.executeSql(sql2, []).then((data2) => {
+                  resolve(data2);
+                }, (error) => {
+                  reject(error);
+              });
+            } else {
+              // tslint:disable-next-line:max-line-length
+              const sql2 = 'INSERT INTO integracion_comites (id_obra, id_comite, nombre_ejecutora, firma_organo_estatal, nombre_normativa, descargado) VALUES (?, ?, ?, ?, ?, ?)';
+              // tslint:disable-next-line:max-line-length
+              this.db.executeSql(sql2, [obraid, idcomite, nombreEjecutora, firmaOrganoEstatal, nombreNormativa, userid]).then((data2) => {
+                  resolve(data2);
+              }, (error) => {
+                reject(error);
+              });
+            }
+          }, (error) => {
+            reject(error);
+          });
+          });
+      }
       if (firmaEjecutora !== null) {
         // tslint:disable-next-line:no-shadowed-variable
         return new Promise ((resolve, reject) => {

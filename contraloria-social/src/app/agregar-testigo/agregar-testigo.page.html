@@ -17,7 +17,7 @@
     </ion-row>
     <ion-row>
       <ion-col>
-        <label  class="font-title">Nombre:</label>
+        <label style="color: red;">*</label> <label  class="font-title">Nombre:</label>
       </ion-col>
     </ion-row>
     <ion-row>
@@ -27,7 +27,7 @@
     </ion-row>
     <ion-row>
       <ion-col style="font-size: 0.9em; color: #708395;">
-        Genero
+        <label style="color: red;">*</label>Genero
       </ion-col>
     </ion-row>
     <ion-row>
@@ -46,7 +46,7 @@
     </ion-row>
     <ion-row>
       <ion-col>
-        <label  class="font-title">Edad (años cumplidos):</label>
+        <label style="color: red;">*</label><label  class="font-title">Edad (años cumplidos):</label>
       </ion-col>
     </ion-row>
     <ion-row>
@@ -76,7 +76,7 @@
     </ion-row>
     <ion-row (click)="firmar()">
       <ion-col>
-        <label  class="font-title">Firma:</label>
+        <label style="color: red;">*</label><label  class="font-title">Firma:</label>
       </ion-col>
       <ion-col *ngIf="firma!=null" size="12" text-center class="col" >
           <img width="30%" style="transform:rotate(270deg); margin: -10%" [src]="firma"/>

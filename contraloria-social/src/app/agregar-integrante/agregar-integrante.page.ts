@@ -37,7 +37,7 @@ export class AgregarIntegrantePage implements OnInit {
   telefono: any;
   materialEntregado: any;
   fechaEnRango: any;
-  moduloOrigen:any;
+  moduloOrigen: any;
   agendaFecha: any;
   // tslint:disable-next-line:max-line-length
   constructor(private database: BdService, private formBuilder: FormBuilder, public navCtrl: NavController, public modalController: ModalController, private plt: Platform, private location: Location, private menu: MenuController, public activatedRoute: ActivatedRoute) { }
@@ -67,7 +67,7 @@ export class AgregarIntegrantePage implements OnInit {
     this.agregarForm = this.formBuilder.group({
         nombreIntegrante: ['', [Validators.required]],
         domicilio: ['', [Validators.required]],
-        telefono: ['', [Validators.required]],
+        telefono: ['', []],
         cargo: ['', [Validators.required]],
         edad: ['', [Validators.required]],
         genero: ['', [Validators.required]],

@@ -34,7 +34,7 @@ export class AgregarTestigoPage implements OnInit {
   numeroTestigo: any;
   nombreDefault: any;
   fechaEnRango: any;
-  moduloOrigen:any;
+  moduloOrigen: any;
   agendaFecha: any;
   // tslint:disable-next-line:max-line-length
   constructor(private database: BdService, private formBuilder: FormBuilder, public navCtrl: NavController, public modalController: ModalController, private plt: Platform, private location: Location, private menu: MenuController, public activatedRoute: ActivatedRoute) {
@@ -132,6 +132,7 @@ export class AgregarTestigoPage implements OnInit {
         }
       });
     } else {
+    // tslint:disable-next-line:max-line-length
     this.database.GuardarTestigoIntegracion(value.nombre, this.firma, this.idobra, this.idcomite, this.userid, this.numeroTestigo, this.genero, this.edad, this.curp, this.correo);
     this.navCtrl.navigateRoot('captura-integracion', {
     queryParams: {

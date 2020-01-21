@@ -32,6 +32,9 @@ export class CapturaIntegracionPage implements OnInit {
   descripcion: any;
   capturarForm: FormGroup;
   nombreEjecutora: any;
+  nombreOrganoEstatal: any;
+  cargoOrganoEstatal: any;
+  firmaOrganoEstatal: any;
   presidente: any;
   idpresidente: any;
   secretario: any;
@@ -80,6 +83,8 @@ export class CapturaIntegracionPage implements OnInit {
     this.menu.enable(true, 'customComite');
     this.menu.close();
     this.capturarForm = this.formBuilder.group({
+      cargoOrganoEstatal: ['', []],
+      nombreOrganoEstatal: ['', []]
     }, {});
 
     this.storage.get('login-nombre').then(res4 => {
@@ -127,6 +132,9 @@ export class CapturaIntegracionPage implements OnInit {
         this.normativaNombre = data[0].nombreNormativa;
         this.firmaEjecutora = data[0].firmaEjecutora;
         this.firmaNormativa = data[0].firmaNormativa;
+        this.nombreOrganoEstatal = data[0].nombreOrganoEstatal;
+        this.cargoOrganoEstatal = data[0].cargoOrganoEstatal;
+        this.firmaOrganoEstatal = data[0].firmaOrganoEstatal;
       }
     });
   }
@@ -344,6 +352,25 @@ export class CapturaIntegracionPage implements OnInit {
     });
   }
 
+  async firmarOrgano() {
+    const modal = await this.modalController.create({
+      component: FirmaModalPage,
+      componentProps: {
+        // tslint:disable-next-line:object-literal-shorthand
+        tituloModal: 'Órgano Estatal de Control'
+      }
+    });
+    modal.onDidDismiss()
+      .then((data) => {
+        if (data.data !== null) {
+          // tslint:disable-next-line:max-line-length
+          this.database.GuardarIntegracionComiteFirmas(this.obraid, this.idcomite, this.userid, this.nombreEjecutora, null, this.normativaNombre, null, data.data);
+          this.firmaOrganoEstatal = data.data;
+        }
+    });
+    return await modal.present();
+  }
+
   async firmarEjecutora() {
     const modal = await this.modalController.create({
       component: FirmaModalPage,
@@ -356,7 +383,7 @@ export class CapturaIntegracionPage implements OnInit {
       .then((data) => {
         if (data.data !== null) {
           // tslint:disable-next-line:max-line-length
-          this.database.GuardarIntegracionComiteFirmas(this.obraid, this.idcomite, this.userid, this.nombreEjecutora, data.data, this.normativaNombre, null);
+          this.database.GuardarIntegracionComiteFirmas(this.obraid, this.idcomite, this.userid, this.nombreEjecutora, data.data, this.normativaNombre, null, null);
           this.firmaEjecutora = data.data;
         }
     });
@@ -375,7 +402,7 @@ export class CapturaIntegracionPage implements OnInit {
       .then((data) => {
         if (data.data !== null) {
           // tslint:disable-next-line:max-line-length
-          this.database.GuardarIntegracionComiteFirmas(this.obraid, this.idcomite, this.userid, this.nombreEjecutora, null, this.normativaNombre, data.data);
+          this.database.GuardarIntegracionComiteFirmas(this.obraid, this.idcomite, this.userid, this.nombreEjecutora, null, this.normativaNombre, data.data, null);
           this.firmaNormativa = data.data;
         }
     });
