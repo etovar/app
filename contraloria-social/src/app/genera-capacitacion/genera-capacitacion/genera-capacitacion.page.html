@@ -213,8 +213,8 @@
         </tr>
         <tr *ngFor="let item of partcipantesComite">
           <td class="detail-table-body border" style="width: 55%;" [attr.colspan]="6">{{ item.nombre }}</td>
-          <td class="detail-table-body border" style="width: 15%;" [attr.colspan]="2"></td>
-          <td class="detail-table-body border" style="width: 15%;" [attr.colspan]="2"></td>
+          <td class="detail-table-body border" style="text-align: center; width: 15%;" [attr.colspan]="2">{{ item.dependencia }}</td>
+          <td class="detail-table-body border" style="text-align: center; width: 15%;" [attr.colspan]="2">{{ item.cargo }}</td>
           <td class="detail-table-body border" style="width: 15%; text-align: center;" [attr.colspan]="2">
             <img width="18%" *ngIf="item.firma !== ''" style="transform:rotate(270deg);" [src]="item.firma"/>
           </td>

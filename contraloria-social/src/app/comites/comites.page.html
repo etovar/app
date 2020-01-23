@@ -27,7 +27,7 @@
               <ion-icon class="icono" name="trash"></ion-icon>
             </ion-button>
           </ion-item-option>
-          <ion-item-option *ngIf="row.statusEnviado === 1 && row.habilitado === 1 && fechaHoyFormat === row.agendaFecha" style="background-color: #ffffff">
+          <ion-item-option *ngIf="row.statusEnviado === 0 && row.habilitado === 1 && fechaHoyFormat === row.agendaFecha" style="background-color: #ffffff">
             <ion-button (click)="validarComite(row.idLocal, row.obraid, row.id, row.usuarioId, row.metodo, row.metodoContraloria)" size="medium" color="secondary">
               <ion-icon class="icono" name="cloud-upload"></ion-icon>
             </ion-button>

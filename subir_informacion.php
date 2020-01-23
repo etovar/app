@@ -68,19 +68,19 @@ if ($valida->RecordCount() > 0) {
         }
         if (sizeof($json->integracionComites) > 0) {
             foreach ($json->integracionComites as $integracionComitesOne) {
-                $integracionComitesQry="INSERT INTO comite_integracion(id_obra, id_comite, id_usuario, nombre_ejecutora, firma_ejecutora, nombre_normativa, firma_normativa) VALUES (" . $integracionComitesOne->id_obra . "," . $integracionComitesOne->id_comite . "," . $integracionComitesOne->descargado . ",'" . $integracionComitesOne->nombre_ejecutora . "','" . $integracionComitesOne->firma_ejecutora . "','" . $integracionComitesOne->nombre_normativa . "','" . $integracionComitesOne->firma_normativa . "')";
+                $integracionComitesQry="INSERT INTO comite_integracion(id_obra, id_comite, id_usuario, nombre_ejecutora, firma_ejecutora, nombre_normativa, firma_normativa, nombre_organo_estatal, cargo_organo_estatal, firma_organo_estatal) VALUES (" . $integracionComitesOne->id_obra . "," . $integracionComitesOne->id_comite . "," . $integracionComitesOne->descargado . ",'" . $integracionComitesOne->nombre_ejecutora . "','" . $integracionComitesOne->firma_ejecutora . "','" . $integracionComitesOne->nombre_normativa . "','" . $integracionComitesOne->firma_normativa . "','" . $integracionComitesOne->nombre_organo_estatal . "', '" . $integracionComitesOne->cargo_organo_estatal . "', '" . $integracionComitesOne->firma_organo_estatal . "')";
                 $inserIntegracionComites=$contraloriasocialDB->Execute($integracionComitesQry) or die($myObj->token = 2);
             }
         }
         if (sizeof($json->integranteIntegracion) > 0) {
             foreach ($json->integranteIntegracion as $integranteIntegracionOne) {
-                $integranteIntegracionQry="INSERT INTO comite_integrante_integracion(id_obra, id_comite, id_usuario, nombre, cargo, domicilio, telefono, firma) VALUES (" . $integranteIntegracionOne->id_obra . "," . $integranteIntegracionOne->id_comite . "," . $integranteIntegracionOne->descargado . ",'" . $integranteIntegracionOne->nombre . "','" . $integranteIntegracionOne->cargo . "','" . $integranteIntegracionOne->domicilio . "','" . $integranteIntegracionOne->telefono . "', '" . $integranteIntegracionOne->firma ."')";
+                $integranteIntegracionQry="INSERT INTO comite_integrante_integracion(id_obra, id_comite, id_usuario, nombre, cargo, domicilio, telefono, firma, genero, edad, curp, correo) VALUES (" . $integranteIntegracionOne->id_obra . "," . $integranteIntegracionOne->id_comite . "," . $integranteIntegracionOne->descargado . ",'" . $integranteIntegracionOne->nombre . "','" . $integranteIntegracionOne->cargo . "','" . $integranteIntegracionOne->domicilio . "','" . $integranteIntegracionOne->telefono . "', '" . $integranteIntegracionOne->firma ."', '" . $integranteIntegracionOne->genero . "', '" . $integranteIntegracionOne->edad . "', '" . $integranteIntegracionOne->curp . "', '" . $integranteIntegracionOne->correo . "')";
                 $insertIntegranteIntegracion=$contraloriasocialDB->Execute($integranteIntegracionQry) or die($myObj->token = 2);
             }
         }
         if (sizeof($json->testigoIntegracion) > 0) {
             foreach ($json->testigoIntegracion as $testigoIntegracionOne) {
-                $testigoIntegracionQry="INSERT INTO comite_testigo_integracion(id_obra, id_comite, id_usuario, nombre, firma) VALUES (" . $testigoIntegracionOne->id_obra . "," . $testigoIntegracionOne->id_comite . "," . $testigoIntegracionOne->descargado . ",'" . $testigoIntegracionOne->nombre . "', '" . $testigoIntegracionOne->firma ."')";
+                $testigoIntegracionQry="INSERT INTO comite_testigo_integracion(id_obra, id_comite, id_usuario, nombre, firma, genero, edad, curp, correo) VALUES (" . $testigoIntegracionOne->id_obra . "," . $testigoIntegracionOne->id_comite . "," . $testigoIntegracionOne->descargado . ",'" . $testigoIntegracionOne->nombre . "', '" . $testigoIntegracionOne->firma ."', '" . $integranteIntegracionOne->genero . "', '" . $integranteIntegracionOne->edad . "', '" . $integranteIntegracionOne->curp . "', '" . $integranteIntegracionOne->correo . "')";
                 $insertTtestigoIntegracion=$contraloriasocialDB->Execute($testigoIntegracionQry) or die($myObj->token = 2);
             }
         }
@@ -92,13 +92,13 @@ if ($valida->RecordCount() > 0) {
         }
         if (sizeof($json->integranteCapacitacion) > 0) {
             foreach ($json->integranteCapacitacion as $integranteCapacitacionOne) {
-                $integranteCapacitacionQry="INSERT INTO comite_integrante_capacitacion(id_obra, id_comite, id_usuario, nombre, edad, genero, domicilio, telefono, cargo, material_entregado, firma) VALUES (" . $integranteCapacitacionOne->id_obra . "," . $integranteCapacitacionOne->id_comite . "," . $integranteCapacitacionOne->descargado . ",'" . $integranteCapacitacionOne->nombre . "','" . $integranteCapacitacionOne->edad . "','" . $integranteCapacitacionOne->genero . "','" . $integranteCapacitacionOne->domicilio . "','" . $integranteCapacitacionOne->telefono . "','" . $integranteCapacitacionOne->cargo . "','" . $integranteCapacitacionOne->material_entregado . "','" . $integranteCapacitacionOne->firma . "')";
+                $integranteCapacitacionQry="INSERT INTO comite_integrante_capacitacion(id_obra, id_comite, id_usuario, nombre, edad, genero, domicilio, telefono, cargo, material_entregado, firma, curp, correo) VALUES (" . $integranteCapacitacionOne->id_obra . "," . $integranteCapacitacionOne->id_comite . "," . $integranteCapacitacionOne->descargado . ",'" . $integranteCapacitacionOne->nombre . "','" . $integranteCapacitacionOne->edad . "','" . $integranteCapacitacionOne->genero . "','" . $integranteCapacitacionOne->domicilio . "','" . $integranteCapacitacionOne->telefono . "','" . $integranteCapacitacionOne->cargo . "','" . $integranteCapacitacionOne->material_entregado . "','" . $integranteCapacitacionOne->firma . "','" . $integranteCapacitacionOne->curp . "','" . $integranteCapacitacionOne->correo . "')";
                 $insertIntegranteCapacitacion=$contraloriasocialDB->Execute($integranteCapacitacionQry) or die($myObj->token = 2);
             }
         }
         if (sizeof($json->participanteCapacitacion) > 0) {
             foreach ($json->participanteCapacitacion as $participanteCapacitacionOne) {
-                $participanteCapacitacionQry="INSERT INTO comite_participante_capacitacion(id_obra, id_comite, id_usuario, nombre, localidad, firma) VALUES (" . $participanteCapacitacionOne->id_obra . "," . $participanteCapacitacionOne->id_comite . "," . $participanteCapacitacionOne->descargado . ",'" . $participanteCapacitacionOne->nombre . "','" . $participanteCapacitacionOne->localidad . "','" . $participanteCapacitacionOne->firma . "')";
+                $participanteCapacitacionQry="INSERT INTO comite_participante_capacitacion(id_obra, id_comite, id_usuario, nombre, dependencia, firma, cargo, genero, edad, curp) VALUES (" . $participanteCapacitacionOne->id_obra . "," . $participanteCapacitacionOne->id_comite . "," . $participanteCapacitacionOne->descargado . ",'" . $participanteCapacitacionOne->nombre . "','" . $participanteCapacitacionOne->dependencia . "','" . $participanteCapacitacionOne->firma . "','" . $participanteCapacitacionOne->cargo . "','" . $participanteCapacitacionOne->genero . "','" . $participanteCapacitacionOne->edad . "','" . $participanteCapacitacionOne->curp . "')";
                 $insertParticipanteCapacitacion=$contraloriasocialDB->Execute($participanteCapacitacionQry) or die($myObj->token = 2);
             }
         }

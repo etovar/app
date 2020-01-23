@@ -35,6 +35,9 @@ export class GeneraIntegracionPage implements OnInit {
   cargoEjecutoraGrl: any;
   cargoNormativaGrl: any;
   firmaPresidenteGrl: any;
+  nombreOrganoEstatal: any;
+  cargoOrganoEstatal: any;
+  firmaOrganoEstatal: any;
   inicioObraGrl: any;
   finObraGrl: any;
   integrantesGrl = [];
@@ -75,6 +78,9 @@ export class GeneraIntegracionPage implements OnInit {
       this.nombreEjecutoraGrl = data2[0].nombreEjecutora;
       this.nombreNormativaGrl = data2[0].nombreNormativa;
       this.firmaNormativaGrl = data2[0].firmaNormativa;
+      this.firmaOrganoEstatal = data2[0].firmaOrganoEstatal;
+      this.nombreOrganoEstatal = data2[0].nombreOrganoEstatal;
+      this.cargoOrganoEstatal = data2[0].cargoOrganoEstatal;
     });
     this.database.GetIntegrantesActaIntegracion(this.idObra, this.idComite, this.idusuario, 'presidente').then((data3) => {
       this.firmaPresidenteGrl = data3[0].firma;

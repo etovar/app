@@ -217,7 +217,7 @@
   </ion-row>
   <ion-row>
     <ion-col>
-      <ion-input formControlName="nombreOrganoEstatal" [(ngModel)]="nombreOrganoEstatal" type="text" class="no-validation-line font-title"></ion-input>
+      <ion-input (ionBlur)="onChangeForm(capturarForm.value);" formControlName="nombreOrganoEstatal" [(ngModel)]="nombreOrganoEstatal" type="text" class="no-validation-line font-title"></ion-input>
     </ion-col>
   </ion-row>
   <ion-row>
@@ -227,7 +227,7 @@
   </ion-row>
   <ion-row>
     <ion-col>
-      <ion-input formControlName="cargoOrganoEstatal" [(ngModel)]="cargoOrganoEstatal" type="text" class="no-validation-line font-title"></ion-input>
+      <ion-input (ionBlur)="onChangeForm(capturarForm.value);" formControlName="cargoOrganoEstatal" [(ngModel)]="cargoOrganoEstatal" type="text" class="no-validation-line font-title"></ion-input>
     </ion-col>
   </ion-row>
   <ion-row (click)="firmarOrgano()">

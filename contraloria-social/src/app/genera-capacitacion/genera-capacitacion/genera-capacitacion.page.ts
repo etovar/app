@@ -81,18 +81,31 @@ export class GeneraCapacitacionPage implements OnInit {
     this.depNormativa = data[0].ejecutora;
   });
     this.database.GetActaCapacitacionGrlInfo(this.idObra, this.idComite, this.idusuario).then((data) => {
-      if (data[0].observaciones === 'undefined') {
+      let tmpData: any;
+      tmpData = data;
+      if (tmpData.length === 0) {
         this.observaciones = '';
       } else {
-        this.observaciones = data[0].observaciones;
+        if (data[0].observaciones === undefined) {
+          this.observaciones = '';
+          this.constituyo = data[0].constituyo;
+          this.pregunta1 = null;
+          this.pregunta2 = null;
+          this.pregunta3 = null;
+          this.pregunta4 = null;
+          this.pregunta5 = null;
+          this.pregunta6 = null;
+        } else {
+          this.observaciones = data[0].observaciones;
+          this.constituyo = data[0].constituyo;
+          this.pregunta1 = data[0].pregunta1;
+          this.pregunta2 = data[0].pregunta2;
+          this.pregunta3 = data[0].pregunta3;
+          this.pregunta4 = data[0].pregunta4;
+          this.pregunta5 = data[0].pregunta5;
+          this.pregunta6 = data[0].pregunta6;
+        }
       }
-      this.constituyo = data[0].constituyo;
-      this.pregunta1 = data[0].pregunta1;
-      this.pregunta2 = data[0].pregunta2;
-      this.pregunta3 = data[0].pregunta3;
-      this.pregunta4 = data[0].pregunta4;
-      this.pregunta5 = data[0].pregunta5;
-      this.pregunta6 = data[0].pregunta6;
   });
     this.database.GetIntegrantesActaCapacitacion(this.idObra, this.idComite, this.idusuario).then((data) => {
       let numIntegrantes = 0;

@@ -18,7 +18,6 @@ export class AgregarParticipantePage implements OnInit {
   genero: any;
   edad: any;
   curp: any;
-  correo: any;
   firma: any;
   tipo: any;
   participante: any;
@@ -32,10 +31,11 @@ export class AgregarParticipantePage implements OnInit {
   normativaNombre: any;
   metodoContraloria: any;
   nombreParticipante: any;
-  localidad: any;
   fechaEnRango: any;
   moduloOrigen: any;
   agendaFecha: any;
+  dependencia: any;
+  cargo: any;
   // tslint:disable-next-line:max-line-length
   constructor(private database: BdService, private formBuilder: FormBuilder, public navCtrl: NavController, public modalController: ModalController, private plt: Platform, private location: Location, private menu: MenuController, public activatedRoute: ActivatedRoute) {
     /*this.plt.backButton.subscribe(() => {
@@ -66,22 +66,22 @@ export class AgregarParticipantePage implements OnInit {
     });
     this.agregarForm = this.formBuilder.group({
         nombreParticipante: ['', [Validators.required]],
-        localidad: ['', [Validators.required]],
+        dependencia: ['', [Validators.required]],
         genero: ['', [Validators.required]],
         edad: ['', [Validators.required]],
         curp: ['', []],
-        correo: ['', []]
+        cargo: ['', [Validators.required]]
     }, {});
 
     if (this.participante) {
       this.database.GetParticipanteCapacitacionDetalle(this.idobra, this.idcomite, this.userid, this.participante).then((data) => {
         this.nombreParticipante = data[0].nombre;
-        this.localidad = data[0].localidad;
+        this.dependencia = data[0].dependencia;
         this.firma = data[0].firma;
         this.genero = data[0].genero;
         this.edad = data[0].edad;
         this.curp = data[0].curp;
-        this.correo = data[0].correo;
+        this.cargo = data[0].cargo;
       });
     }
   }
@@ -108,7 +108,7 @@ export class AgregarParticipantePage implements OnInit {
   guardar(value: any) {
     if (this.participante) {
       // tslint:disable-next-line:max-line-length
-      this.database.ActualizarParticipanteCapacitacion(value.nombreParticipante, value.localidad, this.firma, this.idobra, this.idcomite, this.userid, this.participante, value.genero, value.edad, value.curp, value.correo);
+      this.database.ActualizarParticipanteCapacitacion(value.nombreParticipante, value.dependencia, this.firma, this.idobra, this.idcomite, this.userid, this.participante, value.genero, value.edad, value.curp, value.cargo);
       this.navCtrl.navigateRoot('captura-capacitacion', {
       queryParams: {
          obra: this.obra,
@@ -129,7 +129,7 @@ export class AgregarParticipantePage implements OnInit {
    });
     } else {
       // tslint:disable-next-line:max-line-length
-      this.database.GuardarParticipanteCapacitacion(value.nombreParticipante, value.localidad, this.firma, this.idobra, this.idcomite, this.userid, value.genero, value.edad, value.curp, value.correo);
+      this.database.GuardarParticipanteCapacitacion(value.nombreParticipante, value.dependencia, this.firma, this.idobra, this.idcomite, this.userid, value.genero, value.edad, value.curp, value.cargo);
       this.navCtrl.navigateRoot('captura-capacitacion', {
       queryParams: {
          obra: this.obra,

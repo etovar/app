@@ -75,7 +75,7 @@ export class BdService {
         // tslint:disable-next-line:max-line-length
         db.executeSql('CREATE TABLE IF NOT EXISTS integrante_capacitacion (id INTEGER PRIMARY KEY AUTOINCREMENT, edad TEXT, genero TEXT, nombre TEXT, domicilio TEXT, telefono TEXT, cargo TEXT, material_entregado TEXT, firma TEXT, id_obra INTEGER, id_comite INTEGER, descargado INTEGER, curp TEXT, correo TEXT) ', []);
         // tslint:disable-next-line:max-line-length
-        db.executeSql('CREATE TABLE IF NOT EXISTS participante_capacitacion (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT, localidad TEXT, firma TEXT, id_obra INTEGER, id_comite INTEGER, descargado INTEGER, genero TEXT, edad INTEGER, curp TEXT, correo TEXT)', []);
+        db.executeSql('CREATE TABLE IF NOT EXISTS participante_capacitacion (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT, dependencia TEXT, firma TEXT, id_obra INTEGER, id_comite INTEGER, descargado INTEGER, genero TEXT, edad INTEGER, curp TEXT, cargo TEXT)', []);
         // tslint:disable-next-line:max-line-length
         db.executeSql('CREATE TABLE IF NOT EXISTS capacitacion_comites (id INTEGER PRIMARY KEY AUTOINCREMENT, constituyo TEXT, observaciones TEXT, pregunta1 TEXT, pregunta2 TEXT, pregunta3 TEXT, pregunta4 TEXT, pregunta5 TEXT, pregunta6 TEXT, firma TEXT, id_obra INTEGER, id_comite INTEGER, descargado INTEGER)', []);
         this.isOpen = true;
@@ -89,7 +89,7 @@ export class BdService {
       const qry4 = 'SELECT * FROM comites';
       this.db.executeSql(qry4, []).then((data4) => {
         console.log(data4);
-        const qry5 = 'SELECT * FROM participante_capacitacion';
+        const qry5 = 'SELECT * FROM obras';
         this.db.executeSql(qry5, []).then((data5) => {
           console.log(data5);
         });
@@ -238,13 +238,13 @@ export class BdService {
     }
 
     // tslint:disable-next-line:max-line-length
-    ActualizarParticipanteCapacitacion(nombre: any, localidad: any, firma: any, idobra: any, idcomite: any, iduser: any, participante: any, genero: any, edad: any, curp: any, correo: any) {
+    ActualizarParticipanteCapacitacion(nombre: any, dependencia: any, firma: any, idobra: any, idcomite: any, iduser: any, participante: any, genero: any, edad: any, curp: any, cargo: any) {
       // tslint:disable-next-line:no-shadowed-variable
       return new Promise ((resolve, reject) => {
         // tslint:disable-next-line:max-line-length
-        const sql = 'UPDATE participante_capacitacion SET nombre = ?, localidad = ?, firma = ?, genero = ?, edad = ?, curp = ?, correo = ? WHERE id = ?';
+        const sql = 'UPDATE participante_capacitacion SET nombre = ?, dependencia = ?, firma = ?, genero = ?, edad = ?, curp = ?, cargo = ? WHERE id = ?';
         // tslint:disable-next-line:max-line-length
-        this.db.executeSql(sql, [nombre, localidad, firma, genero, edad, curp, correo, participante]).then((data) => {
+        this.db.executeSql(sql, [nombre, dependencia, firma, genero, edad, curp, cargo, participante]).then((data) => {
           resolve(data);
         }, (error) => {
           reject(error);
@@ -253,13 +253,13 @@ export class BdService {
     }
 
     // tslint:disable-next-line:max-line-length
-    GuardarParticipanteCapacitacion(nombre: any, localidad: any, firma: any, idobra: any, idcomite: any, iduser: any, genero: any, edad: any, curp: any, correo: any) {
+    GuardarParticipanteCapacitacion(nombre: any, dependencia: any, firma: any, idobra: any, idcomite: any, iduser: any, genero: any, edad: any, curp: any, cargo: any) {
       // tslint:disable-next-line:no-shadowed-variable
       return new Promise ((resolve, reject) => {
         // tslint:disable-next-line:max-line-length
-        const sql = 'INSERT INTO participante_capacitacion (nombre, localidad, firma, id_obra, id_comite, descargado, genero, edad, curp, correo) VALUES (?, ?, ?, ?, ?, ?, ? ,?, ?, ?)';
+        const sql = 'INSERT INTO participante_capacitacion (nombre, dependencia, firma, id_obra, id_comite, descargado, genero, edad, curp, cargo) VALUES (?, ?, ?, ?, ?, ?, ? ,?, ?, ?)';
         // tslint:disable-next-line:max-line-length
-        this.db.executeSql(sql, [nombre, localidad, firma, idobra, idcomite, iduser, genero, edad, curp, correo]).then((data) => {
+        this.db.executeSql(sql, [nombre, dependencia, firma, idobra, idcomite, iduser, genero, edad, curp, cargo]).then((data) => {
           resolve(data);
         }, (error) => {
           reject(error);
@@ -309,7 +309,7 @@ export class BdService {
   // tslint:disable-next-line:prefer-const
   let arrayParticipanteDetalles = [];
   // tslint:disable-next-line:max-line-length
-  const qry = 'SELECT id, nombre, localidad, firma, genero, edad, curp, correo FROM participante_capacitacion WHERE id = ' + participante + ' AND descargado = ' + iduser + ' AND id_obra = ' + idobra + ' AND id_comite = ' + idcomite ;
+  const qry = 'SELECT id, nombre, dependencia, firma, genero, edad, curp, cargo FROM participante_capacitacion WHERE id = ' + participante + ' AND descargado = ' + iduser + ' AND id_obra = ' + idobra + ' AND id_comite = ' + idcomite ;
   // tslint:disable-next-line:no-shadowed-variable
   return new Promise ((resolve, reject) => {
   this.db.executeSql(qry, []).then((data) => {
@@ -318,12 +318,12 @@ export class BdService {
         arrayParticipanteDetalles.push({
           id: data.rows.item(i).id,
           nombre: data.rows.item(i).nombre,
-          localidad: data.rows.item(i).localidad,
+          dependencia: data.rows.item(i).dependencia,
           firma: data.rows.item(i).firma,
           genero: data.rows.item(i).genero,
           edad: data.rows.item(i).edad,
           curp: data.rows.item(i).curp,
-          correo: data.rows.item(i).correo
+          cargo: data.rows.item(i).cargo
         });
       }
     }
@@ -818,7 +818,7 @@ export class BdService {
                   idLocal: data.rows.item(i).id,
                   id: data.rows.item(i).id_comite,
                   usuarioOntraloria: data.rows.item(i).contraloria_usuario_id,
-                  usuarioId: data.rows.item(i).usuario_id,
+                  usuarioId: data.rows.item(i).descargado,
                   agendaConfirmada: data.rows.item(i).agenda_confirmada,
                   origen: data.rows.item(i).origen,
                   metodo: data.rows.item(i).metodo,
@@ -842,7 +842,7 @@ export class BdService {
                   idLocal: data.rows.item(i).id,
                   id: data.rows.item(i).id_comite,
                   usuarioOntraloria: data.rows.item(i).contraloria_usuario_id,
-                  usuarioId: data.rows.item(i).usuario_id,
+                  usuarioId: data.rows.item(i).descargado,
                   agendaConfirmada: data.rows.item(i).agenda_confirmada,
                   origen: data.rows.item(i).origen,
                   metodo: data.rows.item(i).metodo,
@@ -889,8 +889,8 @@ export class BdService {
               }
 
               // tslint:disable-next-line:max-line-length
-              this.GetAgendaConfirmada(data.rows.item(i).obra_id, data.rows.item(i).id_comite, data.rows.item(i).usuario_id).then(async (dat) => {
-                this.GetObraInfo(data.rows.item(i).obra_id, data.rows.item(i).usuario_id).then(async (dat2) => {
+              this.GetAgendaConfirmada(data.rows.item(i).obra_id, data.rows.item(i).id_comite, idusuario).then(async (dat) => {
+                this.GetObraInfo(data.rows.item(i).obra_id, idusuario).then(async (dat2) => {
 
                   const agendaConfirmada = dat;
                   this.metodoIntegracionActa = null;
@@ -928,7 +928,7 @@ export class BdService {
                   idLocal: data.rows.item(i).id,
                   id: data.rows.item(i).id_comite,
                   usuarioOntraloria: data.rows.item(i).contraloria_usuario_id,
-                  usuarioId: data.rows.item(i).usuario_id,
+                  usuarioId: data.rows.item(i).descargado,
                   agendaConfirmada: data.rows.item(i).agenda_confirmada,
                   origen: data.rows.item(i).origen,
                   metodo: data.rows.item(i).metodo,
@@ -977,8 +977,8 @@ export class BdService {
               }
 
               // tslint:disable-next-line:max-line-length
-              this.GetAgendaConfirmada(data.rows.item(i).obra_id, data.rows.item(i).id_comite, data.rows.item(i).usuario_id).then(async (dat) => {
-                this.GetObraInfo(data.rows.item(i).obra_id, data.rows.item(i).usuario_id).then(async (dat2) => {
+              this.GetAgendaConfirmada(data.rows.item(i).obra_id, data.rows.item(i).id_comite, idusuario).then(async (dat) => {
+                this.GetObraInfo(data.rows.item(i).obra_id, idusuario).then(async (dat2) => {
 
                   const agendaConfirmada = dat;
                   this.metodoIntegracionActa = null;
@@ -1016,7 +1016,7 @@ export class BdService {
                   idLocal: data.rows.item(i).id,
                   id: data.rows.item(i).id_comite,
                   usuarioOntraloria: data.rows.item(i).contraloria_usuario_id,
-                  usuarioId: data.rows.item(i).usuario_id,
+                  usuarioId: data.rows.item(i).descargado,
                   agendaConfirmada: data.rows.item(i).agenda_confirmada,
                   origen: data.rows.item(i).origen,
                   metodo: data.rows.item(i).metodo,
@@ -1064,8 +1064,8 @@ export class BdService {
             tipoContraloriaDisplay = data.rows.item(i).metodo;
             }
             // tslint:disable-next-line:max-line-length
-            this.GetAgendaConfirmada(data.rows.item(i).obra_id, data.rows.item(i).id_comite, data.rows.item(i).usuario_id).then(async (dat) => {
-              this.GetObraInfo(data.rows.item(i).obra_id, data.rows.item(i).usuario_id).then(async (dat2) => {
+            this.GetAgendaConfirmada(data.rows.item(i).obra_id, data.rows.item(i).id_comite, idusuario).then(async (dat) => {
+              this.GetObraInfo(data.rows.item(i).obra_id, idusuario).then(async (dat2) => {
                 const agendaConfirmada = dat;
                 this.metodoIntegracionActa = null;
                 this.metodoCapacitacionActa = null;
@@ -1102,7 +1102,7 @@ export class BdService {
               idLocal: data.rows.item(i).id,
               id: data.rows.item(i).id_comite,
               usuarioOntraloria: data.rows.item(i).contraloria_usuario_id,
-              usuarioId: data.rows.item(i).usuario_id,
+              usuarioId: data.rows.item(i).descargado,
               agendaConfirmada: data.rows.item(i).agenda_confirmada,
               origen: data.rows.item(i).origen,
               metodo: data.rows.item(i).metodo,
@@ -1453,6 +1453,38 @@ export class BdService {
       });
     }
 
+    GuardarIntegracionComiteChange(nombreOrganoEstatal, cargoOrganoEstatal, obraid, idcomite, userid) {
+        // tslint:disable-next-line:no-shadowed-variable
+        return new Promise ((resolve, reject) => {
+          // tslint:disable-next-line:max-line-length
+          const sql = 'SELECT id FROM integracion_comites WHERE id_comite = ' + idcomite + ' AND id_obra = ' + obraid + ' AND descargado = ' + userid + '';
+          // tslint:disable-next-line:max-line-length
+          this.db.executeSql(sql, []).then((data) => {
+            if (data.rows.length > 0) {
+              // tslint:disable-next-line:max-line-length
+              const sql2 = 'UPDATE integracion_comites SET nombre_organo_estatal = "' + nombreOrganoEstatal + '", cargo_organo_estatal = "' + cargoOrganoEstatal + '" WHERE id = ' + data.rows.item(0).id + '';
+              // tslint:disable-next-line:max-line-length
+              this.db.executeSql(sql2, []).then((data2) => {
+                  resolve(data2);
+                }, (error) => {
+                  reject(error);
+              });
+            } else {
+              // tslint:disable-next-line:max-line-length
+              const sql2 = 'INSERT INTO integracion_comites (id_obra, id_comite, nombre_organo_estatal, cargo_organo_estatal, descargado) VALUES (?, ?, ?, ?, ?)';
+              // tslint:disable-next-line:max-line-length
+              this.db.executeSql(sql2, [obraid, idcomite, nombreOrganoEstatal, cargoOrganoEstatal, userid]).then((data2) => {
+                  resolve(data2);
+              }, (error) => {
+                reject(error);
+              });
+            }
+          }, (error) => {
+            reject(error);
+          });
+          });
+    }
+
       // tslint:disable-next-line:max-line-length
     GuardarIntegracionComiteFirmas(obraid, idcomite, userid, nombreEjecutora, firmaEjecutora,  nombreNormativa, firmaNormativa, firmaOrganoEstatal) {
       if (firmaOrganoEstatal !== null) {
@@ -1684,7 +1716,8 @@ export class BdService {
     return new Promise ((resolve, reject) => {
       this.db.executeSql(qryIntegracionFirmas, []).then((dataIntegracionFirmas) => {
         if (dataIntegracionFirmas.rows.length > 0) {
-          if (dataIntegracionFirmas.rows.item(0).firma_ejecutora !== null && dataIntegracionFirmas.rows.item(0).firma_normativa !== null) {
+          // tslint:disable-next-line:max-line-length
+          if (dataIntegracionFirmas.rows.item(0).firma_ejecutora !== null /* && dataIntegracionFirmas.rows.item(0).firma_normativa !== null */) {
             completo = 0;
           } else {
             completo = 1;
@@ -2106,7 +2139,7 @@ export class BdService {
     // tslint:disable-next-line:prefer-const
     let infoObraActa = [];
     // tslint:disable-next-line:max-line-length
-    const qry = 'SELECT nombre_ejecutora, firma_ejecutora, nombre_normativa, firma_normativa FROM integracion_comites WHERE descargado = ' + idUsuario + ' AND id_comite = ' + idComite;
+    const qry = 'SELECT nombre_ejecutora, firma_ejecutora, nombre_normativa, firma_normativa, nombre_organo_estatal, cargo_organo_estatal, firma_organo_estatal FROM integracion_comites WHERE descargado = ' + idUsuario + ' AND id_comite = ' + idComite;
     // tslint:disable-next-line:no-shadowed-variable
     return new Promise ((resolve, reject) => {
     this.db.executeSql(qry, []).then((data) => {
@@ -2116,7 +2149,10 @@ export class BdService {
               nombreEjecutora: data.rows.item(i).nombre_ejecutora,
               firmaEjecutora: data.rows.item(i).firma_ejecutora,
               nombreNormativa: data.rows.item(i).nombre_normativa,
-              firmaNormativa: data.rows.item(i).firma_normativa
+              firmaNormativa: data.rows.item(i).firma_normativa,
+              nombreOrganoEstatal: data.rows.item(i).nombre_organo_estatal,
+              cargoOrganoEstatal: data.rows.item(i).cargo_organo_estatal,
+              firmaOrganoEstatal: data.rows.item(i).firma_organo_estatal
             });
           }
       } else {
@@ -2124,7 +2160,10 @@ export class BdService {
           nombreEjecutora: '',
           firmaEjecutora: null,
           nombreNormativa: '',
-          firmaNormativa: null
+          firmaNormativa: null,
+          nombreOrganoEstatal: '',
+          cargoOrganoEstatal: '',
+          firmaOrganoEstatal: null
         });
       }
       resolve(infoObraActa);
@@ -2243,7 +2282,7 @@ export class BdService {
       // tslint:disable-next-line:prefer-const
       let presidenteActaGrl = [];
       // tslint:disable-next-line:max-line-length
-      const qry = 'SELECT id, nombre, localidad, firma, id_obra, id_comite, descargado, genero, edad, curp, correo FROM participante_capacitacion WHERE descargado = ' + idUsuario + ' AND id_comite = ' + idComite;
+      const qry = 'SELECT id, nombre, dependencia, firma, id_obra, id_comite, descargado, genero, edad, curp, cargo FROM participante_capacitacion WHERE descargado = ' + idUsuario + ' AND id_comite = ' + idComite;
       // tslint:disable-next-line:no-shadowed-variable
       return new Promise ((resolve, reject) => {
       this.db.executeSql(qry, []).then((data) => {
@@ -2252,12 +2291,12 @@ export class BdService {
               infoObraActa.push({
                 id: data.rows.item(i).id,
                 nombre: data.rows.item(i).nombre,
-                localidad: data.rows.item(i).localidad,
+                dependencia: data.rows.item(i).dependencia,
                 firma: data.rows.item(i).firma,
                 genero: data.rows.item(i).genero,
                 edad: data.rows.item(i).edad,
                 curp: data.rows.item(i).curp,
-                correo: data.rows.item(i).correo
+                cargo: data.rows.item(i).cargo
               });
             }
         } else {

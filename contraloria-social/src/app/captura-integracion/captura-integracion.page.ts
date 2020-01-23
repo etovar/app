@@ -99,6 +99,17 @@ export class CapturaIntegracionPage implements OnInit {
     this.cargarCapturaIntegracion();
   }
 
+  onChangeForm(value: any, elemento: any) {
+    if (elemento === 'nombreOrganoEstatal') {
+      this.nombreOrganoEstatal = value.detail.value;
+    }
+    if (elemento === 'cargoOrganoEstatal') {
+      this.cargoOrganoEstatal = value.detail.value;
+    }
+    // tslint:disable-next-line:max-line-length
+    this.database.GuardarIntegracionComiteChange(this.nombreOrganoEstatal, this.cargoOrganoEstatal, this.obraid, this.idcomite, this.userid);
+  }
+
   cargarTestigos() {
     this.nombreTestigoUno = this.nombreTestigoUno = null;
     this.idTestigoUno = this.idTestigoDos = null;
