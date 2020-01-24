@@ -63,7 +63,7 @@ if ($valida->RecordCount() > 0) {
     if($rol == 1) {// ejecutora
         $qryComites = "SELECT comites.contraloria_usuario_id, comites.agenda_confirmada, obras.origen, comites.id_comite, comites.num_comite, comites.metodo, comites.obra_id, comites.status, comites.agenda_fecha, comites.agenda_hora_inicio,
         comites.agenda_hora_fin, comites.usuario_id, obras.id_obra, obras.fondo, comites.representante_dependencia_normativa AS normativa, comites.metodo_contraloria, comites.token,
-        (SELECT (usuarios.nombres || ' ' || usuarios.apellido_p || ' ' || usuarios.apellido_m) FROM usuarios WHERE comites.contraloria_usuario_id = usuarios.id_usuario) as contraloria_asistente FROM comites, obras WHERE comites.usuario_id = ". $idUsuario ." AND
+        (SELECT (usuarios.nombres || ' ' || usuarios.apellido_p || ' ' || usuarios.apellido_m) FROM usuarios WHERE comites.contraloria_usuario_id = usuarios.id_usuario) as contraloria_asistente, comites.cargo_dependencia_normativa FROM comites, obras WHERE comites.usuario_id = ". $idUsuario ." AND
         comites.agenda_fecha BETWEEN '". $fechaInicio ."' AND '" . $fechaFin ."' AND obras.id_obra = comites.obra_id AND comites.id_comite NOT IN (SELECT id_comite FROM comite_app WHERE id_usuario = " . $idUsuario . " AND status_comite = 'subido' AND rol = " . $rol . ")";
         $comites = $contraloriasocialDB->SelectLimit($qryComites) or die($contraloriasocialDB->ErrorMsg());
         while(!$comites->EOF) {
@@ -94,7 +94,8 @@ if ($valida->RecordCount() > 0) {
                             'contraloria_asistente' => $comites->Fields('contraloria_asistente'),
                             'token' => $comites->Fields('token'),
                             'cargo_normativa' => $qryCargoNormativaResult->Fields('cargo'),
-                            'cargo_ejecutora' => $qryCargoEjecutoraResult->Fields('cargo')
+                            'cargo_ejecutora' => $qryCargoEjecutoraResult->Fields('cargo'),
+                            'cargo_dependencia_normativa' => $comites->Fields('cargo_dependencia_normativa')
                         );
                         array_push($arrayObras,$comites->Fields('obra_id'));
                         $arrayComites[$i] = $arrayComitesRegistro;
@@ -121,7 +122,8 @@ if ($valida->RecordCount() > 0) {
                         'contraloria_asistente' => $comites->Fields('contraloria_asistente'),
                         'token' => $comites->Fields('token'),
                         'cargo_normativa' => $qryCargoNormativaResult->Fields('cargo'),
-                        'cargo_ejecutora' => $qryCargoEjecutoraResult->Fields('cargo')
+                        'cargo_ejecutora' => $qryCargoEjecutoraResult->Fields('cargo'),
+                        'cargo_dependencia_normativa' => $comites->Fields('cargo_dependencia_normativa')
                     );
                     array_push($arrayObras,$comites->Fields('obra_id'));
                     $arrayComites[$i] = $arrayComitesRegistro;
@@ -136,7 +138,7 @@ if ($valida->RecordCount() > 0) {
     if($rol == 2) {// contraloria
         $qryComites = "SELECT comites.contraloria_usuario_id, comites.agenda_confirmada, obras.origen, comites.id_comite, comites.num_comite, comites.metodo, comites.obra_id, comites.status, comites.agenda_fecha, comites.agenda_hora_inicio,
         comites.agenda_hora_fin, comites.usuario_id, obras.id_obra, obras.fondo, fondos.norma_cs_aplica, comites.representante_dependencia_normativa AS normativa, comites.metodo_contraloria, comites.token,
-        (SELECT (usuarios.nombres || ' ' || usuarios.apellido_p || ' ' || usuarios.apellido_m) FROM usuarios WHERE comites.contraloria_usuario_id = usuarios.id_usuario) as contraloria_asistente  FROM comites, obras, fondos WHERE comites.contraloria_usuario_id = ". $idUsuario ." AND
+        (SELECT (usuarios.nombres || ' ' || usuarios.apellido_p || ' ' || usuarios.apellido_m) FROM usuarios WHERE comites.contraloria_usuario_id = usuarios.id_usuario) as contraloria_asistente, comites.cargo_dependencia_normativa  FROM comites, obras, fondos WHERE comites.contraloria_usuario_id = ". $idUsuario ." AND
         comites.agenda_fecha BETWEEN '". $fechaInicio ."' AND '" . $fechaFin ."' AND obras.id_obra = comites.obra_id AND obras.fondo = fondos.fondo AND comites.id_comite NOT IN (SELECT id_comite FROM comite_app WHERE id_usuario = " . $idUsuario . " AND status_comite = 'subido' AND rol = " . $rol . ")";
         $comites = $contraloriasocialDB->SelectLimit($qryComites) or die($contraloriasocialDB->ErrorMsg());
         while(!$comites->EOF) {
@@ -167,7 +169,8 @@ if ($valida->RecordCount() > 0) {
                             'contraloria_asistente' => $comites->Fields('contraloria_asistente'),
                             'token' => $comites->Fields('token'),
                             'cargo_normativa' => $qryCargoNormativaResult->Fields('cargo'),
-                            'cargo_ejecutora' => $qryCargoEjecutoraResult->Fields('cargo')
+                            'cargo_ejecutora' => $qryCargoEjecutoraResult->Fields('cargo'),
+                            'cargo_dependencia_normativa' => $comites->Fields('cargo_dependencia_normativa')                                                                                                                    
                         );
                         array_push($arrayObras,$comites->Fields('obra_id'));
                         $arrayComites[$i] = $arrayComitesRegistro;

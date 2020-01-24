@@ -63,7 +63,7 @@ export class BdService {
         // tslint:disable-next-line:max-line-length
         db.executeSql('CREATE TABLE IF NOT EXISTS obras (id INTEGER PRIMARY KEY AUTOINCREMENT, id_obra INTEGER, num_obra INTEGER, nombre_obra TEXT, mmunicipio TEXT, localidad TEXT, status_obra TEXT, monto_aprobado INTEGER, fondo INTEGER, ejecutora TEXT, normativa TEXT, inicio_obra TEXT, termino_obra TEXT, descargado INTEGER, lat INTEGER, lon INTEGER, tipofondo TEXT, token TEXT, programa TEXT, comites_enviados INTEGER DEFAULT 0)', []);
         // tslint:disable-next-line:max-line-length
-        db.executeSql('CREATE TABLE IF NOT EXISTS comites (id INTEGER PRIMARY KEY AUTOINCREMENT, contraloria_usuario_id INTEGER, agenda_confirmada INTEGER, origen TEXT, id_comite INTEGER, num_comite INTEGER, metodo TEXT, obra_id INTEGER, status TEXT, agenda_fecha TEXT, agenda_hora_inicio TEXT, agenda_hora_fin TEXT, usuario_id INTEGER, id_obra INTEGER, fondo TEXT, norma_cs_aplica TEXT, descargado INTEGER, normativa TEXT, metodo_contraloria TEXT, contraloria_asistente TEXT, habilitado INTEGER, token TEXT, status_enviado INTEGER DEFAULT 0, fecha_envio TEXT, cargo_ejecutora TEXT, cargo_normativa TEXT)', []);
+        db.executeSql('CREATE TABLE IF NOT EXISTS comites (id INTEGER PRIMARY KEY AUTOINCREMENT, contraloria_usuario_id INTEGER, agenda_confirmada INTEGER, origen TEXT, id_comite INTEGER, num_comite INTEGER, metodo TEXT, obra_id INTEGER, status TEXT, agenda_fecha TEXT, agenda_hora_inicio TEXT, agenda_hora_fin TEXT, usuario_id INTEGER, id_obra INTEGER, fondo TEXT, norma_cs_aplica TEXT, descargado INTEGER, normativa TEXT, metodo_contraloria TEXT, contraloria_asistente TEXT, habilitado INTEGER, token TEXT, status_enviado INTEGER DEFAULT 0, fecha_envio TEXT, cargo_ejecutora TEXT, cargo_normativa TEXT, cargo_dependencia_normativa TEXT)', []);
         // tslint:disable-next-line:max-line-length
         db.executeSql('CREATE TABLE IF NOT EXISTS evidencias (id INTEGER PRIMARY KEY AUTOINCREMENT, imagen TEXT, modulo TEXT, accion TEXT, id_obra INTEGER, id_comite INTEGER, descargado INTEGER, fecha TEXT, lat TEXT, lon TEXT)', []);
         // tslint:disable-next-line:max-line-length
@@ -595,13 +595,13 @@ export class BdService {
     }
 
     // tslint:disable-next-line:max-line-length
-    InsertarComite(identification: number, contraloriausuarioid: any, agendaconfirmada: any, origen: any, idcomite: any, numcomite: any, metodo: any, obraid: any, status: any, agendafecha: any, agendahorainicio: any, agendahorafin: any, usuarioid: any, idobra: any, fondo: any, normacsaplica: any, descargado: any, normativa: any, metodoContraloria: any, contraloriaAsistente: any, token: any, cargoEjecutora: any, cargoNormativa: any) {
+    InsertarComite(identification: number, contraloriausuarioid: any, agendaconfirmada: any, origen: any, idcomite: any, numcomite: any, metodo: any, obraid: any, status: any, agendafecha: any, agendahorainicio: any, agendahorafin: any, usuarioid: any, idobra: any, fondo: any, normacsaplica: any, descargado: any, normativa: any, metodoContraloria: any, contraloriaAsistente: any, token: any, cargoEjecutora: any, cargoNormativa: any, cargoDependenciaNormativa: any) {
       // tslint:disable-next-line:no-shadowed-variable
       return new Promise ((resolve, reject) => {
       // tslint:disable-next-line:max-line-length
-      const sql = 'INSERT INTO comites (contraloria_usuario_id, agenda_confirmada, origen, id_comite, num_comite, metodo, obra_id, status, agenda_fecha, agenda_hora_inicio, agenda_hora_fin, usuario_id, id_obra, fondo, norma_cs_aplica, descargado, normativa, metodo_contraloria, contraloria_asistente, habilitado, token, cargo_ejecutora, cargo_normativa) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+      const sql = 'INSERT INTO comites (contraloria_usuario_id, agenda_confirmada, origen, id_comite, num_comite, metodo, obra_id, status, agenda_fecha, agenda_hora_inicio, agenda_hora_fin, usuario_id, id_obra, fondo, norma_cs_aplica, descargado, normativa, metodo_contraloria, contraloria_asistente, habilitado, token, cargo_ejecutora, cargo_normativa, cargo_dependencia_normativa) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
       // tslint:disable-next-line:max-line-length
-      this.db.executeSql(sql, [contraloriausuarioid, agendaconfirmada, origen, idcomite, numcomite, metodo, obraid, status, agendafecha, agendahorainicio, agendahorafin, usuarioid, idobra, fondo, normacsaplica, descargado, normativa, metodoContraloria, contraloriaAsistente, 0, token, cargoEjecutora, cargoNormativa]).then((data) => {
+      this.db.executeSql(sql, [contraloriausuarioid, agendaconfirmada, origen, idcomite, numcomite, metodo, obraid, status, agendafecha, agendahorainicio, agendahorafin, usuarioid, idobra, fondo, normacsaplica, descargado, normativa, metodoContraloria, contraloriaAsistente, 0, token, cargoEjecutora, cargoNormativa, cargoDependenciaNormativa]).then((data) => {
         resolve(data);
       }, (error) => {
         reject(error);
@@ -1320,9 +1320,9 @@ export class BdService {
       // tslint:disable-next-line:no-shadowed-variable
       return new Promise ((resolve, reject) => {
         // tslint:disable-next-line:max-line-length
-        const sql = 'UPDATE comites SET contraloria_usuario_id = ?, agenda_confirmada = ?, metodo = ?, status = ?, agenda_fecha = ?, agenda_hora_inicio = ?, agenda_hora_fin = ?, usuario_id = ?, fondo = ?, contraloria_asistente = ?, metodo_contraloria = ?, token = ?, normativa = ?, norma_cs_aplica = ?, cargo_ejecutora = ?, cargo_normativa = ? WHERE id_comite = ? AND obra_id = ? AND descargado = ?';
+        const sql = 'UPDATE comites SET contraloria_usuario_id = ?, agenda_confirmada = ?, metodo = ?, status = ?, agenda_fecha = ?, agenda_hora_inicio = ?, agenda_hora_fin = ?, usuario_id = ?, fondo = ?, contraloria_asistente = ?, metodo_contraloria = ?, token = ?, normativa = ?, norma_cs_aplica = ?, cargo_ejecutora = ?, cargo_normativa = ?, cargo_dependencia_normativa = ? WHERE id_comite = ? AND obra_id = ? AND descargado = ?';
         // tslint:disable-next-line:max-line-length
-        this.db.executeSql(sql, [comiteInformacion.contraloria_usuario_id, comiteInformacion.agenda_confirmada, comiteInformacion.metodo, comiteInformacion.status, comiteInformacion.agenda_fecha, comiteInformacion.agenda_hora_inicio, comiteInformacion.agenda_hora_fin, comiteInformacion.usuario_id, comiteInformacion.fondo, comiteInformacion.contraloria_asistente, comiteInformacion.metodo_contraloria, comiteInformacion.token, comiteInformacion.normativa, comiteInformacion.fondo, comiteInformacion.cargo_ejecutora, comiteInformacion.cargo_normativa, idComite, idObra, idUsuario]).then((data) => {
+        this.db.executeSql(sql, [comiteInformacion.contraloria_usuario_id, comiteInformacion.agenda_confirmada, comiteInformacion.metodo, comiteInformacion.status, comiteInformacion.agenda_fecha, comiteInformacion.agenda_hora_inicio, comiteInformacion.agenda_hora_fin, comiteInformacion.usuario_id, comiteInformacion.fondo, comiteInformacion.contraloria_asistente, comiteInformacion.metodo_contraloria, comiteInformacion.token, comiteInformacion.normativa, comiteInformacion.fondo, comiteInformacion.cargo_ejecutora, comiteInformacion.cargo_normativa, comiteInformacion.cargo_dependencia_normativa, idComite, idObra, idUsuario]).then((data) => {
           resolve(data);
         }, (error) => {
           reject(error);
@@ -2092,10 +2092,10 @@ export class BdService {
       // tslint:disable-next-line:prefer-const
       let infoObraActa = []; let cargoNormativa = ''; let cargoEjecutora = '';
       // tslint:disable-next-line:max-line-length
-      const qry2 = 'SELECT agenda_fecha, cargo_ejecutora, cargo_normativa FROM comites WHERE descargado = ' + idUsuario + ' AND id_comite = ' + idComite;
+      const qry2 = 'SELECT agenda_fecha, cargo_ejecutora, cargo_normativa, cargo_dependencia_normativa FROM comites WHERE descargado = ' + idUsuario + ' AND id_comite = ' + idComite;
       this.db.executeSql(qry2, []).then((data3) => {
         fechaComiteAgenda = data3.rows.item(0).agenda_fecha;
-        cargoNormativa = data3.rows.item(0).cargo_normativa;
+        cargoNormativa = data3.rows.item(0).cargo_dependencia_normativa;
         cargoEjecutora = data3.rows.item(0).cargo_ejecutora;
       });
       // tslint:disable-next-line:max-line-length

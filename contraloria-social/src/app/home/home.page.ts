@@ -44,7 +44,7 @@ export class HomePage implements OnInit {
       this.database.GetObras(res);
      }
    });
-   // this.database.CargarInfoGuardada();
+   this.database.CargarInfoGuardada();
  }
 
   // tslint:disable-next-line:max-line-length
@@ -216,7 +216,7 @@ export class HomePage implements OnInit {
                     this.database.FindComite(this.idUsuario, comite.obra_id, comite.id_comite).then(async (data) => {
                       if (data === 'nuevo') {
                         // tslint:disable-next-line:max-line-length
-                        this.database.InsertarComite(null, comite.contraloria_usuario_id, comite.agenda_confirmada, comite.origen, comite.id_comite, comite.num_comite, comite.metodo, comite.obra_id, comite.status, comite.agenda_fecha, comite.agenda_hora_inicio, comite.agenda_hora_fin, comite.usuario_id, comite.id_obra, comite.fondo, comite.norma_cs_aplica, this.AppComp.iduser, comite.normativa, comite.metodo_contraloria, comite.contraloria_asistente, comite.token, comite.cargo_ejecutora, comite.cargo_normativa);
+                        this.database.InsertarComite(null, comite.contraloria_usuario_id, comite.agenda_confirmada, comite.origen, comite.id_comite, comite.num_comite, comite.metodo, comite.obra_id, comite.status, comite.agenda_fecha, comite.agenda_hora_inicio, comite.agenda_hora_fin, comite.usuario_id, comite.id_obra, comite.fondo, comite.norma_cs_aplica, this.AppComp.iduser, comite.normativa, comite.metodo_contraloria, comite.contraloria_asistente, comite.token, comite.cargo_ejecutora, comite.cargo_normativa, comite.cargo_dependencia_normativa);
                       }
                     }, async (error) => {
                         console.log(error);
