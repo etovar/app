@@ -23,6 +23,11 @@
         </ion-item>
         <ion-item-options side="end">
           <ion-item-option style="background-color: #ffffff">
+            <ion-button color="danger" (click)="test(row.idLocal, row.obraid, row.id, row.usuarioId)">
+              <ion-icon class="icono" name="trash"></ion-icon>
+            </ion-button>
+          </ion-item-option>
+          <ion-item-option style="background-color: #ffffff">
             <ion-button color="danger" (click)="borrarComite(row.idLocal, row.obraid, row.id, row.usuarioId)">
               <ion-icon class="icono" name="trash"></ion-icon>
             </ion-button>

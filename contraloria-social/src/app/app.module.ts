@@ -24,7 +24,6 @@ import { SQLite } from '@ionic-native/sqlite/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { DatePipe } from '@angular/common';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
-
 import { File } from '@ionic-native/file/ngx';
 
 @NgModule({

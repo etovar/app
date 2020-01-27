@@ -192,6 +192,7 @@ export class ComitesPage implements OnInit {
                 } else {
                   if (results.token === 1) {
                     this.database.setComiteGuardado(results.idObra, results.idComite, results.idUsuario);
+                    this.subirInfo.descargarACTA(results.idObra, results.idComite, results.idUsuario, 'integracion');
                     loading.dismiss();
                     const alert = await this.alert.create({
                       header: 'SICSEQ',
@@ -516,5 +517,9 @@ export class ComitesPage implements OnInit {
         idComite: idComite
        }
     });
+   }
+
+   test(uno: any, dos: any, tres: any, cuatro: any) {
+    this.subirInfo.descargarACTA(uno, dos, tres, cuatro);
    }
 }
