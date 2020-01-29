@@ -20,6 +20,7 @@ export class BdService {
   public arrayComitesProximo = [];
   public arrayComitesEnviado = [];
   public arrayComitesvencido = [];
+  public arrayValidateActa = [];
   public arrayFotos = [];
   public arrayTestigos = [];
   private arrayParticipantes = [];
@@ -63,7 +64,7 @@ export class BdService {
         // tslint:disable-next-line:max-line-length
         db.executeSql('CREATE TABLE IF NOT EXISTS obras (id INTEGER PRIMARY KEY AUTOINCREMENT, id_obra INTEGER, num_obra INTEGER, nombre_obra TEXT, mmunicipio TEXT, localidad TEXT, status_obra TEXT, monto_aprobado INTEGER, fondo INTEGER, ejecutora TEXT, normativa TEXT, inicio_obra TEXT, termino_obra TEXT, descargado INTEGER, lat INTEGER, lon INTEGER, tipofondo TEXT, token TEXT, programa TEXT, comites_enviados INTEGER DEFAULT 0)', []);
         // tslint:disable-next-line:max-line-length
-        db.executeSql('CREATE TABLE IF NOT EXISTS comites (id INTEGER PRIMARY KEY AUTOINCREMENT, contraloria_usuario_id INTEGER, agenda_confirmada INTEGER, origen TEXT, id_comite INTEGER, num_comite INTEGER, metodo TEXT, obra_id INTEGER, status TEXT, agenda_fecha TEXT, agenda_hora_inicio TEXT, agenda_hora_fin TEXT, usuario_id INTEGER, id_obra INTEGER, fondo TEXT, norma_cs_aplica TEXT, descargado INTEGER, normativa TEXT, metodo_contraloria TEXT, contraloria_asistente TEXT, habilitado INTEGER, token TEXT, status_enviado INTEGER DEFAULT 0, fecha_envio TEXT, cargo_ejecutora TEXT, cargo_normativa TEXT, cargo_dependencia_normativa TEXT)', []);
+        db.executeSql('CREATE TABLE IF NOT EXISTS comites (id INTEGER PRIMARY KEY AUTOINCREMENT, contraloria_usuario_id INTEGER, agenda_confirmada INTEGER, origen TEXT, id_comite INTEGER, num_comite INTEGER, metodo TEXT, obra_id INTEGER, status TEXT, agenda_fecha TEXT, agenda_hora_inicio TEXT, agenda_hora_fin TEXT, usuario_id INTEGER, id_obra INTEGER, fondo TEXT, norma_cs_aplica TEXT, descargado INTEGER, normativa TEXT, metodo_contraloria TEXT, contraloria_asistente TEXT, habilitado INTEGER, token TEXT, status_enviado INTEGER DEFAULT 0, fecha_envio TEXT, cargo_ejecutora TEXT, cargo_normativa TEXT, cargo_dependencia_normativa TEXT, path_acta_integracion TEXT, path_acta_capacitacion TEXT)', []);
         // tslint:disable-next-line:max-line-length
         db.executeSql('CREATE TABLE IF NOT EXISTS evidencias (id INTEGER PRIMARY KEY AUTOINCREMENT, imagen TEXT, modulo TEXT, accion TEXT, id_obra INTEGER, id_comite INTEGER, descargado INTEGER, fecha TEXT, lat TEXT, lon TEXT)', []);
         // tslint:disable-next-line:max-line-length
@@ -2363,6 +2364,49 @@ export class BdService {
         }, (error) => {
           reject(error);
       });
+      });
+    }
+
+    ValidateActaOriginalGenerada(idComite: any, idObra: any, idUsuario: any) {
+      this.arrayValidateActa = [];
+      // tslint:disable-next-line:max-line-length
+      const qry = 'SELECT path_acta_integracion, path_acta_capacitacion FROM comites WHERE descargado = ' + idUsuario + ' AND obra_id = ' + idObra + ' AND id_comite = ' + idComite ;
+      // tslint:disable-next-line:no-shadowed-variable
+      return new Promise ((resolve, reject) => {
+      this.db.executeSql(qry, []).then((data) => {
+        if (data.rows.length > 0) {
+          for (let i = 0; i < data.rows.length; i++) {
+            this.arrayValidateActa.push({
+              pathIntegracion: data.rows.item(i).path_acta_integracion,
+              pathCapacitacion: data.rows.item(i).path_acta_capacitacion,
+            });
+          }
+        }
+        resolve(this.arrayValidateActa);
+      }, (error) => {
+        reject(error);
+      });
+      });
+    }
+
+    UpdateComitesActaGenerada(idComite: any, idObra: any, idUsuario: any, path: any, acta: any) {
+      // tslint:disable-next-line:no-shadowed-variable
+      let tipoActa: any;
+      // tslint:disable-next-line:no-shadowed-variable
+      return new Promise ((resolve, reject) => {
+        if (acta === 'integracion') {
+          tipoActa = 'path_acta_integracion';
+        } else {
+          tipoActa = 'path_acta_capacitacion';
+        }
+        // tslint:disable-next-line:max-line-length
+        const sql = 'UPDATE comites SET ' + tipoActa + ' = ? WHERE id_comite = ? AND obra_id = ? AND descargado = ?';
+        // tslint:disable-next-line:max-line-length
+        this.db.executeSql(sql, [path, idComite, idObra, idUsuario]).then((data) => {
+          resolve('guardado');
+        }, (error) => {
+          reject(error);
+        });
       });
     }
 }

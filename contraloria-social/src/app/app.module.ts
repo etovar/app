@@ -25,6 +25,8 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { DatePipe } from '@angular/common';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { File } from '@ionic-native/file/ngx';
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 
 @NgModule({
   declarations: [AppComponent, FichaModalPage, DocsComitePage, ImagenModalPage, FirmaModalPage],
@@ -47,6 +49,9 @@ import { File } from '@ionic-native/file/ngx';
     FirmaModalPage,
     DatePipe,
     FileOpener,
+    FileTransfer,
+    FileTransferObject,
+    AndroidPermissions,
     File,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, Camera, Geolocation
   ],

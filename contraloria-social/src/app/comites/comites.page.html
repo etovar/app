@@ -22,11 +22,11 @@
           <ion-label *ngIf="row.statusEnviado === 1" style="color: #447DBA; margin-left: 30px; text-align: left;"><strong style="font-size: 1.2em"> Enviado</strong><br><label style="font-size: .85em">Envio: {{ row.fechaEnvio | date:'MM/dd/yyyy'}}</label></ion-label><br>
         </ion-item>
         <ion-item-options side="end">
-          <ion-item-option style="background-color: #ffffff">
+          <!--ion-item-option style="background-color: #ffffff">
             <ion-button color="danger" (click)="test(row.idLocal, row.obraid, row.id, row.usuarioId)">
               <ion-icon class="icono" name="trash"></ion-icon>
             </ion-button>
-          </ion-item-option>
+          </!--ion-item-option-->
           <ion-item-option style="background-color: #ffffff">
             <ion-button color="danger" (click)="borrarComite(row.idLocal, row.obraid, row.id, row.usuarioId)">
               <ion-icon class="icono" name="trash"></ion-icon>

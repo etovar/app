@@ -20,7 +20,7 @@
             <ion-icon name="document" class="icono"></ion-icon>
           </ion-button>
           <ion-label *ngIf="row.statusEnviado === 1" style="color: #447DBA; margin-left: 30px; text-align: left;"><strong style="font-size: 1.2em"> Enviado</strong><br><label style="font-size: .85em">Envio: {{ row.fechaEnvio | date:'MM/dd/yyyy'}}</label></ion-label><br>
-        </ion-item>
+        </ion-item>    
         <ion-item-options side="end">
           <ion-item-option style="background-color: #ffffff">
             <ion-button color="danger" (click)="borrarComite(row.idLocal, row.obraid, row.id, row.usuarioId)">
@@ -92,6 +92,18 @@
           <ion-item-option *ngIf="row.statusEnviado === 0 && row.habilitado === 1 && fechaHoyFormat === row.agendaFecha" style="background-color: #ffffff">
             <ion-button (click)="validarComite(row.idLocal, row.obraid, row.id, row.usuarioId, row.metodo, row.metodoContraloria)" size="medium" color="secondary">
               <ion-icon class="icono" name="cloud-upload"></ion-icon>
+            </ion-button>
+          </ion-item-option>
+          <ion-item-option style="background-color: #ffffff" *ngIf="row.metodoIntegracionActa === 'digital'">
+            <ion-button size="medium" color="primary" (click)="generaActaInt(row.obraid, row.id)">
+                <ion-icon class="icono" name="eye"></ion-icon><br>
+              <ion-label class="font-boton">Acta de<br>Integración</ion-label>
+            </ion-button>
+          </ion-item-option>
+          <ion-item-option style="background-color: #ffffff" *ngIf="row.metodoCapacitacionActa === 'digital'">
+            <ion-button size="medium" color="primary" (click)="generaActaCap(row.obraid, row.id)">
+                <ion-icon class="icono" name="eye"></ion-icon>
+              <ion-label class="font-boton">Acta de<br>Capacitación</ion-label>
             </ion-button>
           </ion-item-option>
         </ion-item-options>

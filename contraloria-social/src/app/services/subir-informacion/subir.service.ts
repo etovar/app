@@ -4,6 +4,11 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { File } from '@ionic-native/file/ngx';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { Platform } from '@ionic/angular';
+
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
+import { FileOpener } from '@ionic-native/file-opener/ngx';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +18,9 @@ export class SubirService {
   urlPDF = 'http://187.191.68.189/contraloriasocial/app/descargarPDF.php';
 
   downloadFile: any;
-  constructor(private file: File, private database: BdService, private http: HttpClient) { }
+  fileTransfer: FileTransferObject;
+  // tslint:disable-next-line:max-line-length
+  constructor(private file: File, private database: BdService, private http: HttpClient, private fileOpener: FileOpener, private transfer: FileTransfer, private androidPermissions: AndroidPermissions, private platform: Platform) { }
 
   // tslint:disable-next-line:max-line-length
   enviarInformacionComite(idLocal: any, idObra: any, idComite: any, idUsuario: any, user: any, pass: any, rol: any): Observable<any> {
@@ -22,7 +29,52 @@ export class SubirService {
     }) , {}).pipe(map(res => res));
   }
 
-  descargarACTA(idObra: any, idComite: any, idUsuario: any, acta: any) {
-    const ref = window.open(this.urlPDF, '_blank', 'location=no');
+  descargarACTA(acta: any, idObra: any, idComite: any, idUsuario: any) {
+      let dir: any;
+      if (this.platform.is('ios')) {
+          dir = this.file.documentsDirectory;
+      }
+
+      this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE).then(
+          result => {
+              if (!result.hasPermission) {
+                  // tslint:disable-next-line:max-line-length
+                  const permissionRequested = this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE);
+              }
+          }
+      );
+
+      dir = this.file.externalRootDirectory + '/Download/Actas_SICSEQ/';
+
+      this.fileTransfer = this.transfer.create();
+
+      this.fileTransfer.download(this.urlPDF, dir + acta + '_' + idComite + '_' + idUsuario + '.pdf', true).then((entry) => {
+        this.database.UpdateComitesActaGenerada(idComite, idObra, idUsuario, dir + acta + '_' + idComite + '_' + idUsuario + '.pdf', acta);
+      // console.log('download completed: ' + entry.toURL());
+    }, (error) => {
+        this.database.UpdateComitesActaGenerada(idComite, idObra, idUsuario, 'error', acta);
+        console.log(error);
+        this.fileTransfer
+          .download(this.urlPDF, dir + acta + '_' + idComite + '_' + idUsuario + '.pdf', true)
+          .then(entry => {
+            this.fileOpener
+              .open(entry.toURL(), 'application/pdf')
+              .then(() => console.log('File is opened'))
+              .catch(e => console.log('Error opening file', e));
+          });
+    });
+
+      /* this.fileTransfer
+      .download(this.urlPDF, dir + 'acta_dos.pdf', true)
+      .then(entry => {
+        console.log('download complete: ' + entry.toURL());
+        this.fileOpener
+          .open(entry.toURL(), 'application/pdf')
+          .then(() => console.log('File is opened'))
+          .catch(e => console.log('Error opening file', e));
+      }, (error) => {
+        // here logging our error its easier to find out what type of error occured.
+        console.log(error);
+    }); */
   }
 }

@@ -10,6 +10,7 @@ import { AppComponent } from '../app.component';
 import { LoadingController } from '@ionic/angular';
 import { DatePipe } from '@angular/common';
 import { OfflineService } from '../services/offline/offline.service';
+import { FileOpener } from '@ionic-native/file-opener/ngx';
 @Component({
   selector: 'app-comites',
   templateUrl: './comites.page.html',
@@ -47,7 +48,7 @@ export class ComitesPage implements OnInit {
   public fechaHoy = Date.now();
   public results: any;
   // tslint:disable-next-line:max-line-length
-  constructor(private offline: OfflineService, private datePipe: DatePipe, private changeDetector: ChangeDetectorRef, private subirInfo: SubirService, private loadingController: LoadingController, public appc: AppComponent, public navCtrl: NavController, public alert: AlertController, private database: BdService, public modalController: ModalController, private menu: MenuController, public activatedRoute: ActivatedRoute) {
+  constructor(private offline: OfflineService, private datePipe: DatePipe, private changeDetector: ChangeDetectorRef, private subirInfo: SubirService, private loadingController: LoadingController, public appc: AppComponent, public navCtrl: NavController, public alert: AlertController, private database: BdService, public modalController: ModalController, private menu: MenuController, public activatedRoute: ActivatedRoute, private fileOpener: FileOpener) {
   }
 
   ngOnInit() {
@@ -145,7 +146,7 @@ export class ComitesPage implements OnInit {
     await alertBorrar.present();
   }
 
-  async subirInformacion(status: any, comiteId: any) {
+  async subirInformacion(status: any, comiteId: any, tipoActa: any) {
   if (this.offline.getCurrentNetworkStatus() === 0) {
     if (status === 'incompleto') {
       const alertIncompleto = await this.alert.create({
@@ -192,7 +193,7 @@ export class ComitesPage implements OnInit {
                 } else {
                   if (results.token === 1) {
                     this.database.setComiteGuardado(results.idObra, results.idComite, results.idUsuario);
-                    this.subirInfo.descargarACTA(results.idObra, results.idComite, results.idUsuario, 'integracion');
+                    this.subirInfo.descargarACTA(tipoActa, results.idObra, results.idComite, results.idUsuario);
                     loading.dismiss();
                     const alert = await this.alert.create({
                       header: 'SICSEQ',
@@ -377,6 +378,13 @@ export class ComitesPage implements OnInit {
           });
         }
       }
+      let tipoActa: any;
+      if (metodoIntegracion !== null) {
+        tipoActa = 'integracion';
+      }
+      if (metodoCapacitacion !== null) {
+        tipoActa = 'capacitacion';
+      }
       this.database.validarListaAsistencia(idLocal, idObra, idComite, this.idusuario).then((data10: number) => {
         this.listaAsisValidar = data10;
       });
@@ -391,10 +399,10 @@ export class ComitesPage implements OnInit {
           await loading.present();
           setTimeout(() => {
             loading.dismiss();
-            this.subirInformacion('incompleto', idComite);
+            this.subirInformacion('incompleto', idComite, metodoCapacitacion);
           }, 2000);
         } else {
-          this.subirInformacion('completo', idComite);
+          this.subirInformacion('completo', idComite, metodoCapacitacion);
         }
       }, 1500);
     });
@@ -498,28 +506,80 @@ export class ComitesPage implements OnInit {
   }
 
   generaActaCap(idObra: any, idComite: any) {
-   this.navCtrl.navigateRoot('genera-capacitacion', {
-      queryParams: {
-        // tslint:disable-next-line:object-literal-shorthand
-        idObra: idObra,
-        // tslint:disable-next-line:object-literal-shorthand
-        idComite: idComite
+    this.database.ValidateActaOriginalGenerada(idComite, idObra, this.idusuario).then(async (data) => {
+      if (data[0].pathCapacitacion !== null) {
+        if (data[0].pathCapacitacion === 'error') {
+          const alertToken = await this.alert.create({
+            header: 'SICSEQ',
+            message: 'El acta no se pudo guardar correctamente cuando se subio la información, revise la ubicación donde se guardo',
+            backdropDismiss: false,
+            buttons: [
+              {
+                  text: 'Cerrar',
+                  handler: () => {
+                      alertToken.dismiss(true);
+                      return false;
+                  }
+              }
+          ]
+          });
+          await alertToken.present();
+        } else {
+          this.fileOpener.open(data[0].pathCapacitacion, 'application/pdf')
+          .then(() => console.log('File is opened'))
+          .catch(e => console.log('Error opening file', e));
+        }
+      } else {
+        this.navCtrl.navigateRoot('genera-capacitacion', {
+          queryParams: {
+            // tslint:disable-next-line:object-literal-shorthand
+            idObra: idObra,
+            // tslint:disable-next-line:object-literal-shorthand
+            idComite: idComite
+          }
+       });
       }
-   });
+    });
   }
 
   generaActaInt(idObra: any, idComite: any) {
-    this.navCtrl.navigateRoot('genera-integracion', {
-       queryParams: {
-        // tslint:disable-next-line:object-literal-shorthand
-        idObra: idObra,
-        // tslint:disable-next-line:object-literal-shorthand
-        idComite: idComite
-       }
+    this.database.ValidateActaOriginalGenerada(idComite, idObra, this.idusuario).then(async (data) => {
+      if (data[0].pathIntegracion !== null) {
+        if (data[0].pathIntegracion === 'error') {
+          const alertToken = await this.alert.create({
+            header: 'SICSEQ',
+            message: 'El acta no se pudo guardar correctamente cuando se subio la información, revise la ubicación donde se guardo',
+            backdropDismiss: false,
+            buttons: [
+              {
+                  text: 'Cerrar',
+                  handler: () => {
+                      alertToken.dismiss(true);
+                      return false;
+                  }
+              }
+          ]
+          });
+          await alertToken.present();
+        } else {
+          this.fileOpener.open(data[0].pathIntegracion, 'application/pdf')
+          .then(() => console.log('File is opened'))
+          .catch(e => console.log('Error opening file', e));
+        }
+      } else {
+        this.navCtrl.navigateRoot('genera-integracion', {
+           queryParams: {
+            // tslint:disable-next-line:object-literal-shorthand
+            idObra: idObra,
+            // tslint:disable-next-line:object-literal-shorthand
+            idComite: idComite
+           }
+        });
+      }
     });
    }
 
    test(uno: any, dos: any, tres: any, cuatro: any) {
-    this.subirInfo.descargarACTA(uno, dos, tres, cuatro);
+    this.subirInfo.descargarACTA('integracion', dos, tres, cuatro);
    }
 }
