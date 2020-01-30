@@ -48,21 +48,67 @@ export class SubirService {
 
       this.fileTransfer = this.transfer.create();
 
-      this.fileTransfer.download(this.urlPDF, dir + acta + '_' + idComite + '_' + idUsuario + '.pdf', true).then((entry) => {
-        this.database.UpdateComitesActaGenerada(idComite, idObra, idUsuario, dir + acta + '_' + idComite + '_' + idUsuario + '.pdf', acta);
-      // console.log('download completed: ' + entry.toURL());
-    }, (error) => {
-        this.database.UpdateComitesActaGenerada(idComite, idObra, idUsuario, 'error', acta);
-        console.log(error);
-        this.fileTransfer
-          .download(this.urlPDF, dir + acta + '_' + idComite + '_' + idUsuario + '.pdf', true)
-          .then(entry => {
-            this.fileOpener
-              .open(entry.toURL(), 'application/pdf')
-              .then(() => console.log('File is opened'))
-              .catch(e => console.log('Error opening file', e));
+      if (acta !== 'ambas') {
+        this.fileTransfer.download(this.urlPDF, dir + acta + '_' + idComite + '_' + idUsuario + '.pdf', true).then((entry) => {
+          // tslint:disable-next-line:max-line-length
+          this.database.UpdateComitesActaGenerada(idComite, idObra, idUsuario, dir + acta + '_' + idComite + '_' + idUsuario + '.pdf', acta);
+        // console.log('download completed: ' + entry.toURL());
+        }, (error) => {
+            this.database.UpdateComitesActaGenerada(idComite, idObra, idUsuario, 'error', acta).then((data) => {
+              console.log(error);
+              this.fileTransfer
+                .download(this.urlPDF, dir + acta + '_' + idComite + '_' + idUsuario + '.pdf', true)
+                .then(entry => {
+                  this.fileOpener
+                    .open(entry.toURL(), 'application/pdf')
+                    .then(() => console.log('File is opened'))
+                    .catch(e => console.log('Error opening file', e));
+                });
+            });
+        });
+      } else {
+        this.fileTransfer.download(this.urlPDF, dir + 'integracion_' + idComite + '_' + idUsuario + '.pdf', true).then((entryInt) => {
+          // tslint:disable-next-line:max-line-length
+          this.database.UpdateComitesActaGenerada(idComite, idObra, idUsuario, dir + 'integracion_' + idComite + '_' + idUsuario + '.pdf', 'integracion').then((dataInt) => {
+
+
+
+            this.fileTransfer.download(this.urlPDF, dir + 'capacitacion_' + idComite + '_' + idUsuario + '.pdf', true).then((entryCap) => {
+              // tslint:disable-next-line:max-line-length
+              this.database.UpdateComitesActaGenerada(idComite, idObra, idUsuario, dir + 'capacitacion_' + idComite + '_' + idUsuario + '.pdf', 'capacitacion');
+            }, (error) => {
+              this.database.UpdateComitesActaGenerada(idComite, idObra, idUsuario, 'error', 'capacitacion').then((data) => {
+                console.log(error);
+                this.fileTransfer
+                  .download(this.urlPDF, dir + 'capacitacion_' + idComite + '_' + idUsuario + '.pdf', true)
+                  .then(entryCap => {
+                    this.fileOpener
+                      .open(entryCap.toURL(), 'application/pdf')
+                      .then(() => console.log('File is opened'))
+                      .catch(e => console.log('Error opening file', e));
+                  });
+              });
           });
-    });
+
+
+
+
+          });
+        // console.log('download completed: ' + entry.toURL());
+        }, (error) => {
+            this.database.UpdateComitesActaGenerada(idComite, idObra, idUsuario, 'error', 'integracion').then((data) => {
+              console.log(error);
+              this.fileTransfer
+                .download(this.urlPDF, dir + 'integracion_' + idComite + '_' + idUsuario + '.pdf', true)
+                .then(entryInt => {
+                  this.fileOpener
+                    .open(entryInt.toURL(), 'application/pdf')
+                    .then(() => console.log('File is opened'))
+                    .catch(e => console.log('Error opening file', e));
+                });
+            });
+        });
+      }
 
       /* this.fileTransfer
       .download(this.urlPDF, dir + 'acta_dos.pdf', true)

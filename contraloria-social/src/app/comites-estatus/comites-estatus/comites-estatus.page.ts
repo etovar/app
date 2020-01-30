@@ -201,27 +201,28 @@ export class ComitesEstatusPage implements OnInit {
                   await alert.present();
                 } else {
                   if (results.token === 1) {
-                    this.database.setComiteGuardado(results.idObra, results.idComite, results.idUsuario);
-                    this.subirInfo.descargarACTA(tipoActa, results.idObra, results.idComite, results.idUsuario);
-                    loading.dismiss();
-                    const alert = await this.alert.create({
-                      header: 'SICSEQ',
-                      message: 'Información guardada',
-                      backdropDismiss: false,
-                      buttons: [
-                        {
-                            text: 'Cerrar',
-                            handler: () => {
-                              alert.dismiss(true);
-                              this.database.GetComitesEnviados(this.appc.iduser, this.rol);
-                              this.database.GetComitesHoy(this.appc.iduser, this.rol);
-                              this.database.GetComitesProximos(this.appc.iduser);
-                              return false;
-                            }
-                        }
-                    ]
+                    this.database.setComiteGuardado(results.idObra, results.idComite, results.idUsuario).then(async (dataUpdateComite) => {
+                      this.subirInfo.descargarACTA(tipoActa, results.idObra, results.idComite, results.idUsuario);
+                      loading.dismiss();
+                      const alert = await this.alert.create({
+                        header: 'SICSEQ',
+                        message: 'Información guardada',
+                        backdropDismiss: false,
+                        buttons: [
+                          {
+                              text: 'Cerrar',
+                              handler: () => {
+                                alert.dismiss(true);
+                                this.database.GetComitesEnviados(this.appc.iduser, this.rol);
+                                this.database.GetComitesHoy(this.appc.iduser, this.rol);
+                                this.database.GetComitesProximos(this.appc.iduser);
+                                return false;
+                              }
+                          }
+                      ]
+                      });
+                      await alert.present();
                     });
-                    await alert.present();
                   } else {
                     if (results.token === 2) {
                       // this.database.setComiteGuardado(results.idObra, results.idComite, results.idUsuario);
@@ -398,6 +399,9 @@ export class ComitesEstatusPage implements OnInit {
       if (metodoCapacitacion !== null) {
         tipoActa = 'capacitacion';
       }
+      if (metodoIntegracion !== null && metodoCapacitacion !== null) {
+        tipoActa = 'ambas';
+      }
       this.database.validarListaAsistencia(idLocal, idObra, idComite, this.idusuario).then((data10: number) => {
         this.listaAsisValidar = data10;
       });
@@ -412,10 +416,10 @@ export class ComitesEstatusPage implements OnInit {
           await loading.present();
           setTimeout(() => {
             loading.dismiss();
-            this.subirInformacion('incompleto', idComite, idObra, metodoCapacitacion);
+            this.subirInformacion('incompleto', idComite, idObra, tipoActa);
           }, 2000);
         } else {
-          this.subirInformacion('completo', idComite, idObra, metodoCapacitacion);
+          this.subirInformacion('completo', idComite, idObra, tipoActa);
         }
       }, 1500);
     });

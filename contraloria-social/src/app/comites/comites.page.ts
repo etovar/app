@@ -192,7 +192,7 @@ export class ComitesPage implements OnInit {
                   await alert.present();
                 } else {
                   if (results.token === 1) {
-                    this.database.setComiteGuardado(results.idObra, results.idComite, results.idUsuario);
+                    this.database.setComiteGuardado(results.idObra, results.idComite, results.idUsuario).then(async (dataUpdateComite) => {
                     this.subirInfo.descargarACTA(tipoActa, results.idObra, results.idComite, results.idUsuario);
                     loading.dismiss();
                     const alert = await this.alert.create({
@@ -211,6 +211,7 @@ export class ComitesPage implements OnInit {
                     ]
                     });
                     await alert.present();
+                    });
                   } else {
                     if (results.token === 2) {
                       // this.database.setComiteGuardado(results.idObra, results.idComite, results.idUsuario);
@@ -385,6 +386,9 @@ export class ComitesPage implements OnInit {
       if (metodoCapacitacion !== null) {
         tipoActa = 'capacitacion';
       }
+      if (metodoIntegracion !== null && metodoCapacitacion !== null) {
+        tipoActa = 'ambas';
+      }
       this.database.validarListaAsistencia(idLocal, idObra, idComite, this.idusuario).then((data10: number) => {
         this.listaAsisValidar = data10;
       });
@@ -399,10 +403,10 @@ export class ComitesPage implements OnInit {
           await loading.present();
           setTimeout(() => {
             loading.dismiss();
-            this.subirInformacion('incompleto', idComite, metodoCapacitacion);
+            this.subirInformacion('incompleto', idComite, tipoActa);
           }, 2000);
         } else {
-          this.subirInformacion('completo', idComite, metodoCapacitacion);
+          this.subirInformacion('completo', idComite, tipoActa);
         }
       }, 1500);
     });
