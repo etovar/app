@@ -23,7 +23,7 @@ export class BdService {
   public arrayValidateActa = [];
   public arrayFotos = [];
   public arrayTestigos = [];
-  private arrayParticipantes = [];
+  public arrayParticipantes = [];
   public arrayIntegrantesVocal = [];
   public arrayIntegrantesPresidente = [];
   public arrayComitesApp = [{}];

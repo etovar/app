@@ -15,7 +15,7 @@ export class FirmaModalPage implements OnInit {
   width: any;
   @ViewChild(SignaturePad, null) signaturePad: SignaturePad;
   // tslint:disable-next-line:ban-types
-    private signaturePadOptions: Object = {
+    public signaturePadOptions: Object = {
       minWidth: 2,
       canvasWidth: this.platform.width() - 100,
       canvasHeight: this.platform.height() - 150,

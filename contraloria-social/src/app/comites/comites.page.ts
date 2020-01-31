@@ -48,7 +48,7 @@ export class ComitesPage implements OnInit {
   public fechaHoy = Date.now();
   public results: any;
   // tslint:disable-next-line:max-line-length
-  constructor(private offline: OfflineService, private datePipe: DatePipe, private changeDetector: ChangeDetectorRef, private subirInfo: SubirService, private loadingController: LoadingController, public appc: AppComponent, public navCtrl: NavController, public alert: AlertController, private database: BdService, public modalController: ModalController, private menu: MenuController, public activatedRoute: ActivatedRoute, private fileOpener: FileOpener) {
+  constructor(private offline: OfflineService, private datePipe: DatePipe, private changeDetector: ChangeDetectorRef, private subirInfo: SubirService, private loadingController: LoadingController, public appc: AppComponent, public navCtrl: NavController, public alert: AlertController, public database: BdService, public modalController: ModalController, private menu: MenuController, public activatedRoute: ActivatedRoute, private fileOpener: FileOpener) {
   }
 
   ngOnInit() {

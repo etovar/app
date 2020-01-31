@@ -15,7 +15,7 @@ import { LoadingController } from '@ionic/angular';
   styleUrls: ['./genera-integracion.page.scss'],
 })
 export class GeneraIntegracionPage implements OnInit {
-  private imageurl = '/assets/img/contraloria.jpg';
+  public imageurl = '/assets/img/contraloria.jpg';
   idusuario: any;
   idObra: any;
   idComite: any;

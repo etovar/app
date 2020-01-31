@@ -44,7 +44,7 @@ export class EvidenciasPage implements OnInit {
     centeredSlides: true
   };
   // tslint:disable-next-line:max-line-length
-  constructor(private datePipe: DatePipe, private loadingController: LoadingController, private plt: Platform, private location: Location, private modalController: ModalController, public navCtrl: NavController, private fotoService: FotoService, private camera: Camera, public activatedRoute: ActivatedRoute, private menu: MenuController, public appComp: AppComponent) {
+  constructor(private datePipe: DatePipe, private loadingController: LoadingController, private plt: Platform, private location: Location, private modalController: ModalController, public navCtrl: NavController, public fotoService: FotoService, private camera: Camera, public activatedRoute: ActivatedRoute, private menu: MenuController, public appComp: AppComponent) {
     /*this.plt.backButton.subscribe(() => {
     this.location.back();
     });*/

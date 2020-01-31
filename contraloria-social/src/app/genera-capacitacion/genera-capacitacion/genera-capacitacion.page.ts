@@ -15,7 +15,7 @@ import { LoadingController } from '@ionic/angular';
   styleUrls: ['./genera-capacitacion.page.scss'],
 })
 export class GeneraCapacitacionPage implements OnInit {
-  private imageurl = '/assets/img/contraloria.jpg';
+  public imageurl = '/assets/img/contraloria.jpg';
   idObra: any;
   idComite: any;
   idusuario: any;

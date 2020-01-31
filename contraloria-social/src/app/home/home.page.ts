@@ -48,7 +48,7 @@ export class HomePage implements OnInit {
  }
 
   // tslint:disable-next-line:max-line-length
-  constructor(private offline: OfflineService, private database: BdService, public AppComp: AppComponent, public alert: AlertController, private descargarObra: DescargarService, private menu: MenuController, public modalController: ModalController, private formBuilder: FormBuilder, public navCtrl: NavController, private storage: Storage, private plt: Platform, private location: Location) {
+  constructor(private offline: OfflineService, public database: BdService, public AppComp: AppComponent, public alert: AlertController, private descargarObra: DescargarService, private menu: MenuController, public modalController: ModalController, private formBuilder: FormBuilder, public navCtrl: NavController, private storage: Storage, private plt: Platform, private location: Location) {
    /*this.plt.backButton.subscribe(() => {
       this.location.back();
     });*/

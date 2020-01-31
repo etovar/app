@@ -301,7 +301,7 @@
       </ion-row>
       <ion-row>
         <ion-col>
-          <ion-textarea (ionBlur)="onChangeForm(capturarForm.value);" [(ngModel)]="observaciones" formControlName='observaciones' style="font-size: 0.9em; color: #708395; border: solid; border-width: 0.15em; border-color:#b9c1c9;"></ion-textarea>
+          <ion-textarea (ionBlur)="onChangeForm(capturarForm.value, 'observaciones');" [(ngModel)]="observaciones" formControlName='observaciones' style="font-size: 0.9em; color: #708395; border: solid; border-width: 0.15em; border-color:#b9c1c9;"></ion-textarea>
         </ion-col>
       </ion-row><br>
       <ion-row (click)="firmarAsignado()">

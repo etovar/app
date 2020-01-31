@@ -101,10 +101,10 @@ export class CapturaIntegracionPage implements OnInit {
 
   onChangeForm(value: any, elemento: any) {
     if (elemento === 'nombreOrganoEstatal') {
-      this.nombreOrganoEstatal = value.detail.value;
+      this.nombreOrganoEstatal = value.nombreOrganoEstatal;
     }
     if (elemento === 'cargoOrganoEstatal') {
-      this.cargoOrganoEstatal = value.detail.value;
+      this.cargoOrganoEstatal = value.cargoOrganoEstatal;
     }
     // tslint:disable-next-line:max-line-length
     this.database.GuardarIntegracionComiteChange(this.nombreOrganoEstatal, this.cargoOrganoEstatal, this.obraid, this.idcomite, this.userid);

@@ -47,7 +47,7 @@ export class ComitesEstatusPage implements OnInit {
   public results: any;
   imageurl = '/assets/img/estado.png';
   // tslint:disable-next-line:max-line-length
-  constructor(private offline: OfflineService, private datePipe: DatePipe, private changeDetector: ChangeDetectorRef, private subirInfo: SubirService, private loadingController: LoadingController, public appc: AppComponent, public navCtrl: NavController, public alert: AlertController, private database: BdService, public modalController: ModalController, private menu: MenuController, public activatedRoute: ActivatedRoute, private fileOpener: FileOpener) {
+  constructor(private offline: OfflineService, private datePipe: DatePipe, private changeDetector: ChangeDetectorRef, private subirInfo: SubirService, private loadingController: LoadingController, public appc: AppComponent, public navCtrl: NavController, public alert: AlertController, public database: BdService, public modalController: ModalController, private menu: MenuController, public activatedRoute: ActivatedRoute, private fileOpener: FileOpener) {
   }
 
   ngOnInit() {
@@ -70,6 +70,7 @@ export class ComitesEstatusPage implements OnInit {
     this.menu.enable(true, 'customComiteAgenda');
     this.menu.close();
     this.rol = this.appc.rol;
+    console.log(this.appc.iduser);
     this.database.GetComitesEnviados(this.appc.iduser, this.appc.rol);
     this.database.GetComitesHoy(this.appc.iduser, this.appc.rol);
     this.database.GetComitesProximos(this.appc.iduser);
