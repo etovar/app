@@ -27,11 +27,16 @@ import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { FichaModalPageModule } from './modal/ficha-modal/ficha-modal.module';
+import { DocsComitePageModule } from './modal/docs-comite/docs-comite.module';
+import { ImagenModalPageModule } from './modal/imagen-modal/imagen-modal.module';
+import { FirmaModalPageModule } from './modal/firma-modal/firma-modal.module';
 
 @NgModule({
-  declarations: [AppComponent, FichaModalPage, DocsComitePage, ImagenModalPage, FirmaModalPage],
+  declarations: [AppComponent],
   entryComponents: [FichaModalPage, DocsComitePage, ImagenModalPage, FirmaModalPage],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, ReactiveFormsModule, SignaturePadModule,
+  DocsComitePageModule, FichaModalPageModule, ImagenModalPageModule, FirmaModalPageModule,
   HttpClientModule, IonicStorageModule.forRoot(),
   IonicStorageModule.forRoot({
     name: '__mydb',
