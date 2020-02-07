@@ -190,6 +190,7 @@ export class GeneraCapacitacionPage implements OnInit {
         const options: IWriteOptions = { replace: true };
 
         this.file.checkFile(directory, fileName).then((success) => {
+            this.loading.dismiss();
             // Writing File to Device
             this.file.writeFile(directory, fileName, buffer, options)
             // tslint:disable-next-line:no-shadowed-variable
@@ -202,9 +203,9 @@ export class GeneraCapacitacionPage implements OnInit {
             .catch((error) => {
               console.log('Cannot Create File ' + JSON.stringify(error));
             });
-            this.loading.dismiss();
           })
           .catch((error) => {
+            this.loading.dismiss();
             // Writing File to Device
             // tslint:disable-next-line:whitespace
             this.file.writeFile(directory, fileName,buffer)
@@ -260,6 +261,7 @@ export class GeneraCapacitacionPage implements OnInit {
           const options: IWriteOptions = { replace: true };
 
           this.file.checkFile(directory, fileName).then((success) => {
+            this.loading.dismiss();
             // Writing File to Device
             this.file.writeFile(directory, fileName, buffer, options)
             // tslint:disable-next-line:no-shadowed-variable
@@ -272,9 +274,9 @@ export class GeneraCapacitacionPage implements OnInit {
             .catch((error) => {
               console.log('Cannot Create File ' + JSON.stringify(error));
             });
-            this.loading.dismiss();
           })
           .catch((error) => {
+            this.loading.dismiss();
             // Writing File to Device
             // tslint:disable-next-line:whitespace
             this.file.writeFile(directory, fileName,buffer)

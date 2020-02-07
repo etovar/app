@@ -44,7 +44,7 @@ export class HomePage implements OnInit {
       this.database.GetObras(res);
      }
    });
-   this.database.CargarInfoGuardada();
+   // this.database.CargarInfoGuardada();
  }
 
   // tslint:disable-next-line:max-line-length

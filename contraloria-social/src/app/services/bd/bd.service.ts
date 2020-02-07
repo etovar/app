@@ -59,7 +59,7 @@ export class BdService {
   ) {
     if (!this.isOpen) {
       this.storage = new SQLite();
-      this.storage.create({name: 'contraloria.db', location: 'default'}).then((db: SQLiteObject) => {
+      this.storage.create({name: 'contraloria2.db', location: 'default'}).then((db: SQLiteObject) => {
         this.db = db;
         // tslint:disable-next-line:max-line-length
         db.executeSql('CREATE TABLE IF NOT EXISTS obras (id INTEGER PRIMARY KEY AUTOINCREMENT, id_obra INTEGER, num_obra INTEGER, nombre_obra TEXT, mmunicipio TEXT, localidad TEXT, status_obra TEXT, monto_aprobado INTEGER, fondo INTEGER, ejecutora TEXT, normativa TEXT, inicio_obra TEXT, termino_obra TEXT, descargado INTEGER, lat INTEGER, lon INTEGER, tipofondo TEXT, token TEXT, programa TEXT, comites_enviados INTEGER DEFAULT 0)', []);
